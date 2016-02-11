@@ -1,0 +1,102 @@
+---
+title: "Synchrony in trait distribution across trophic groups"
+author: "Florian D. Schneider, Markus Fischer, Santiago Soliveres, ..., Pete Manning"
+date: "10-02-2016"
+output: word_document
+---
+
+
+# Authors
+
+We will adhere to the authorship criteria of the BE and everyone who contributes data to the analysis will be offered authorship. 
+
+
+# Rationale
+
+Species traits within functional groups are highly correlated amongst each other. Therefore in multi-dimensional trait space, trait variation can be reduced to few principal components (Diaz et al. 2016, Salguero-Gomez et al 2015). 
+Further, traits in one trophic group correlate with traits in adjacent functional groups, as for instance body mass in the predator community is one or two orders of magnitude above the body mass of their prey (Brose et al 2006). Similarly, pollinator phenological traits are following plant traits (Ref). Herbivore  preference for some characteristic flavour of plant is reflected by particular traits such as mouthpart shape and size or mobility. 
+
+However, due to the correlations in multidimensional trait space, interaction strength can often not be explained by a single trait dimension. Instead, interactions might be determined along virtual axes in multi-dimensional trait space (i.e. principal components), e.g. a combination of plant trait x and y would define if pollinators of type z are attracted. 
+We hypothesize that any type of interaction in ecological systems is reflected as a correlation in multi-dimensional trait space of the interacting functional groups. This should be reflected by a high degree of correlation in trait distribution across multiple functional groups over time, i.e. trait synchrony. 
+
+Further, the trait diversity and scatter within functional groups are altered under intensive land use (refs). This is due to the loss of species richness and functional diversity caused by homogenizing and disturbing ecosystems through grazing, mowing or fertilization.
+Therefore, we also hypothesize that trait synchrony across functional groups is sensitive to land-use intensity, resulting in less correlation at high degrees of grazing, mowing and fertilization. 
+
+Finally, ecosystem services, as an anthropocentric viewing angle of ecological systems, are another multi-dimensional layer that can be assessed in this framework. Community shifts in trait-space propagate to ecosystem level and are expressed as changes in multi-functionality (Soliveres et al. in preparation).
+We hypothesize that the decline in correlation of traits across functional groups along land-use gradients is complemented in the distribution of ecosystem-level metrics. 
+
+This observational approach does not assume unidirectional cause-consequence relationships between functional groups. Rather it views trait distribution as an emergent pattern of ecosystem dynamics. 
+By describing correlations in trait-space across functional groups we get a better understanding of how multiple functional groups respond to each other in the wider ecosystem context and how those changes propagate to ecosystem services. 
+
+This will help to inform ecosystem models and enable a new access to trait variation, by breaking it down to correlation along one or two virtual trait axes. 
+
+
+```{r, eval = FALSE, echo = FALSE}
+library(rgl)
+
+spdata <- data.frame(
+  species = sort(paste0(sample(LETTERS, 100, replace = TRUE), ". ",sample(letters, 100, replace = TRUE),".")),
+  trait1 = rnorm(100, 0.7,0.1),
+  trait2 = rnorm(100, 0.4,0.13)
+)
+
+spdata$trait3 = 0.13 + spdata$trait1*0.8 + rnorm(100, 0, 0.06) 
+spdata$trait4 = 0.93 - spdata$trait1*0.2 + rnorm(100, 0, 0.01) 
+spdata$trait5 = 0.7 + spdata$trait2*0.1 + rnorm(100, 0, 0.2) 
+
+mat <- vegdist(spdata[,-1]) 
+
+with(spdata, {
+  
+     persp(c(0:1),c(0:1),matrix(c(1,1,1,1), nrow = 2), xlim = range(trait1), ylim = range(trait2), zlim = range(trait3)) -> p
+     
+     
+points(trans3d(trait1,trait2,trait3, p))
+  
+  
+}
+     )
+
+
+plot(pco(mat))
+
+```
+
+
+
+# Analysis
+
+
+Principal component analysis
+
+Correlation and structural equation modeling
+
+multi-function/trait-diversity index
+
+ecosystem services
+
+
+# Data requirements
+
+We plan to focus on the grassland plot data of the biodiversity exploratories, because trait data are more complete and indices of land-use are applicable. We will investigate if an inflation of the approach with forest plot data is feasible. 
+
+## species trait data per functional group
+
+We require data on species traits for multiple functional groups of the above and below ground ecosystem compartment. At minimum we would like to include plants, herbivores, predators, detritivores, and pollinators. These data have already been compiled by ... and have been used for a study by Soliveres et al. (in preparation).
+Further functional groups could easily be included if data are available (e.g. parasitoids, root feeders). 
+
+## plot-level species abundance data (over time)
+
+The plot-level assessments of species abundances will be used to compile community weighted means, variances and skewness metrics of functional groups for each plot at each point in time. 
+
+## plot-level data of land-use intensity factors 
+
+The standard plot data of the biodiversity exploratories provide information on grazing, mowing and fertilization frequencies which are compiled into a single the Land-Use-Index. We will explore which of those indices predicts the synchrony of changes in trait distribution. 
+
+## quantitative data on ecosystem services per plot
+
+On the plot level, we would like to correlate the synchrony in functional-group trait-spaces with the  multi-functionality of ecosystems. Therefore, we require quantitative data on multiple ecosystem services, which has already been compiled by Soliveres et al. 
+
+
+# References
+
