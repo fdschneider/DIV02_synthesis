@@ -1,8 +1,10 @@
 ---
-title: "Synchrony in trait distribution across trophic groups"
-author: "Florian D. Schneider, Markus Fischer, Santiago Soliveres, ..., Pete Manning"
-date: "10-02-2016"
+title: "Is there whole ecosystem level synchrony in functional trait distribution?"
+author: "Florian D. Schneider, Santiago Soliveres, Ellen Kandeler, Nadja Simons, Martin Goßner, Markus Fischer, Nico Blüthgen, Pete Manning"
+date: "24-02-2016"
 output: word_document
+csl: amnat.csl
+bibliography: div02.bib
 ---
 
 
@@ -14,42 +16,50 @@ We will adhere to the authorship criteria of the BE and everyone who contributes
 # Rationale
 
 <!-- 1.	Functional traits covary strongly, meaning that particular trait combinations (functional strategies) are repeatedly observed in nature -->
-Species traits within functional groups are highly correlated amongst each other with the consequence that particular trait combinations (functional strategies) are repeatedly observed in nature. In multi-dimensional trait space, variation can often be reduced to few principal components (Diaz et al. 2016, Salguero-Gomez et al 2015). For plants, this plane separates the fast-growing vs. slow-growing strategy.
-Assessing the trait distribution of ecological communities can serve as a metric of the diversity of functional strategies (Petchey ..., REF Jena?). 
+Species traits within trophic guilds are highly correlated amongst each other, with the consequence that certain trait combinations (functional strategies) are repeatedly observed in nature. In multi-dimensional space, trait variation can often be reduced to just a few principal components. For example, in plants, much trait variation can be explained by the 'plant economics spectrum': a single axis differentiating between conservative and exploitative growth strategy [@diaz16; @salguero-gomez16; @reich14]. 
 
 <!-- 2.	These strategies are adaptaive, therefore they are often seen to covary strongly with environmental gradients (e.g. SLA increases across fertility gradients). -->
-Functional strategies reflect adaption to environmental conditions. The diversity and distribution of strategies within a community are therefore often seen to covary along environmental gradients. For instance specific leaf area responds negatively to drought and positively to nutrient availability (REF). Similarly, the loss of functional diversity due to grazing, mowing or fertilization is reflected by reduced trait variation in insect communities (REF Exploratories). 
-Thus monitoring the trait distribution of ecological communities along gradients of environmental stress informs about the risks to functional diversity of ecosystems (REF).
+Functional strategies reflect adaption to environmental conditions. The diversity and distribution of strategies within a community can therefore often be seen to co-vary along environmental gradients [@lavorel11; @devries12]. 
+For instance specific leaf area (SLA) responds negatively to drought and positively to nutrient availability [@devries12; @reich15]. Similarly, the loss of functional trait diversity can occur where niche space is constricted, e.g. due to grazing, mowing or fertilization (Harpole et al 2012, REF Exploratories). 
+<!--Thus monitoring the trait distribution of ecological communities along gradients of environmental stress informs about the risks to functional diversity of ecosystems (REF).-->
 
 <!-- 3.	There are also consistent trait linkages between trophic levels, e.g. predators are bigger than prey and certain herbivores feed on certain plant types. -->
-Traits in one trophic group correlate with traits in adjacent trophic groups. For instance, body mass in the predator community is typically one or two orders of magnitude above the body mass of their prey (Brose et al 2006; Loreau ???). Similarly, pollinator phenological traits are strongly related to plant traits (REF). 
-Thus, interactions across trophic levels, e.g. by feeding or pollination, would be reflected by a correlation of species distribution along the principal-component axes in multi-dimensional trait space. 
+There is evidence that in response to environmental change systematic shifts in traits occur across multiple trophic guilds. This could be driven directly by feeding or non-trophic interactions, or indirectly by shared environmental responses. 
+To date, this evidence has been drawn mostly from observations at two adjacent trophic levels, where it is seen that traits in one trophic guild correlate with traits in a directly interacting trophic guild. 
+For instance, arthropod herbivore specialisation depends on the relative nitrogen content of foliage [@mattson80], which relates to the plant economic spectrum [@diaz16]. But also, body size defines where herbivores would feed [???].
+The same is true for pollinators, which specialise on particular plant traits including phenology, flower heigth and shape [@junker13]. For instance, butterfly life-history trais span along an axis of body-size and voltinism that is highly correlated to the size of host plants [@bartonova14].
+Further, the body mass of predators is typically one or two orders of magnitude above the body mass of their prey [@brose06; @hatton15], which is due to the allometric constraints of feeding and metabolism [@brose16](Brose et al 2012), a fact that directly relates to the energy use and production of whole populations and communities [@ehnes14;@hatton15].
+Such associations also extend belowground where fast turnover bacterial dominated microbial communities are associated with plant communities dominated by exploitative species and slow, fungal dominated communities with conservative plants [@devries12; @wardle02]. <!--Communities and ecosystems book.  Chagnon et al -->. 
+
+If the constraints on economics extend across multiple trophic guilds, e.g. by the quality of plant tissue affecting both above and belowground communities, this would be reflected by a correlation in the trait distribution in multi-dimensional trait space. 
+Accordingly, this variability could be reduced to a few principal-component axes describing whole ecosystem level functional axes, much in the same way that multiple species level traits can be categorized into functional strategies [@diaz16]. 
 
 <!-- 4.	Based on this knowledge we hypothesise that functional traits will covary across multiple trophic levels across environmental gradients, such as land use. The diversity in traits should also vary as well as the mean, alongside changes in species richness and environmental heterogeneity. -->
-Based on this knowledge, we hypothesise that functional trait diversity will be synchronised across multiple trophic levels. 
-We also hypothesize that trait synchrony across functional groups is sensitive to changes in land-use intensity, resulting in less correlation in trait diversity at high degrees of grazing, mowing and fertilization.
-<!--This should be reflected by a high degree of correlation in trait distribution across multiple functional groups over time, i.e. trait synchrony. -->
+Based on this knowledge, we hypothesise that the community weighted means of functional traits will be synchronised across multiple trophic levels in the Biodiversity Exploratory grasslands. 
+Specifically, we hypothesise that an increase in land use intensity will shifts plants towards an exploitative strategy, aboveground invertebrates of primary and secondary consumer groups towards small body sizes, and microbes towards bacterial dominance. 
+
+Trait variation is reduced by intensification of land use  [@gamez-virues15]. We hypothesize that the strength of trait synchrony across functional groups is sensitive to changes in land-use intensity, resulting in less correlation in trait diversity at high degrees of disturbance by grazing, mowing and fertilization.
 
 <!-- 5.	This synchronous change is akin to a whole ecosystem level functional strategy axis and distribution, something which has not been described previously. However, it is likely that if such axes exist then they will have consistent functional effects, e.g. a whole ecosystem level ‘fast’ strategy with exploitative, fast growing species and fast ecosystem process rates. -->
 
-
-
-
 <!-- 6.	If we discover axes we will relate these to function.(keep this last part short for now as even just doing the former is a lot of work I think.  -->
-If trait synchrony across trophic levels holds true, this provides a new approach to relate trait variation to the provision of ecosystem services. Community-wide shifts in trait diversity propagate to ecosystem level and are expressed as changes in multi-functionality (Soliveres et al. in preparation). 
+If trait synchrony across trophic levels holds true, this also provides a new approach to relate trait variation to the provision of ecosystem services [@lavorel12]. Community-wide shifts in trait diversity may be propagated to the ecosystem level and would show as changes in multi-functionality (Soliveres et al. in preparation). 
 
+This observational approach does not assume unidirectional cause-consequence relationships between functional groups. Rather it views trait distribution as an emergent pattern of ecosystem-wide dynamics. 
+By describing correlations in trait-space across functional groups we get a general understanding -- i.e., irrespective of the particular species identities involved -- of how multiple functional guilds respond to each other in the wider ecosystem context and how environmental changes propagate to ecosystem function and services. 
+Such knowledge might be used to inform a new class of mechanistic food-web models that distribute species of trophic guilds along the identified principal-component axes and that can be applied to simulate the relationship between multi-trophic biodiversity and ecosystem function with unprecedented realism. 
 
-This observational approach does not assume unidirectional cause-consequence relationships between functional groups. Rather it views trait distribution as an emergent pattern of ecosystem dynamics. 
-By describing correlations in trait-space across functional groups we get a better understanding of how multiple functional groups respond to each other in the wider ecosystem context and how those changes propagate to ecosystem function and services. 
 
 
 ```{r, eval = FALSE, echo = FALSE}
 library(rgl)
 library(vegan)
 library(labdsv)
+library(geometry)
 
 spdata <- data.frame(
   species = sort(paste0(sample(LETTERS, 100, replace = TRUE), ". ",sample(letters, 100, replace = TRUE),".")),
+  trophic = sample(c("plant", "herbivore", "pollinator", "predator"), 100, replace = TRUE), 
   trait1 = rnorm(100, 0.7,0.1),
   trait2 = rnorm(100, 0.4,0.13)
 )
@@ -60,12 +70,29 @@ spdata$trait5 = 0.7 + spdata$trait2*0.1 + rnorm(100, 0, 0.2)
 
 mat <- vegdist(spdata[,-1]) 
 
-with(spdata, {
-  plot3d(trait1,trait2,trait3)
-})
 
+#plotdata <- as.data.frame(matrix(rep(NA, 96*length(spdata$species)), ncol = length(spdata$species), dimnames = list(paste0(rep(c("HAI","SCH","ALB"), each = 32), formatC(1:96, width = 2,flag = "0") ), spdata$species )))
+
+#for(i in 1:length(spdata$species)) {
+#plotdata[23:25,i]
+#}
+
+par(mfrow = c(2,2))  
+for(i in unique(spdata$trophic)) {
+with(subset(spdata, trophic == i),  {
+  persp(c(0,1), c(0,1), matrix(c(2,2,2,2), ncol = 2), zlim = c(0,1)) -> pp
+  points(trans3d(trait1,trait2,trait3,pp))
+  
+})
+}
+
+
+plot3d(trait1,trait2,trait3)
 plot(pco(mat))
 
+ps <- spdata[,3:5]
+ts.surf <- t(convhulln(ps))
+rgl.triangles(ps[ts.surf,1],ps[ts.surf,2],ps[ts.surf,3],col="blue",alpha=.2)
 ```
 
 
@@ -76,20 +103,24 @@ plot(pco(mat))
 
 Within each trophic level, trait data will be coerced to plot-level community weighted means. Of these, a matrix of traits (columns) per plot (rows) will be fed into a principal component analysis to identify significant axes. The vectors on the principal component axes will serve as the response value for the further steps of the analysis.  
 
-Additionally, metrics for variation within each plot will be sought (variance, skewness, multimodality) and undergo the same procedure.  
+Besides community weighted means of traits, other community level metrics of functional diversity [e.g. Rao's Q, @petchey06] will be applied to identify complementarity and redundancy within communities.  
+Additionally, metrics for variation within each plot will be explored (variance, skewness, multimodality) and undergo the same procedure. 
 
 ## Correlation and structural equation modeling
 
-To correlate the vectors of multiple trophic levels, we apply path analysis
+To correlate the vectors of multiple trophic levels, we apply path analysis on the principal component data we received from the previous steps.
+Multiple pathway possibilities for causal correlations between the principal-component data of the trophic groups (response) and the indicators of land use (explanatories) will be explored and compared via AIC.  
 
-multi-function/trait-diversity index
+This will give us a mathematical estimate of the relatedness of adjacent trophic guilds and their dependence on land use. 
 
-ecosystem services
+## multi-function/trait-diversity index
+
+We are going to define an index based on the transformation vectors ... a mathematical ... index? 
 
 
 # Data requirements
 
-We plan to focus on the grassland plot data of the biodiversity exploratories, because trait data are more complete and indices of land-use are applicable. We will investigate if an inflation of the approach with forest plot data is feasible. 
+We plan to focus on the grassland plot data of the biodiversity exploratories, because trait data are more complete and due to the expertise of the group involde. Future work may extend to forest ecosystems.
 
 ## species trait data per functional group
 
@@ -104,10 +135,14 @@ The plot-level assessments of species abundances will be used to compile communi
 
 The standard plot data of the biodiversity exploratories provide information on grazing, mowing and fertilization frequencies which are compiled into a single the Land-Use-Index. We will explore which of those indices predicts the synchrony of changes in trait distribution. 
 
-## quantitative data on ecosystem services per plot
-
+<!-- ## quantitative data on ecosystem services per plot
 On the plot level, we would like to correlate the synchrony in functional-group trait-spaces with the  multi-functionality of ecosystems. Therefore, we require quantitative data on multiple ecosystem services, which has already been compiled by Allan et al. 
-
+-->
 
 # References
 
+Gibert et al 2015
+
+
+Weiner et al 2014
+http://onlinelibrary.wiley.com/doi/10.1890/13-0436.1/full
