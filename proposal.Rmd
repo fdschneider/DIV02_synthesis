@@ -22,7 +22,7 @@ Species traits within trophic guilds are highly correlated amongst each other, w
 
 <!-- 2.	These strategies are adaptaive, therefore they are often seen to covary strongly with environmental gradients (e.g. SLA increases across fertility gradients). -->
 Functional strategies reflect adaption to environmental conditions. The diversity and distribution of strategies within a community can therefore often be seen to co-vary along environmental gradients [@lavorel11; @devries12]. 
-For instance specific leaf area (SLA) responds negatively to drought and positively to nutrient availability [@devries12; @reich15]. Similarly, the loss of functional trait diversity can occur where niche space is constricted, e.g. due to grazing, mowing or fertilization (Harpole et al 2012, REF Exploratories). 
+For instance specific leaf area (SLA) responds negatively to drought and positively to nutrient availability [@devries12; @reich14]. Similarly, the loss of functional trait diversity can occur where niche space is constricted, e.g. due to grazing, mowing or fertilization (Harpole et al 2012, REF Exploratories). 
 <!--Thus monitoring the trait distribution of ecological communities along gradients of environmental stress informs about the risks to functional diversity of ecosystems (REF).-->
 
 <!-- 3.	There are also consistent trait linkages between trophic levels, e.g. predators are bigger than prey and certain herbivores feed on certain plant types. -->
@@ -31,7 +31,7 @@ To date, this evidence has been drawn mostly from observations at two adjacent t
 For instance, arthropod herbivore specialisation depends on the relative nitrogen content of foliage [@mattson80], which relates to the plant economic spectrum [@diaz16]. But also, body size defines where herbivores would feed [???].
 The same is true for pollinators, which specialise on particular plant traits including phenology, flower heigth and shape [@junker13]. For instance, butterfly life-history trais span along an axis of body-size and voltinism that is highly correlated to the size of host plants [@bartonova14].
 Further, the body mass of predators is typically one or two orders of magnitude above the body mass of their prey [@brose06; @hatton15], which is due to the allometric constraints of feeding and metabolism [@brose16](Brose et al 2012), a fact that directly relates to the energy use and production of whole populations and communities [@ehnes14;@hatton15].
-Such associations also extend belowground where fast turnover bacterial dominated microbial communities are associated with plant communities dominated by exploitative species and slow, fungal dominated communities with conservative plants [@devries12; @wardle02]. <!--Communities and ecosystems book.  Chagnon et al -->. 
+Such associations also extend belowground where fast turnover bacterial dominated microbial communities are associated with plant communities dominated by exploitative species and slow, fungal dominated communities with conservative plants [@devries12; @wardle02]. <!-- @chagnon13 -->. 
 
 If the constraints on economics extend across multiple trophic guilds, e.g. by the quality of plant tissue affecting both above and belowground communities, this would be reflected by a correlation in the trait distribution in multi-dimensional trait space. 
 Accordingly, this variability could be reduced to a few principal-component axes describing whole ecosystem level functional axes, much in the same way that multiple species level traits can be categorized into functional strategies [@diaz16]. 
@@ -151,9 +151,3 @@ On the plot level, we would like to correlate the synchrony in functional-group 
 -->
 
 # References
-
-Gibert et al 2015
-
-
-Weiner et al 2014
-http://onlinelibrary.wiley.com/doi/10.1890/13-0436.1/full
