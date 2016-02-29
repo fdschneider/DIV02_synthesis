@@ -2,7 +2,9 @@
 title: "Is there whole ecosystem level synchrony in functional trait distribution?"
 author: "Florian D. Schneider, Santiago Soliveres, Ellen Kandeler, Nadja Simons, Martin Goßner, Markus Fischer, Nico Blüthgen, Pete Manning"
 date: "24-02-2016"
-output: word_document
+output: 
+  word_document: 
+    fig_caption: yes
 csl: amnat.csl
 bibliography: div02.bib
 ---
@@ -68,8 +70,6 @@ spdata$trait3 = 0.13 + spdata$trait1*0.8 + rnorm(100, 0, 0.06)
 spdata$trait4 = 0.93 - spdata$trait1*0.2 + rnorm(100, 0, 0.01) 
 spdata$trait5 = 0.7 + spdata$trait2*0.1 + rnorm(100, 0, 0.2) 
 
-mat <- vegdist(spdata[,-1]) 
-
 
 #plotdata <- as.data.frame(matrix(rep(NA, 96*length(spdata$species)), ncol = length(spdata$species), dimnames = list(paste0(rep(c("HAI","SCH","ALB"), each = 32), formatC(1:96, width = 2,flag = "0") ), spdata$species )))
 
@@ -87,17 +87,28 @@ with(subset(spdata, trophic == i),  {
 }
 
 
-plot3d(trait1,trait2,trait3)
-plot(pco(mat))
+with(spdata, plot3d(trait1,trait2,trait3))
+
 
 ps <- spdata[,3:5]
 ts.surf <- t(convhulln(ps))
-rgl.triangles(ps[ts.surf,1],ps[ts.surf,2],ps[ts.surf,3],col="blue",alpha=.2)
+rgl.triangles(ps[ts.surf,1],ps[ts.surf,2],ps[ts.surf,3],col="blue",alpha=.2,
+              color = c("blue"), shininess = 200, texenvmap = TRUE)
+
+
+
+mat <- vegdist(spdata[,-c(1:2)]) 
+
+
+plot(pco(mat), bty = "n", las = 1)
+
 ```
 
 
 
 # Analysis
+
+![a) Collapsing n-dimensional trait distribution of trophic guilds across plots to principal components will reduce complexity of trait data to the ecosystem-level functional strategy axis and allows to correlate them to environmental drivers, such as land use intensity. b) Testing alternative path models of correlation will inform about the causal relationship between functional strategies across trophic guilds.](conceptualfigure.png)
 
 ## Principal component analysis
 
