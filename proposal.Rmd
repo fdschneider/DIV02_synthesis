@@ -1,6 +1,6 @@
 ---
 title: "Is there whole ecosystem level synchrony in functional trait distribution?"
-author: "Florian D. Schneider, Santiago Soliveres, Ellen Kandeler, Nadja Simons, Martin Goßner, Markus Fischer, Nico Blüthgen, Pete Manning"
+author: "Florian D. Schneider, Pete Manning"
 date: "24-02-2016"
 output: 
   word_document: 
@@ -14,24 +14,27 @@ bibliography: div02.bib
 
 We will adhere to the authorship criteria of the BE and everyone who contributes data to the analysis will be offered authorship. 
 
+## confirmed authors
+
+Santiago Soliveres  
+Ellen Kandeler  
+Nadja Simons  
+Martin Goßner 
+Nico Blüthgen  
+Markus Fischer  
 
 # Rationale
 
 <!-- 1.	Functional traits covary strongly, meaning that particular trait combinations (functional strategies) are repeatedly observed in nature -->
-Species traits within trophic guilds are highly correlated amongst each other, with the consequence that certain trait combinations (functional strategies) are repeatedly observed in nature. In multi-dimensional space, trait variation can often be reduced to just a few principal components. For example, in plants, much trait variation can be explained by the 'plant economics spectrum': a single axis differentiating between conservative and exploitative growth strategy [@diaz16; @salguero-gomez16; @reich14]. 
-
+Species traits within trophic guilds are highly correlated amongst each other, with the consequence that certain trait combinations (functional strategies) are repeatedly observed in nature. In multi-dimensional space, trait variation can often be reduced to just a few principal components. For example, in plants, much trait variation can be explained by the 'plant economics spectrum': a single axis differentiating between conservative and exploitative growth strategies [@diaz16; @salguero-gomez16; @reich14]. 
 <!-- 2.	These strategies are adaptaive, therefore they are often seen to covary strongly with environmental gradients (e.g. SLA increases across fertility gradients). -->
 Functional strategies reflect adaption to environmental conditions. The diversity and distribution of strategies within a community can therefore often be seen to co-vary along environmental gradients [@lavorel11; @devries12]. 
-For instance specific leaf area (SLA) responds negatively to drought and positively to nutrient availability [@devries12; @reich14]. Similarly, the loss of functional trait diversity can occur where niche space is constricted, e.g. due to grazing, mowing or fertilization (Harpole et al 2012, REF Exploratories). 
+For instance community-level specific leaf area (SLA) responds negatively to drought and positively to nutrient availability [@devries12; @reich14]. Similarly, the loss of functional trait diversity can occur where niche space is constricted, e.g. due to grazing, mowing or fertilization (Harpole et al 2012, REF Exploratories). 
 <!--Thus monitoring the trait distribution of ecological communities along gradients of environmental stress informs about the risks to functional diversity of ecosystems (REF).-->
 
 <!-- 3.	There are also consistent trait linkages between trophic levels, e.g. predators are bigger than prey and certain herbivores feed on certain plant types. -->
-There is evidence that in response to environmental change systematic shifts in traits occur across multiple trophic guilds. This could be driven directly by feeding or non-trophic interactions, or indirectly by shared environmental responses. 
-To date, this evidence has been drawn mostly from observations at two adjacent trophic levels, where it is seen that traits in one trophic guild correlate with traits in a directly interacting trophic guild. 
-For instance, arthropod herbivore specialisation depends on the relative nitrogen content of foliage [@mattson80], which relates to the plant economic spectrum [@diaz16]. But also, body size defines where herbivores would feed [???].
-The same is true for pollinators, which specialise on particular plant traits including phenology, flower heigth and shape [@junker13]. For instance, butterfly life-history trais span along an axis of body-size and voltinism that is highly correlated to the size of host plants [@bartonova14].
-Further, the body mass of predators is typically one or two orders of magnitude above the body mass of their prey [@brose06; @hatton15], which is due to the allometric constraints of feeding and metabolism [@brose16](Brose et al 2012), a fact that directly relates to the energy use and production of whole populations and communities [@ehnes14;@hatton15].
-Such associations also extend belowground where fast turnover bacterial dominated microbial communities are associated with plant communities dominated by exploitative species and slow, fungal dominated communities with conservative plants [@devries12; @wardle02]. <!-- @chagnon13 -->. 
+There is evidence that in response to environmental change systematic shifts in traits occur across multiple trophic guilds. This could be driven by either species interactions (trophic or non-trophic), or by shared environmental responses. 
+To date, evidence for such shifts have been drawn mostly from observations at two adjacent trophic levels, where it is seen that traits in one trophic guild correlate with traits in a directly interacting trophic guild (e.g. plants and herbivores, predators and prey). 
 
 If the constraints on economics extend across multiple trophic guilds, e.g. by the quality of plant tissue affecting both above and belowground communities, this would be reflected by a correlation in the trait distribution in multi-dimensional trait space. 
 Accordingly, this variability could be reduced to a few principal-component axes describing whole ecosystem level functional axes, much in the same way that multiple species level traits can be categorized into functional strategies [@diaz16]. 
@@ -39,17 +42,13 @@ Accordingly, this variability could be reduced to a few principal-component axes
 <!-- 4.	Based on this knowledge we hypothesise that functional traits will covary across multiple trophic levels across environmental gradients, such as land use. The diversity in traits should also vary as well as the mean, alongside changes in species richness and environmental heterogeneity. -->
 Based on this knowledge, we hypothesise that the community weighted means of functional traits will be synchronised across multiple trophic levels in the Biodiversity Exploratory grasslands. 
 Specifically, we hypothesise that an increase in land use intensity will shifts plants towards an exploitative strategy, aboveground invertebrates of primary and secondary consumer groups towards small body sizes, and microbes towards bacterial dominance. 
-
-Trait variation is reduced by intensification of land use  [@gamez-virues15]. We hypothesize that the strength of trait synchrony across functional groups is sensitive to changes in land-use intensity, resulting in less correlation in trait diversity at high degrees of disturbance by grazing, mowing and fertilization.
+Furthermore, trait variation is reduced by intensification of land use  [@gamez-virues15]. We hypothesize that the strength of trait synchrony across functional groups is sensitive to changes in land-use intensity. <!-- PETE :::: Hmmm, you could also say that a wider range of functional types at low land use intensity means less synchrony there. I’d leave this bit for now, move it to notes, and make diversity covariation something `to be explored`. -->
 
 <!-- 5.	This synchronous change is akin to a whole ecosystem level functional strategy axis and distribution, something which has not been described previously. However, it is likely that if such axes exist then they will have consistent functional effects, e.g. a whole ecosystem level ‘fast’ strategy with exploitative, fast growing species and fast ecosystem process rates. -->
 
 <!-- 6.	If we discover axes we will relate these to function.(keep this last part short for now as even just doing the former is a lot of work I think.  -->
-If trait synchrony across trophic levels holds true, this also provides a new approach to relate trait variation to the provision of ecosystem services [@lavorel12]. Community-wide shifts in trait diversity may be propagated to the ecosystem level and would show as changes in multi-functionality (Soliveres et al. in preparation). 
+If trait synchrony across trophic levels holds true, this also provides a new approach to relate trait variation to the provision of ecosystem services [@lavorel12]. Community-wide shifts in trait diversity may be propagated to the ecosystem level could potentially explain variation in ecosystem multi-functionality (Soliveres et al. in preparation). Such relationships will be investigated if ecosystem level trait axes are identified, and we will also explore relationships between the trait distribution (functional diversity) of multiple trophic levels. <!-- PETE ::: By enditing it like this it keeps it manageably short´the whole thing should be 1-2 pages max.  -->
 
-This observational approach does not assume unidirectional cause-consequence relationships between functional groups. Rather it views trait distribution as an emergent pattern of ecosystem-wide dynamics. 
-By describing correlations in trait-space across functional groups we get a general understanding -- i.e., irrespective of the particular species identities involved -- of how multiple functional guilds respond to each other in the wider ecosystem context and how environmental changes propagate to ecosystem function and services. 
-Such knowledge might be used to inform a new class of mechanistic food-web models that distribute species of trophic guilds along the identified principal-component axes and that can be applied to simulate the relationship between multi-trophic biodiversity and ecosystem function with unprecedented realism. 
 
 
 
@@ -108,46 +107,59 @@ plot(pco(mat), bty = "n", las = 1)
 
 # Analysis
 
-![a) Collapsing n-dimensional trait distribution of trophic guilds across plots to principal components will reduce complexity of trait data to the ecosystem-level functional strategy axis and allows to correlate them to environmental drivers, such as land use intensity. b) Testing alternative path models of correlation will inform about the causal relationship between functional strategies across trophic guilds.](conceptualfigure.png)
-
 ## Principal component analysis
 
-Within each trophic level, trait data will be coerced to plot-level community weighted means. Of these, a matrix of traits (columns) per plot (rows) will be fed into a principal component analysis to identify significant axes. The vectors on the principal component axes will serve as the response value for the further steps of the analysis.  
+Within each trophic level, trait data will be coerced to plot-level community weighted means. Of these, a matrix of traits (columns) per plot (rows) will be fed into a principal component analysis to identify significant axes (Fig. 1a). The vectors on the principal component axes will serve as the response value for the further steps of the analysis.  
+
+![a) Collapsing n-dimensional trait distribution of trophic guilds across plots to principal components will reduce complexity of trait data to the ecosystem-level functional strategy axis and allows to correlate them to environmental drivers, such as land use intensity. b) Testing alternative path models of correlation will inform about the causal relationship between functional strategies across trophic guilds.](conceptualfigure.png)
 
 Besides community weighted means of traits, other community level metrics of functional diversity [e.g. Rao's Q, @petchey06] will be applied to identify complementarity and redundancy within communities.  
 Additionally, metrics for variation within each plot will be explored (variance, skewness, multimodality) and undergo the same procedure. 
 
 ## Correlation and structural equation modeling
 
-To correlate the vectors of multiple trophic levels, we apply path analysis on the principal component data we received from the previous steps.
+To correlate the vectors of multiple trophic levels, we will apply path analysis on the principal component data we received from the previous steps (Fig. 1b).
 Multiple pathway possibilities for causal correlations between the principal-component data of the trophic groups (response) and the indicators of land use (explanatories) will be explored and compared via AIC.  
 
-This will give us a mathematical estimate of the relatedness of adjacent trophic guilds and their dependence on land use. 
-
-## multi-function/trait-diversity index
-
-We are going to define an index based on the transformation vectors ... a mathematical ... index? 
-
+This will give us a mathematical estimate of the relatedness of adjacent trophic guilds and wheter they are driven by interactions or a shared response to land use. 
 
 # Data requirements
 
-We plan to focus on the grassland plot data of the biodiversity exploratories, because trait data are more complete and due to the expertise of the group involde. Future work may extend to forest ecosystems.
+We plan to focus on the grassland plot data of the biodiversity exploratories, because trait data are more complete and due to the expertise of the group involved. Future work may extend to forest ecosystems.
 
-## species trait data per functional group
+## species trait data per trophic guild
 
-We require data on species traits for multiple functional groups of the above and below ground ecosystem compartment. At minimum we would like to include plants, herbivores, predators, detritivores, and pollinators. These data have already been compiled by ... .
-Further functional groups could easily be included if data are available (e.g. parasitoids, root feeders). 
+We require data on species traits for multiple functional groups of the above and below ground ecosystem compartment. At minimum we would like to include plants, herbivores, predators, and soil microbial community. These data have already been compiled by ... .
+Further functional groups could easily be included if data are available (e.g. parasitoids, root feeders, pollinators). 
 
 ## plot-level species abundance data (over time)
 
-The plot-level assessments of species abundances will be used to compile community weighted means, variances and skewness metrics of functional groups for each plot at each point in time. 
+The plot-level assessments of species abundances will be used to compile community weighted means, variances and skewness metrics of trophic guild for each plot at each point in time. 
 
 ## plot-level data of land-use intensity factors 
 
-The standard plot data of the biodiversity exploratories provide information on grazing, mowing and fertilization frequencies which are compiled into a single the Land-Use-Index. We will explore which of those indices predicts the synchrony of changes in trait distribution. 
+The standard plot data of the biodiversity exploratories provide information on grazing, mowing and fertilization frequencies, compiled into the Land Use Index (LUI). We will explore which of those factors, or their combination, best predicts the synchrony of changes in trait distribution. 
 
 <!-- ## quantitative data on ecosystem services per plot
 On the plot level, we would like to correlate the synchrony in functional-group trait-spaces with the  multi-functionality of ecosystems. Therefore, we require quantitative data on multiple ecosystem services, which has already been compiled by Allan et al. 
 -->
+
+# Notes 
+
+## evidence for trait synchrony
+
+Arthropod herbivore specialisation depends on the relative nitrogen content of foliage [@mattson80], which relates to the plant economic spectrum [@diaz16]. 
+The same is true for pollinators, which specialise on particular plant traits including phenology, flower height and shape [@junker13]. For instance, butterfly life-history traits span along an axis of body-size and reproduction cycles ('voltinism') that is highly correlated to the size of host plants [@bartonova14].
+Further, the body mass of predators is typically one or two orders of magnitude above the body mass of their prey [@brose06; @hatton15], which is due to the allometric constraints of feeding and metabolism [@brose12], a fact that directly relates to the energy use and production of whole populations and communities [@ehnes14;@hatton15].
+Such associations also extend belowground where fast turnover bacterial dominated microbial communities are associated with plant communities dominated by exploitative species and slow, fungal dominated communities with conservative plants [@devries12; @wardle02].
+
+## trait-space responses to land use change
+
+Trait variation of plants is expected to be reduced by land use intensification due to the selection of fast-growing, highly  competitive plants, and the loss of specialists. This propagates to arthropod species, who also lose specialists under intensive land use (e.g. nocturnal moths, Mangels et al., in preparation). We expect this to result in less correlation in trait diversity at high degrees of disturbance by grazing, mowing and fertilization
+
+## perspectives 
+
+By describing correlations in trait-space across functional groups we get a general understanding -- i.e., irrespective of the particular species identities involved -- of how multiple functional guilds respond to each other in the wider ecosystem context and how environmental changes propagate to ecosystem function and services. 
+Such knowledge might be used to inform a new class of mechanistic food-web models that distribute species of trophic guilds along the identified principal-component axes and that can be applied to simulate the relationship between multi-trophic biodiversity and ecosystem function with unprecedented realism. 
 
 # References
