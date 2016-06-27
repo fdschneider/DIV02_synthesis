@@ -25,7 +25,7 @@ try_names <- names(try_ids)
 try_ids <- lapply(try_ids, function(x) try_species$AccSpeciesID[x])
 
 ## return list of species for TRY database request
-#cat(na.exclude(unlist(try_ids)), sep = ", ")
+cat(na.exclude(unlist(try_ids)), sep = ", ")
 
 
 
@@ -62,9 +62,14 @@ request_id <- c(
 6, # - rooting depth [6]
 11, # - Mycorrhizal.intensity [11]
 679, # - plant palatability [679]
-433 # - leafPpermass [433]
+47, #Leaf dry mass per leaf fresh mass (Leaf dry matter ...
+46, # Leaf thickness
+15 #Leaf phosphorus (P) content per leaf dry mass
+#13 #Leaf carbon (C) content per leaf dry mass
 #1080# - specific root lenght [1080]
 )
+
+cat(unlist(request_id), sep = ", ")
 
 subset(try_traits, TraitID %in% request_id)
 
