@@ -1,12 +1,24 @@
-
 ### get community weighted means
+library(plyr)
 
-arhropods_annual <- ddply(arthropods_core[,c("PlotID", "SpeciesID","Adults")], .(PlotID, SpeciesID), summarize, mean = round(mean(Adults, na.rm = TRUE),2) )
+source("code/data.r")
 
-AEG1 <- subset(arhropods_annual, PlotID == plots[1])
+cwm <- function(abundances, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"), trait_table = arthropod_traits) {
+  temp <- cbind(abundances[,c("Species", "mean")], trait_table[match(abundances$Species, trait_table$SpeciesID),traits])
+  
+  output <- colSums(temp[,traits]*temp$mean, na.rm = TRUE)/sum(temp$mean, na.rm = TRUE)
+  
+}
 
-cbind(AEG1, arthropod_traits[match(AEG1$SpeciesID, arthropod_traits$SpeciesID),6:7])
+arhropods_annual <- ddply(arthropods_core[,c("PlotID", "Species","CollectionYear","NumberAdults")], .(PlotID, Species, CollectionYear), summarize, mean = round(mean(NumberAdults, na.rm = TRUE),2) )
 
-weighted_means <- colSums(arthropod_traits[match(AEG1$SpeciesID, arthropod_traits$SpeciesID),6:7]*AEG1$mean, na.rm = TRUE)/sum(AEG1$mean, na.rm = TRUE)
+cwm_arthropods <- ddply(arhropods_annual, .(PlotID,CollectionYear), cwm)
 
-weightedmeans <- function(abundances, traits, columns) {}
+pairs(cwm_arthropods[3:5])
+
+
+
+plants_annual <- ddply(plants_full[,c("Plotid", "Species","Year","cover")], .(Plotid, Species, Year), summarize, mean = round(mean(cover, na.rm = TRUE),2) )
+
+cwm_plants <- ddply(plants_annual, .(Plotid,Year), cwm, trait_table = plant_traits, traits = c("SLA", "leafPpermass", "leafNpermass", LDMC) )
+
