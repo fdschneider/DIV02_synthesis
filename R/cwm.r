@@ -16,9 +16,10 @@
 #' pairs(cwm_arthropods[3:5])
 #' 
 
-cwm <- function(abundances, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"), trait_table = arthropod_traits) {
-  temp <- cbind(abundances[,c("Species", "mean")], trait_table[match(abundances$Species, trait_table$SpeciesID),traits])
+cwm <- function(abundances, trait_table = arthropod_traits, traits = colnames(arthropod_traits)[-1], spec_label = "Species", abund_label = "mean", trait_spec_label = "SpeciesID" ) {
   
-  output <- colSums(temp[,traits]*temp$mean, na.rm = TRUE)/sum(temp$mean, na.rm = TRUE)
+  temp <- cbind(abundances[,c(spec_label, abund_label)], trait_table[match(abundances[,spec_label], trait_table[,trait_spec_label]),traits])
+  
+  output <- colSums(temp[,traits]*temp[,abund_label], na.rm = TRUE)/sum(temp[,abund_label], na.rm = TRUE)
   
 }
