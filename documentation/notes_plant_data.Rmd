@@ -1,0 +1,73 @@
+---
+title: "Notes on Plant Data"
+author: "Florian D. Schneider"
+date: "`r Sys.Date()`"
+output:
+  tufte::tufte_handout: default
+  tufte::tufte_html: default
+---
+
+# Abundance Data
+
+The plant relevés for all EP plots have been available on BExis under ID 19686. 
+
+  > original file: 19686.xlsx  
+  > downloaded from   BExis on 17.05.2016 as Bexis dataset 19686 vegetation relevés EP 2008-2015 1.2.5 ; 
+  > Maintainer: Markus Fischer
+  
+I adjusted some columns and transferred the date format into integer years. I also matched the plant names to accepted TRY species names and IDs. 
+
+The derived raw-data table is stored in `data/plants_full.rData`. 
+
+# Trait data
+
+I placed a data request at TRY-db.org and requested all species listed in the vegetation relevés (for a full species list see  `data/plants_traits_TRY/TRY_species_requested.csv` ) and the following traits: 
+Leaf area [#1], Leaf area per leaf dry mass (specific leaf area, SLA) [#11], Leaf dry mass [#55], Leaf dry mass per leaf fresh mass (Leaf dry matter content, LDMC) [#47], Leaf nitrogen (N) content per leaf dry mass [#14], Leaf phosphorus (P) content per leaf dry mass [#15], Leaf thickness [#46], Plant height [#18], Plant nitrogen fixation capacity [#8], Plant palatability [#679], Pollination syndrome [#29], Rooting depth [#6], Seed dry mass [#26], Stem dry mass per stem fresh volume (stem specific density, SSD, wood density) [#4]
+
+The raw data received from TRY (downloaded on 01.08.2016, referenced data request #2181) included multiple datasets of several authors. Many of the lines include additional data and were excluded. Trait data were averaged per author and then per species. 
+
+All tree or large shrubs were removed from the dataset, since the plots sampled where grasslands by definition. Tree species should have comparable low cover, but they can massively bias the weighted means due to their surplus in trait values in orders of magnitude. 
+
+Outlier trait observations were removed (outside 95%-confidence interval on log-transformed data). 
+
+**ToDo:** calculate LMA from leaf mass and leaf area. 
+
+A species -- trait matrix was compiled and serves as source for the calculation of community weighted means (stored in `cwm_plants.rData`). 
+
+# Data structure
+
+```{r}
+library(rgl)
+library(vegan)
+library(labdsv)
+library(geometry)
+
+load("data/cwm_plants.rData")
+
+crystalplot <- function(x,y,z, col = NULL) {
+  
+  plot3d(x,y,z, col = col )
+
+ps <- data.frame(x,y,z)
+ts.surf <- t(convhulln(ps))
+rgl.triangles(ps[ts.surf,1],ps[ts.surf,2],ps[ts.surf,3],col="blue",alpha=.2,
+              color = c("blue"), shininess = 200, texenvmap = TRUE)
+
+}
+
+
+with(na.omit(cwm_plants), crystalplot(log(leaf_N),log(leaf_P),log(stem_drymass), col = rainbow(8)[as.integer(Year)] ))
+with(na.omit(cwm_plants), crystalplot(log(seedmass),log(leaf_area),log(SLA), col = rainbow(8)[as.integer(Year)] ))
+
+cwm_pca <- prcomp(log(na.omit(cwm_plants[,-c(1:2)])))
+biplot(cwm_pca)
+
+mat <- vegdist(na.omit(cwm_plants)[,-c(1:2)]) 
+
+plot(pco(mat), bty = "n", las = 1)
+
+```
+
+
+
+
