@@ -1,0 +1,46 @@
+---
+title: "Notes on Arthropod Data"
+author: "Florian D. Schneider"
+date: "`r Sys.Date()`"
+output:
+  tufte::tufte_html: default
+  tufte::tufte_handout:
+    citation_package: natbib
+    latex_engine: xelatex
+  tufte::tufte_book:
+    citation_package: natbib
+    latex_engine: xelatex
+---
+```{r}
+source("../code/data.r")
+```
+
+# Data availability
+
+## Abundance data
+
+The data from the core Arthropod project are available for the years 2008 -- 2011. The years 2012 and 2013 are currently being prepared by Martin Goßner. 
+
+Fig. 1 provides an overview of the plots and sampling replicates over time. 
+
+```{r, echo = FALSE}
+
+monthvec <- c("Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez")
+
+plot(I(CollectionYear+match(CollectionMonth, monthvec)/12) ~ as.integer(PlotID) , data = arthropods_core, pch = 20, xaxt = "n", col = selector+1, yaxt = "n", ylim = c(2008,2013))
+axis(2, at = 2008:2012)
+axis(1, at = 1:150, labels = levels(arthropods_core$PlotID), las = 2)
+# lapply(unique( arthropods_core$CollectionYear), function(y) unique(subset(arthropods_core, CollectionYear == y)$CollectionMonth) )  # check which months were sampled each year
+axis(4, at = seq(2008,2012, 1/12)[-1], labels = rep(month.abb, 4), las = 1, cex = 0.6)
+abline(h = seq(2008,2012, 1/12)[-1], col = "#00000020")
+abline(h = 2008:2012)
+abline(v = 1:150, col = "#00000020" )
+```
+
+ 
+There is an issue with the inconsistency of the number of replicates per year per plot. VIPs have been sampled four to six times, while most EPs have been sampled only twice until 2010. After 2011 they have been sampled five or six times. For calculating the community weighted means, I will have to sum the species numbers and devide by the number of replicates. When it comes to measures of variation, it will be heterogeneous just because of the difference in n. I guess this means that I need to either form subsets with only two replicates per year taken into account even for VIPs (June and August). 
+
+Martin confirmed this issue and also the use of the data selection process. For the data of Schorfheide, there was a shift in the sampling month in 2009, which has to be taken into account.  He promised to send me a dataset that is readily compiled and includes abundance data summed over the two sampling events per year.
+
+
+
