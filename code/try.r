@@ -24,10 +24,13 @@ try_names <- names(try_ids)
 ## replace indices for accepted TRY ID
 try_ids <- lapply(try_ids, function(x) try_species$AccSpeciesID[x])
 
+request_species <- data.frame(AccSpeciesNames = try_names, AccSpeciesID = unlist(try_ids), row.names = 1:length(try_names))
+
 ## return list of species for TRY database request
 cat(na.exclude(unlist(try_ids)), sep = ", ")
 
 
+write.csv(request_species, "data/plants_traits_TRY/TRY_species_requested.csv")
 
 
 # select trait IDs for TRY database request
@@ -71,7 +74,12 @@ request_id <- c(
 
 cat(unlist(request_id), sep = ", ")
 
-subset(try_traits, TraitID %in% request_id)
+
+request_traits <- subset(try_traits, TraitID %in% request_id)[,c(1,2)]
+
+write.csv(request_traits, "data/plants_traits_TRY/TRY_traits_requested.csv")
+
+cat(paste0(as.character(request_traits$Trait), " [#",request_traits$TraitID,"]"), sep =", ")
 
 # trait availability for plants (TRY DB request on 02.06.2016)
 
