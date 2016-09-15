@@ -155,8 +155,15 @@ predators_core <- subset(arthropods_core, Feeding_guild == "c")
 herbivores_core <- subset(arthropods_core, Feeding_guild %in% c("h","o"))
 
 
+#######################################
+
 arthropod_traits <- read.csv("data/arthropod_traits/ArthropodSpeciesTraits.csv", sep = ";")
 # Original file: ArthropodSpeciesTraits.csv   from   Gossner MM, Simons NK, Achtziger R, Blick T, Dorow WHO, Dziock F, Köhler F, Rabitsch W, Weisser WW (2015) Data from: A summary of eight traits of Coleoptera, Hemiptera, Orthoptera and Araneae, occurring in grasslands in Germany. Dryad Digital Repository. http://dx.doi.org/10.5061/dryad.53ds2
+
+lepidoptera_traits <- read.csv("data/arthropod_traits_c_westphal/butterfly_traits.csv", sep = ";")
+cicadomorpha_traits <- read.csv("data/arthropod_traits_c_westphal/cicadomorpha_traits.csv", sep = ";")
+coleoptera_traits <- read.csv("data/arthropod_traits_c_westphal/coleoptera_traits.csv", sep = ";")
+
 
 arthropod_traits$Stratum_use_numeric <- c(1,2,3,4,2.5,NA)[match(arthropod_traits$Stratum_use_short, c("s", "g", "h", "t", "u", "w"))]
 arthropod_traits$Feeding_mode_numeric <- c(1,2,NA)[match(arthropod_traits$Feeding_mode, c("c", "e", "s"))]
