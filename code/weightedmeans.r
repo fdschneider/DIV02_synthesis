@@ -37,13 +37,28 @@ save(cwm_plants, file = "data/cwm_plants.rData")
 # }
 
 
-## WARNING: Check calculation of annual means: species that have not been reported should have value 0 at each plot and not be treated as NA.  
-arthropods_annual <- ddply(arthropods_core[arthropods_core$selector == TRUE,c("PlotID", "Species","CollectionYear","NumberAdults", "CollectionMonth")], .(PlotID, Species, CollectionYear), summarize, mean = round(sum(NumberAdults, na.rm = TRUE)/2 ,4), .drop = TRUE )
+cwm_predators <- ddply(predators_core, .(EP,Year), cwm, trait_table = arthropod_traits, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"), abund_label = "Abundance", spec_label = "SpeciesID")
 
-cwm_arthropods <- ddply(arhropods_annual, .(PlotID,CollectionYear), cwm, trait_table = arthropod_traits, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"))
+pairs(cwm_predators[3:5], pch = 20)
 
-pairs(cwm_arthropods[3:5], pch = 20)
 
+crystalplot <- function(x,y,z, col = NULL) {
+  
+  plot3d(x,y,z, col = col )
+  
+  ps <- data.frame(x,y,z)
+  ts.surf <- t(convhulln(ps))
+  rgl.triangles(ps[ts.surf,1],ps[ts.surf,2],ps[ts.surf,3],col="blue",alpha=.2,
+                color = c("blue"), shininess = 200, texenvmap = TRUE)
+  
+}
+
+
+with(na.omit(cwm_predators), crystalplot((Body_Size),(Dispersal_ability),(Stratum_use_numeric), col = "black"))
+
+cwm_herbivores <- ddply(herbivores_core, .(EP,Year), cwm, trait_table = arthropod_traits, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"), abund_label = "Abundance", spec_label = "SpeciesID")
+
+pairs(cwm_herbivores[3:5], pch = 20)
 
 
 herbivores_annual <- ddply(herbivores[herbivores$selector == TRUE,c("PlotID", "Species","CollectionYear","NumberAdults", "CollectionMonth")], .(PlotID, Species, CollectionYear), summarize, mean = round(sum(NumberAdults, na.rm = TRUE)/2 ,4), .drop = TRUE )
