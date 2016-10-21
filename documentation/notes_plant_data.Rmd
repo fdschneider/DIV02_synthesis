@@ -42,29 +42,21 @@ library(vegan)
 library(labdsv)
 library(geometry)
 
+source("R/cwm.r")
+source("R/crystalplot.r")
+source("R/trait_pca.r")
 load("data/cwm_plants.rData")
-
-crystalplot <- function(x,y,z, col = NULL) {
-  
-  plot3d(x,y,z, col = col )
-
-ps <- data.frame(x,y,z)
-ts.surf <- t(convhulln(ps))
-rgl.triangles(ps[ts.surf,1],ps[ts.surf,2],ps[ts.surf,3],col="blue",alpha=.2,
-              color = c("blue"), shininess = 200, texenvmap = TRUE)
-
-}
-
 
 with(na.omit(cwm_plants), crystalplot(log(leaf_N),log(leaf_P),log(stem_drymass), col = rainbow(8)[as.integer(Year)] ))
 with(na.omit(cwm_plants), crystalplot(log(seedmass),log(leaf_area),log(SLA), col = rainbow(8)[as.integer(Year)] ))
 
 cwm_pca <- prcomp(log(na.omit(cwm_plants[,-c(1:2)])))
+summary(cwm_pca)
 biplot(cwm_pca)
 
-mat <- vegdist(na.omit(cwm_plants)[,-c(1:2)]) 
 
-plot(pco(mat), bty = "n", las = 1)
+trait_pca(cwm_plants, log = TRUE)
+
 
 ```
 

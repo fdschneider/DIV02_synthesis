@@ -11,9 +11,6 @@ output:
     citation_package: natbib
     latex_engine: xelatex
 ---
-```{r}
-source("../code/data.r")
-```
 
 # Data availability
 
@@ -24,6 +21,10 @@ The data from the core Arthropod project are available for the years 2008 -- 201
 Fig. 1 provides an overview of the plots and sampling replicates over time. 
 
 ```{r, echo = FALSE}
+
+arthropods_core <- read.csv2("data/arthropods_core/Arthropods_GL_0813.csv")
+predators_core <- subset(arthropods_core, Feeding_guild == "c")
+herbivores_core <- subset(arthropods_core, Feeding_guild %in% c("h","o"))
 
 monthvec <- c("Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez")
 
@@ -42,5 +43,42 @@ There is an issue with the inconsistency of the number of replicates per year pe
 
 Martin confirmed this issue and also the use of the data selection process. For the data of Schorfheide, there was a shift in the sampling month in 2009, which has to be taken into account.  He promised to send me a dataset that is readily compiled and includes abundance data summed over the two sampling events per year.
 
+## Trait data
 
+Trait data originate from two sources. First, the database compiled by Martin Gossner and Nadja Simons:
 
+> Gossner MM, Simons NK, Achtziger R, Blick T, Dorow WHO, Dziock F, Köhler F, Rabitsch W, Weisser WW (2015) A summary of eight traits of Coleoptera, Hemiptera, Orthoptera and Araneae, occurring in grasslands in Germany. Scientific Data 2: 150013. http://dx.doi.org/10.1038/sdata.2015.13 and Data http://dx.doi.org/10.5061/dryad.53ds2
+
+This database is covering most of the species that occur in the abundance data and includes nine traits: 
+ 
+- body size [mm]
+- dispersal ability: defined as no dispersal (0), low passive dispersal (0.25), minor flying ability for movement and colonization (0.5), average individual movement and colonization dynamics (0.75) and high individual movment and colonization (floating, 1.0)
+- feeding guild: classified as consumer (c), detritivore (d), herbivore (h), fungivore (f), and omnivore (o)
+- feeding mode: classified as chewers (c), extraintestinal (e), and suction feeding (s)
+- feeding specialisation (within herbivores): 
+- feeding tissue (within herbivorous suckers): 
+- feeding plant part (within herbivorous chewers):
+- endophagous lifestyle (within herbivores): 
+- stratum use: ground (g), stem (s), 
+
+```{r, fig.height = 7, fig.width = 3}
+
+library(rgl)
+library(vegan)
+library(labdsv)
+library(geometry)
+
+load("data/cwm_herbivores.rData")
+load("data/cwm_predators.rData")
+load("data/lui.rData")
+load("data/arthropod_trait_matrix.rData")
+source("R/cwm.r")
+source("R/crystalplot.r")
+source("R/trait_pca.r")
+
+par(mfrow = c(2,1))
+
+trait_pca(cwm_herbivores, log = FALSE)
+trait_pca(cwm_predators, log = FALSE)
+
+```
