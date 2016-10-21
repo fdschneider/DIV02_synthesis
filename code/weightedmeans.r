@@ -4,6 +4,12 @@ source("R/cwm.r")
 source("code/data.r")
 library(foreach)
 library(doSNOW)
+library(rgl)
+library(vegan)
+library(labdsv)
+library(geometry)
+library(reshape2)
+library(plyr)
 ################## calculate plant CWM values per plot per year. 
 
 
@@ -37,7 +43,7 @@ save(cwm_plants, file = "data/cwm_plants.rData")
 # }
 
 
-cwm_predators <- ddply(predators_core, .(EP,Year), cwm, trait_table = arthropod_traits, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"), abund_label = "Abundance", spec_label = "SpeciesID")
+cwm_predators <- ddply(predators_core, .(EP,Year), cwm, trait_table = arthropod_trait_matrix, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"), abund_label = "Abundance", spec_label = "SpeciesID")
 
 pairs(cwm_predators[3:5], pch = 20)
 
@@ -56,24 +62,30 @@ crystalplot <- function(x,y,z, col = NULL) {
 
 with(na.omit(cwm_predators), crystalplot((Body_Size),(Dispersal_ability),(Stratum_use_numeric), col = "black"))
 
-cwm_herbivores <- ddply(herbivores_core, .(EP,Year), cwm, trait_table = arthropod_traits, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"), abund_label = "Abundance", spec_label = "SpeciesID")
-
-pairs(cwm_herbivores[3:5], pch = 20)
 
 
-herbivores_annual <- ddply(herbivores[herbivores$selector == TRUE,c("PlotID", "Species","CollectionYear","NumberAdults", "CollectionMonth")], .(PlotID, Species, CollectionYear), summarize, mean = round(sum(NumberAdults, na.rm = TRUE)/2 ,4), .drop = TRUE )
-
-cwm_herbivores <- ddply(herbivores_annual, .(PlotID,CollectionYear), cwm, trait_table = arthropod_traits, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric", "Feeding_mode_numeric"))
+cwm_herbivores <- ddply(herbivores_core, .(EP,Year), cwm, trait_table = arthropod_traits, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric", "Feeding_suckers", "Feeding_chewers", "Feeding_specialisation_numeric"), abund_label = "Abundance", spec_label = "SpeciesID")
 
 pairs(cwm_herbivores[3:6], pch = 20)
 
+# 
+# herbivores_annual <- ddply(herbivores_core[herbivores$selector == TRUE,c("PlotID", "Species","CollectionYear","NumberAdults", "CollectionMonth")], .(PlotID, Species, CollectionYear), summarize, mean = round(sum(NumberAdults, na.rm = TRUE)/2 ,4), .drop = TRUE )
+# 
+# cwm_herbivores <- ddply(herbivores_annual, .(PlotID,CollectionYear), cwm, trait_table = arthropod_traits, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric", "Feeding_mode_numeric"))
+# 
+# pairs(cwm_herbivores[3:6], pch = 20)
 
 
+# 
+# 
+# consumers_annual <- ddply(consumers[consumers$selector == TRUE,c("PlotID", "Species","CollectionYear","NumberAdults", "CollectionMonth")], .(PlotID, Species, CollectionYear), summarize, mean = round(sum(NumberAdults, na.rm = TRUE)/2 ,4), .drop = TRUE )
+# 
+# cwm_consumers <- ddply(consumers_annual, .(PlotID,CollectionYear), cwm, trait_table = arthropod_traits, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"))
+# 
+# pairs(cwm_consumers[3:5], pch = 20)
 
-consumers_annual <- ddply(consumers[consumers$selector == TRUE,c("PlotID", "Species","CollectionYear","NumberAdults", "CollectionMonth")], .(PlotID, Species, CollectionYear), summarize, mean = round(sum(NumberAdults, na.rm = TRUE)/2 ,4), .drop = TRUE )
 
-cwm_consumers <- ddply(consumers_annual, .(PlotID,CollectionYear), cwm, trait_table = arthropod_traits, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"))
+save(cwm_predators, file = "data/cwm_predators.rData")
+save(cwm_herbivores, file = "data/cwm_herbivores.rData")
 
-pairs(cwm_consumers[3:5], pch = 20)
-
- 
+# 
