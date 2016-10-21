@@ -9,11 +9,13 @@ library(plyr)
 #########################################
 # read in land use index 
 
-lui <- read.csv2("data/land_use/LUI_reg_sep_12.07.2016+153401.txt", sep = "\t") 
+lui <- read.csv2("data/land_use/LUI_reg_sep_19.10.2016+115351.txt", sep = "\t") 
 lui$Year <-  lui$Std_procedure.year.
-levels(lui$Year) <- 2008:2013
+levels(lui$Year) <- 2008:2015
 lui$Exploratory <-  lui$Std_procedure.exploratory.
 levels(lui$Exploratory) <- c("ALB", "HAI", "SCH")
+
+save(lui, file = "data/lui.rData")
 
 ##########################################
 # read in plant abundance data
@@ -24,6 +26,7 @@ plants_full <- read.csv2("data/plants_core/plantcover.csv")
 plants_full$cover <- as.numeric(plants_full$cover)
 levels(plants_full$Year) <- c(2008:2015, 2011)
 
+plants_full <- subset(plants_full, Year %in% 2008:2013)
 
 # remove tree species from list (for extreme trait values assigned to seedlings/saplings)
 trees <- c("Acer_sp", "Baumkeimling_sp", "Betula_pendula", "Fraxinus_excelsior", "Populus_tremula", "Prunus_avium", "Prunus_sp","Prunus_spinosa", "Quercus_robur", "Tilia_sp")
@@ -154,11 +157,13 @@ arthropods_core <- read.csv2("data/arthropods_core/Arthropods_GL_0813.csv")
 predators_core <- subset(arthropods_core, Feeding_guild == "c")
 herbivores_core <- subset(arthropods_core, Feeding_guild %in% c("h","o"))
 
+# These data have been sent to me directly by Martin Gossner. (TODO: transfer via BExis). They contain the pooled abundance data of arthropod core project samplings in 2008 -- 2013 of all EPs. Extra samplings on VIPs have been omitted to match the sampling of the EP plots. 
 
 #######################################
 
 arthropod_traits <- read.csv("data/arthropod_traits/ArthropodSpeciesTraits.csv", sep = ";")
 # Original file: ArthropodSpeciesTraits.csv   from   Gossner MM, Simons NK, Achtziger R, Blick T, Dorow WHO, Dziock F, Köhler F, Rabitsch W, Weisser WW (2015) Data from: A summary of eight traits of Coleoptera, Hemiptera, Orthoptera and Araneae, occurring in grasslands in Germany. Dryad Digital Repository. http://dx.doi.org/10.5061/dryad.53ds2
+# ToDo get data via BExis!!
 
 lepidoptera_traits <- read.csv("data/arthropod_traits_c_westphal/butterfly_traits.csv", sep = ";")
 cicadomorpha_traits <- read.csv("data/arthropod_traits_c_westphal/cicadomorpha_traits.csv", sep = ";")
@@ -166,7 +171,18 @@ coleoptera_traits <- read.csv("data/arthropod_traits_c_westphal/coleoptera_trait
 
 
 arthropod_traits$Stratum_use_numeric <- c(1,2,3,4,2.5,NA)[match(arthropod_traits$Stratum_use_short, c("s", "g", "h", "t", "u", "w"))]
-arthropod_traits$Feeding_mode_numeric <- c(1,2,NA)[match(arthropod_traits$Feeding_mode, c("c", "e", "s"))]
+#arthropod_traits$Feeding_mode_numeric <- c(1,2,NA)[match(arthropod_traits$Feeding_mode, c("c", "e", "s"))]
+arthropod_traits$Feeding_specialisation_numeric <- c(1,2,3)[match(arthropod_traits$Feeding_specialisation, c("m", "o", "p"))]
+arthropod_traits$Feeding_suckers <- c(0,0,1)[match(arthropod_traits$Feeding_mode, c("c", "e", "s"))]
+arthropod_traits$Feeding_chewers <- c(1,0,0)[match(arthropod_traits$Feeding_mode, c("c", "e", "s"))]
+#arthropod_traits$Feeding_tissue <- c(...)[match(arthropod_traits$Feeding_mode, c("m", "m-p", "m-p-r", "m-p-x", "m-r", "p", "p-r", "p-se", "r", "r-(m-p)", "r-se", "se", "x"))]
 
-herbivores <- subset(arthropods_core, Species %in% arthropod_traits$Species[arthropod_traits$Feeding_guild_short %in% c("h")])
-consumers <- subset(arthropods_core, Species %in% arthropod_traits$Species[arthropod_traits$Feeding_guild_short %in% c("c")])
+
+
+arthropod_trait_matrix <- arthropod_traits[,c(1:5,6,7,18,19,20,21,22)]
+save(arthropod_trait_matrix, file = "data/arthropod_trait_matrix.rData")
+
+
+##################################
+
+
