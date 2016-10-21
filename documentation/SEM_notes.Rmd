@@ -1,0 +1,76 @@
+---
+title: "SEM exploration"
+author: "Florian D. Schneider"
+date: "19. Oktober 2016"
+output: pdf_document
+---
+
+# Explore trait spaces across trophic levels
+
+
+```{r, fig.height = 9, fig.width = 3}
+
+library(rgl)
+library(vegan)
+library(labdsv)
+library(geometry)
+
+load("data/cwm_plants.rData")
+load("data/cwm_herbivores.rData")
+load("data/cwm_predators.rData")
+load("data/lui.rData")
+load("data/arthropod_trait_matrix.rData")
+source("R/cwm.r")
+source("R/crystalplot.r")
+source("R/trait_pca.r")
+
+par(mfrow = c(3,1), mar = c(4,4,1,1))
+
+trait_pca(cwm_predators, log = FALSE) -> pca_predators
+trait_pca(cwm_herbivores, log = FALSE) -> pca_herbivores
+trait_pca(cwm_plants, log = FALSE) -> pca_plants
+
+# match output vectors
+
+plotvec <- paste0(lui[,"Year"],"_",lui[,"EP.Plotid"])
+
+dd <- data.frame(
+    LUI = lui$LUI,
+    PC1_plants = pca_plants$CA$u[,1][match( plotvec, rownames(pca_plants$CA$u))],
+    PC2_plants = pca_plants$CA$u[,2][match( plotvec, rownames(pca_plants$CA$u))],
+    PC1_herbivores = pca_herbivores$CA$u[,1][match( plotvec, rownames(pca_herbivores$CA$u))],
+    PC2_herbivores = pca_herbivores$CA$u[,2][match( plotvec, rownames(pca_herbivores$CA$u))],
+    PC1_predators = pca_predators$CA$u[,1][match( plotvec, rownames(pca_predators$CA$u))],
+    PC2_predators = pca_predators$CA$u[,2][match( plotvec, rownames(pca_predators$CA$u))]
+  )
+
+
+panel.lm <- function(x, y,  col = par("col"), bg = NA, pch = par("pch"), 
+    cex = 1,span = 2/3,col.smooth = "red",  iter = 3,  ...)
+{
+    points(x, y, pch = pch, col = col, bg = bg, cex = cex)
+    ok <- is.finite(x) & is.finite(y)
+    if (any(ok))
+    model <- lm(y~x)
+    significant <- summary(model)$coefficients[2,4] < 0.01
+    abline(model, col = col.smooth, lwd = c(1,2)[significant+1],lty = c(2,1)[significant+1])
+    mtext(round(summary(model)$coefficients[2,4],4), line = -1, cex = 0.5, col = col.smooth)
+}
+
+pairs(dd[which(lui$Year %in% c(2008:2013)),], lower.panel = panel.lm, pch = 20, col = "#00000030")
+
+
+library(lavaan)
+
+fit <- sem('PC2_plants ~ LUI
+         PC1_plants ~ LUI
+         PC2_herbivores ~ LUI
+         PC2_herbivores ~ PC1_plants
+         PC2_predators ~ PC1_herbivores
+         PC1_predators ~ PC2_herbivores', 
+         data = dd)
+
+summary(fit)
+
+
+```
