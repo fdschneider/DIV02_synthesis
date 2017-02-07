@@ -8,6 +8,7 @@
 #' @param landuse 
 #'
 #' @return
+#' @import vegan
 #' @export
 #'
 #' @examples
@@ -19,8 +20,10 @@ trait_pca <- function(x,
                       y = 2, #column/position of year
                       traits = 3:length(x), 
                       log = FALSE,
+                      cex = 0.6,
                       landuse = lui,
-                      show = c("G_std", "M_std", "F_std", "LUI")
+                      show = c("G_std", "M_std", "F_std", "LUI"), 
+                      col = "#00000020"
 ) {
   
   rownames(x) <- paste0(x[,y],"_",x[,i])
@@ -35,12 +38,17 @@ trait_pca <- function(x,
   if(log) dd <- log(dd)
   
   pca_plant <- rda(dd, scale = TRUE)
-  biplot(pca_plant, scaling = -1) -> fig
-  points(fig, "sites", pch = 20, col = "#00000020")
-  text(fig, "species", col="red", cex=0.6)
+  eig_rel <- round(eigenvals(pca_plant)/sum(eigenvals(pca_plant))*100,1)
+  biplot(pca_plant, scaling = -1, cex = cex, 
+         xlab = paste0("PC1 (", eig_rel[1], "%)"),
+         ylab = paste0("PC2 (", eig_rel[2], "%)"),
+         col = c(col, "red")
+           ) -> fig
+  points(fig, "sites", pch = 20, col = col)
+  text(fig, "species", col="red", cex= cex)
   
   covars <- envfit(pca_plant, lui_dd[,show], permu=999)
-  plot(covars, cex = 0.6)
+  plot(covars, cex = cex)
   
   return(pca_plant)
 }
