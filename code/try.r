@@ -1,6 +1,12 @@
 
-source("code/data.r")
+plants_full <- read.csv2("data/plants_core/plantcover.csv") 
+# original file: 19686.xlsx  downloaded from   BExis on 17.05.2016 as Bexis dataset 19686 vegetation relevés EP 2008-2015 1.2.5 ; Maintainer: Markus Fischer
 
+plants_full$cover <- as.numeric(plants_full$cover)
+levels(plants_full$Year) <- c(2008:2015, 2011)
+
+plants_full <- subset(plants_full, Year %in% 2008:2013)
+plants_full$Species <- factor(plants_full$Species)
 
 # match plant species names from bexis to try database IDs
 
@@ -17,7 +23,7 @@ plant_species <- sub("_"," ",plant_species)
 ## exact matching
 try_ids <- sapply(plant_species, function(x) match(x, try_species$AccSpeciesName))
 
-## review matching:
+## fix names:
 names(try_ids) <- plant_species
 try_names <- names(try_ids)
 
