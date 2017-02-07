@@ -1,25 +1,24 @@
 # Synthesis: Is there whole ecosystem level synchrony in functional trait distribution?
 
-
 ## Data
 
 We plan to focus on the grassland plot data of the Biodiversity Exploratories, because trait data are more complete and due to the expertise of the group involved. Future work may ex-tend to forest ecosystems.
 
 ### plot-level species abundance data (over time)
 
-The plot-level assessments of species abundances (Simons et al. 2014, 2015, 2016) will be used to compile community weighted means, variances and skewness metrics of traits per trophic guild for each plot at each point in time.
+The plot-level assessments of arthropod species abundances (Simons et al. 2014, 2015, 2016) and plant cover (Core project) will be used to compile community weighted means, variances and skewness metrics of traits per trophic guild for each plot at each point in time.
 
 #### Arthropod Core project data (Martin Gossner, Nadja Simons)
 
 #### Botany Core Project data (Markus Fischer)
 
-#### Pollinator data from (Nico Blüthgen)
+#### Pollinator data from (Nico Blüthgen, Christiane Weiner)
 
 #### Macroarthropod predators from SoilFoodWeb project (Klaus Birkhofer)
 
-#### Microbioal data from microSYSteM & SCALEMIC project (Ellen Kandeler, Barbara Stempfhuber)
+#### Microbioal data from microSYSteM & SCALEMIC project (Ellen Kandeler, Runa Bödinghaus, Barbara Stempfhuber)
 
-#### Protist data from NanoFauna project (Hartmut Arndt)
+#### Protist data from NanoFauna project (Hartmut Arndt, Michael Bonkowski)
 
 
 
