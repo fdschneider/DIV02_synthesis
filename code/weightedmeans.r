@@ -1,17 +1,41 @@
-### get community weighted means
+# get community weighted means
 
-source("R/cwm.r")
-source("code/data.r")
-library(foreach)
-library(doSNOW)
-library(rgl)
-library(vegan)
-library(labdsv)
-library(geometry)
-library(reshape2)
-library(plyr)
-################## calculate plant CWM values per plot per year. 
+## apply transformations 
 
+#load("data/arthropod_trait_matrix.rData")
+
+arthropod_trait_matrix <- mutate(arthropod_trait_matrix, Body_Size = log(Body_Size))
+
+# par(mfrow = c(2,3))
+# for(i in colnames(arthropod_trait_matrix)[-c(1:5)]) {
+#   hist(arthropod_trait_matrix[,i], xlab = i, col = "black", breaks = 32)
+# }
+
+#load("data/plant_trait_matrix.rData")
+
+plant_trait_matrix <- mutate(plant_trait_matrix, 
+                             leaf_area = log(leaf_area),
+                             #SLA = log(SLA),
+                             leaf_drymass = log(leaf_drymass),
+                             #LDMC = log(LDMC),
+                             #leaf_N = log(leaf_N),
+                             #leaf_P = log(leaf_P),
+                             #leaf_thickness = log(leaf_thickness),
+                             height = log(height),
+                             #root_depth = log(root_depth),
+                             seedmass = log(seedmass),
+                             stem_drymass = log(stem_drymass)
+)
+
+# par(mfrow = c(3,4))
+# for(i in colnames(plant_trait_matrix[,-1])) {
+#   hist(plant_trait_matrix[,i], xlab = i, col = "black", main = NA, breaks = 32)
+# }
+# 
+
+
+
+## calculate plant CWM values per plot per year. 
 
 #workerlist <- c(rep("localhost", times = 3))
 #cl <- makeSOCKcluster(workerlist)
@@ -21,9 +45,12 @@ library(plyr)
 
 #stopCluster(cl)
 
-cwm_plants <- ddply(plants_full, .(EP_PlotId,Year), cwm, trait_table = plant_trait_matrix, traits = c("SLA", "leaf_P", "leaf_N", "LDMC", "leaf_area", "seedmass","SSD"), abund_label = "cover", spec_label = "SpeciesID", trait_spec_label= "AccSpeciesID")
 
-save(cwm_plants, file = "data/cwm_plants.rData")
+cwm_plants <- ddply(plants_full, .(EP_PlotId,Year), cwm, trait_table = plant_trait_matrix, traits = c("SLA", "leaf_P", "leaf_N", "LMA", "height", "leaf_area", "seedmass","stem_drymass", "leaf_thickness", "Nfixation", "palatability", "root_depth"), abund_label = "cover", spec_label = "SpeciesID", trait_spec_label= "AccSpeciesID")
+
+cwm_plants$Region <- as.factor(substr(cwm_plants$EP_PlotId, 1,3))
+
+#cwm_plants[,3:11] <- log10(cwm_plants[,3:11])
 
 # 
 # {
@@ -42,31 +69,20 @@ save(cwm_plants, file = "data/cwm_plants.rData")
 # arthropod_species[!arthropod_species %in% heg12$Species]
 # }
 
-
 cwm_predators <- ddply(predators_core, .(EP,Year), cwm, trait_table = arthropod_trait_matrix, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"), abund_label = "Abundance", spec_label = "SpeciesID")
 
-pairs(cwm_predators[3:5], pch = 20)
+names(cwm_predators)[1] <- "EP_PlotId"
+cwm_predators$Year <- as.factor(cwm_predators$Year)
+cwm_predators$Region <- as.factor(substr(cwm_predators$EP_PlotId, 1,3))
 
 
-crystalplot <- function(x,y,z, col = NULL) {
-  
-  plot3d(x,y,z, col = col )
-  
-  ps <- data.frame(x,y,z)
-  ts.surf <- t(convhulln(ps))
-  rgl.triangles(ps[ts.surf,1],ps[ts.surf,2],ps[ts.surf,3],col="blue",alpha=.2,
-                color = c("blue"), shininess = 200, texenvmap = TRUE)
-  
-}
+cwm_herbivores <- ddply(herbivores_core, .(EP,Year), cwm, trait_table = arthropod_trait_matrix, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric", "Feeding_suckers",  "Feeding_specialization_numeric" ), abund_label = "Abundance", spec_label = "SpeciesID")
 
+names(cwm_herbivores)[1] <- "EP_PlotId"
+cwm_herbivores$Year <- as.factor(cwm_herbivores$Year)
+cwm_herbivores$Region <- as.factor(substr(cwm_herbivores$EP_PlotId, 1,3))
 
-with(na.omit(cwm_predators), crystalplot((Body_Size),(Dispersal_ability),(Stratum_use_numeric), col = "black"))
-
-
-
-cwm_herbivores <- ddply(herbivores_core, .(EP,Year), cwm, trait_table = arthropod_traits, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric", "Feeding_suckers", "Feeding_chewers", "Feeding_specialisation_numeric"), abund_label = "Abundance", spec_label = "SpeciesID")
-
-pairs(cwm_herbivores[3:6], pch = 20)
+#pairs(cwm_herbivores[,c(3:7)], pch = 20, upper.panel = panel.lm, lower.panel = panel.lm, col = cwm_herbivores$Region)
 
 # 
 # herbivores_annual <- ddply(herbivores_core[herbivores$selector == TRUE,c("PlotID", "Species","CollectionYear","NumberAdults", "CollectionMonth")], .(PlotID, Species, CollectionYear), summarize, mean = round(sum(NumberAdults, na.rm = TRUE)/2 ,4), .drop = TRUE )
@@ -85,7 +101,30 @@ pairs(cwm_herbivores[3:6], pch = 20)
 # pairs(cwm_consumers[3:5], pch = 20)
 
 
-save(cwm_predators, file = "data/cwm_predators.rData")
+# backtransform
+
+cwm_herbivores <- mutate(cwm_herbivores, Body_Size = exp(Body_Size))
+cwm_predators <- mutate(cwm_predators, Body_Size = exp(Body_Size))
+
+cwm_plants <- mutate(cwm_plants, 
+                     leaf_area = exp(leaf_area),
+                     #SLA = log(SLA),
+                     #leaf_drymass = log(leaf_drymass),
+                     #LDMC = log(LDMC),
+                     #leaf_N = log(leaf_N),
+                     #leaf_P = log(leaf_P),
+                     #leaf_thickness = log(leaf_thickness),
+                     height = exp(height),
+                     #root_depth = log(root_depth),
+                     seedmass = exp(seedmass),
+                     stem_drymass = exp(stem_drymass)
+)
+
+rm(arthropod_trait_matrix, plant_trait_matrix)
+
+save(cwm_plants, file = "data/cwm_plants.rData")
+
 save(cwm_herbivores, file = "data/cwm_herbivores.rData")
 
-# 
+save(cwm_predators, file = "data/cwm_predators.rData")
+
