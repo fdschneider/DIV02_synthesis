@@ -69,14 +69,14 @@ cwm_plants$Region <- as.factor(substr(cwm_plants$EP_PlotId, 1,3))
 # arthropod_species[!arthropod_species %in% heg12$Species]
 # }
 
-cwm_predators <- ddply(predators_core, .(EP,Year), cwm, trait_table = arthropod_trait_matrix, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"), abund_label = "Abundance", spec_label = "SpeciesID")
+cwm_predators <- ddply(predators_core, .(EP,Year), cwm, trait_table = arthropod_trait_matrix, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric", "Feeding_generalist"), abund_label = "Abundance", spec_label = "SpeciesID")
 
 names(cwm_predators)[1] <- "EP_PlotId"
 cwm_predators$Year <- as.factor(cwm_predators$Year)
 cwm_predators$Region <- as.factor(substr(cwm_predators$EP_PlotId, 1,3))
 
 
-cwm_herbivores <- ddply(herbivores_core, .(EP,Year), cwm, trait_table = arthropod_trait_matrix, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric", "Feeding_suckers",  "Feeding_specialization_numeric" ), abund_label = "Abundance", spec_label = "SpeciesID")
+cwm_herbivores <- ddply(herbivores_core, .(EP,Year), cwm, trait_table = arthropod_trait_matrix, traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric", "Feeding_suckers",  "Feeding_generalist" ), abund_label = "Abundance", spec_label = "SpeciesID")
 
 names(cwm_herbivores)[1] <- "EP_PlotId"
 cwm_herbivores$Year <- as.factor(cwm_herbivores$Year)

@@ -10,7 +10,7 @@ coleoptera_traits <- read.csv("data/arthropod_traits_c_westphal/coleoptera_trait
 
 arthropod_traits$Stratum_use_numeric <- c(1,2,3,4,2.5,NA)[match(arthropod_traits$Stratum_use_short, c("s", "g", "h", "t", "u", "w"))]
 #arthropod_traits$Feeding_mode_numeric <- c(1,2,NA)[match(arthropod_traits$Feeding_mode, c("c", "e", "s"))]
-arthropod_traits$Feeding_specialization_numeric <- c(1,2,3)[match(arthropod_traits$Feeding_specialization, c("m", "o", "p"))]
+arthropod_traits$Feeding_generalist <- c(1,2,3)[match(arthropod_traits$Feeding_specialization, c("m", "o", "p"))]
 arthropod_traits$Feeding_suckers <- c(0,0,1)[match(arthropod_traits$Feeding_mode, c("c", "e", "s"))]
 arthropod_traits$Feeding_chewers <- c(1,0,0)[match(arthropod_traits$Feeding_mode, c("c", "e", "s"))]
 #arthropod_traits$Feeding_tissue <- c(...)[match(arthropod_traits$Feeding_mode, c("m", "m-p", "m-p-r", "m-p-x", "m-r", "p", "p-r", "p-se", "r", "r-(m-p)", "r-se", "se", "x"))]
