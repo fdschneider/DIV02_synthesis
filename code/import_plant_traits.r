@@ -92,7 +92,7 @@ plant_trait_matrix <- dcast(plant_traits, AccSpeciesID ~ TraitName_short, value.
 
 ## leaf mass per area
 
-plant_trait_matrix$LMA <- with(plant_trait_matrix, leaf_area/leaf_drymass)
+plant_trait_matrix$LMA <- with(plant_trait_matrix, leaf_drymass/leaf_area)
 
 
 save(plant_trait_matrix, file = "data/plant_trait_matrix.rData")
