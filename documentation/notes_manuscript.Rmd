@@ -1,0 +1,41 @@
+---
+title: "notes on manuscript"
+author: "Florian D. Schneider"
+date: "22 Februar 2017"
+output: html_document
+---
+
+
+*Develop the paper storyboard; Introduction and Discussion provide links to other projects on trait variation and land-use within the exploratories.*
+
+
+# Introduction 
+
+The positioning of species along axes of functional traits reflect their different economic strategies. The correlation between many functional traits allows ecologists to classify them along major axes of evolutionary trade-off.  
+This has been shown for plants (Diaz et al, Lavorell et al), animals (Gross et al, Violle et al, Gossner et al, Gamez-Virues et al 2015) and microbes (Fierer et al). Plants major trade-offs have been described since the beginnings of ecology, as Ellenberg values, MacArthurs r-K strategists, or the Universal adaptive strategy theory (Grime triangle of ruderals, competitors and stress-tolerant species). Arthropod trait variation aggregates into three different trait syndromes along specialisation and size. 
+
+Environmental filtering selects for species of certain trait combinations. Only certain kinds of species are coping with the conditions that the local environment provides. Land-use intensification and climate change are the most important drivers of such filtering processes. For instance, it has been shown that grasslands that experience frequent cutting are composed of more fast-growing grasses and herbs than extensively used meadows,  which contain more slow-growing and long-lived species. 
+
+Additionally, the established influences between the functional groups represented in an ecosystem selects for the best species or set of species to fill the different functional niches. In consequence, the top-down and bottom-up processes that excert pressure on or provide resource for a functional group or trophic level must also be considered as an environmental filter. Thus, it is also a matter of complementarity and redundancy, which species persevere in a given community.  
+
+A multitude of mechanism for this cross-ecosystem matchmaking of functional traits. Leaf strengths and mouthpart strengths (LeProvost et al), Fast-growing competitors and Herbivore generalisation of resource (Simons et al, Boerschig et al, Mangels et al).  the type of organic matter that feeds the soil compartment select for certain kinds of Bacteria and fungi which use plant root exudates and litter as a reseource.
+
+In this study, we describe the principal axes of trade-off for the above and belowground functional groups of grasslands by comparing 150 grassland ecosystems in Germany: the Biodiversity Exploratories framework captures a climatic north-to-south gradient as well as the anthropogenic land-use intensity in cultural landscapes. 
+
+This allows us to project individual-level functional traits to ecosystem-level drivers and eventually will improve our mechanistic understanding of ecosystem-level functioning provided by the species community assemblage.  
+
+
+# Discussion
+
+Relate pattern to Function:
+
+Eric Allan: 
+pETchy, Ecosystem Services and Functions,  
+
+Microbiology: 
+ScaleMic, MicroSYSteM, understand Microbial processes, Function exerted, KEGG categories for functional gene markers. 
+
+Adding further functional groups: 
+- ants
+- pollinators
+- 
