@@ -3,14 +3,29 @@ title: "Notes on Arthropod Data"
 author: "Florian D. Schneider"
 date: "`r Sys.Date()`"
 output:
+  tufte::tufte_handout: default
   tufte::tufte_html: default
-  tufte::tufte_handout:
-    citation_package: natbib
-    latex_engine: xelatex
   tufte::tufte_book:
     citation_package: natbib
     latex_engine: xelatex
 ---
+
+```{r, echo = FALSE, message= FALSE, warning = FALSE}
+
+library(rgl)
+library(vegan)
+library(labdsv)
+library(geometry)
+library(reshape2)
+library(plyr)
+
+load("../data/lui.rData")
+load("../data/arthropod_trait_matrix.rData")
+
+l_ply(as.list(paste0("../R/",dir("../R"))), source )
+
+```
+
 
 # Data availability
 
@@ -18,19 +33,15 @@ output:
 
 The data from the core Arthropod project are available for the years 2008 -- 2011. The years 2012 and 2013 are currently being prepared by Martin Goßner. 
 
-Fig. 1 provides an overview of the plots and sampling replicates over time. 
+```{r, fig.cap = "Overview of the plots and sampling replicates over time", echo = FALSE, fig.height = 8, fig.width = 11, echo = FALSE, message= FALSE, warning = FALSE, fig.fullwidth = TRUE}
 
-```{r, echo = FALSE}
-
-arthropods_core <- read.csv2("data/arthropods_core/Arthropods_GL_0813.csv")
-predators_core <- subset(arthropods_core, Feeding_guild == "c")
-herbivores_core <- subset(arthropods_core, Feeding_guild %in% c("h","o"))
+load("../data/arthropods_core_0.rData")
 
 monthvec <- c("Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez")
 
-plot(I(CollectionYear+match(CollectionMonth, monthvec)/12) ~ as.integer(PlotID) , data = arthropods_core, pch = 20, xaxt = "n", col = selector+1, yaxt = "n", ylim = c(2008,2013))
+plot(I(CollectionYear+match(CollectionMonth, monthvec)/12) ~ as.integer(PlotID) , data = arthropods_core_0, pch = 20, xaxt = "n", col = selector+1, yaxt = "n", ylim = c(2008,2013))
 axis(2, at = 2008:2012)
-axis(1, at = 1:150, labels = levels(arthropods_core$PlotID), las = 2)
+axis(1, at = 1:150, labels = levels(arthropods_core_0$PlotID), las = 2)
 # lapply(unique( arthropods_core$CollectionYear), function(y) unique(subset(arthropods_core, CollectionYear == y)$CollectionMonth) )  # check which months were sampled each year
 axis(4, at = seq(2008,2012, 1/12)[-1], labels = rep(month.abb, 4), las = 1, cex = 0.6)
 abline(h = seq(2008,2012, 1/12)[-1], col = "#00000020")
@@ -39,17 +50,26 @@ abline(v = 1:150, col = "#00000020" )
 ```
 
  
-There is an issue with the inconsistency of the number of replicates per year per plot. VIPs have been sampled four to six times, while most EPs have been sampled only twice until 2010. After 2011 they have been sampled five or six times. For calculating the community weighted means, I will have to sum the species numbers and devide by the number of replicates. When it comes to measures of variation, it will be heterogeneous just because of the difference in n. I guess this means that I need to either form subsets with only two replicates per year taken into account even for VIPs (June and August). 
+There is an issue with the inconsistency of the number of replicates per year per plot. VIPs have been sampled four to six times, while most EPs have been sampled only twice until 2010. After 2011 they have been sampled five or six times. For calculating the community weighted means, I will have to sum the species numbers and devide by the number of replicates. When it comes to measures of variation, it will be heterogeneous just because of the difference in n. I guess this means that I need to either form subsets with only two replicates per year taken into account even for VIPs. 
 
-Martin confirmed this issue and also the use of the data selection process. For the data of Schorfheide, there was a shift in the sampling month in 2009, which has to be taken into account.  He promised to send me a dataset that is readily compiled and includes abundance data summed over the two sampling events per year.
+Martin confirmed this issue and also the use of the data selection process. For the data of Schorfheide, there was a shift in the sampling month in 2009, which has to be taken into account.  He promised to send me a dataset that is readily compiled and includes abundance data for each plot, summed over the two  comparable sampling events per year (June and August).
 
-## Trait data
+```{r, echo = FALSE, message= FALSE, warning = FALSE}
+arthropods_core <- read.csv2("../data/arthropods_core/Arthropods_GL_0813.csv")
+predators_core <- subset(arthropods_core, Feeding_guild == "c")
+herbivores_core <- subset(arthropods_core, Feeding_guild %in% c("h","o"))
+
+```
+
+I am working with this dataset now, but will require a file transfer via BexIS prior to publication. 
+
+# Trait data
 
 Trait data originate from two sources. First, the database compiled by Martin Gossner and Nadja Simons:
 
 > Gossner MM, Simons NK, Achtziger R, Blick T, Dorow WHO, Dziock F, Köhler F, Rabitsch W, Weisser WW (2015) A summary of eight traits of Coleoptera, Hemiptera, Orthoptera and Araneae, occurring in grasslands in Germany. Scientific Data 2: 150013. http://dx.doi.org/10.1038/sdata.2015.13 and Data http://dx.doi.org/10.5061/dryad.53ds2
 
-This database is covering most of the species that occur in the abundance data and includes nine traits: 
+With Araneae (177 species), Coleoptera (690), Hemiptera (331), and Orthoptera (32), this database is covering most of the species that occur in the abundance data and includes nine traits: 
  
 - body size [mm]
 - dispersal ability: defined as no dispersal (0), low passive dispersal (0.25), minor flying ability for movement and colonization (0.5), average individual movement and colonization dynamics (0.75) and high individual movment and colonization (floating, 1.0)
@@ -61,24 +81,180 @@ This database is covering most of the species that occur in the abundance data a
 - endophagous lifestyle (within herbivores): 
 - stratum use: ground (g), stem (s), 
 
-```{r, fig.height = 7, fig.width = 3}
+Only body size is a numeric trait (average adult body length from literature). All others are based on factorial classes. Feeding traits are only meaningful for herbivorous species.
 
-library(rgl)
-library(vegan)
-library(labdsv)
-library(geometry)
+\newpage
 
-load("data/cwm_herbivores.rData")
-load("data/cwm_predators.rData")
-load("data/lui.rData")
-load("data/arthropod_trait_matrix.rData")
-source("R/cwm.r")
-source("R/crystalplot.r")
-source("R/trait_pca.r")
+## Trait diversity within predators and herbivores 
 
-par(mfrow = c(2,1))
+We plot correlations and distributions of arthropod species traits. 
 
-trait_pca(cwm_herbivores, log = FALSE)
-trait_pca(cwm_predators, log = FALSE)
+```{r,  fig.cap = "Distribution and correlation of trait values within arthropods.",  echo = FALSE, fig.height = 7, fig.width = 7, echo = FALSE, message= FALSE, warning = FALSE}
+load("../data/arthropod_trait_matrix.rData")
+
+panel.hist <- function(x, ...)
+{
+    usr <- par("usr"); on.exit(par(usr))
+    par(usr = c(usr[1:2], 0, 1.5) )
+    h <- hist(x, plot = FALSE)
+    breaks <- h$breaks; nB <- length(breaks)
+    y <- h$counts; y <- y/max(y)
+    rect(breaks[-nB], 0, breaks[-1], y, col = "black", ...)
+}
+
+pairs(arthropod_trait_matrix[6:11], pch = 20, upper.panel = panel.lm, lower.panel = panel.lm, diag.panel = panel.hist)
 
 ```
+
+Trait values of arthropods are highly correlated. Body size drives dispersal, stratum use and degree of specialisation. Columns `Feeding_sukers` and `Feeding_chewers` are mostly inverse of each other (very few species have other feeding modes) and both correlate with dispersal and stratum use, but not body size. 
+
+**Task:** define appropriate transformations to normalize traits, e.g. log-transform body size. 
+
+If looking at distribution of species in trait space, we find clear strategic spread of chewers and suckers on Axis 1, and of body size, correlated with specialisation and stratum use on Axis 2. Dispersal ability adds a significant diagonal pull. 
+
+```{r, fig.cap = "PCA of arthropod trait space.", fig.height = 4, fig.width = 4, echo = FALSE, message= FALSE, warning = FALSE, fig.margin = TRUE}
+pca_traits <- rda( na.omit(arthropod_trait_matrix[6:11]), scale = TRUE)
+eig_rel <- round(eigenvals(pca_traits)/sum(eigenvals(pca_traits))*100,1)
+
+biplot(pca_traits, 
+       scaling = -1, 
+       xlab = paste0("PC1 (", eig_rel[1], "%)"),
+       ylab = paste0("PC2 (", eig_rel[2], "%)"),
+       cex = 0.5, pch = 20) -> fig
+  points(fig, "sites", pch = 20, col = "#00000020")
+  text(fig, "species", col="red", cex= 1)
+
+```
+
+## Trait distribution across regions
+
+The next step is to look at variation of community averaged traits, a.k.a. community weighted means (CWM). The rationale is that each locality selects for traits based on the environmental conditions and land management regime, which drive the ecosystem along a fast-slow continuum of plant traits and subsequently selects for matching arthropod traits. The correlation of traits in individuals is interpolated to the CWM level.
+
+```{r, fig.cap = "Correlation diagram for community weighted means of predator traits.",  fig.height = 4.5, fig.width = 7, echo = FALSE, message= FALSE, warning = FALSE,}
+
+load("../data/cwm_predators.rData")
+
+pairs(cwm_predators[3:5], pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = cwm_predators$Region, oma = c(2,9,2,9))
+
+#with(na.omit(cwm_predators[3:5]), crystalplot(log(Body_Size),(Dispersal_ability),(Stratum_use_numeric), col = rainbow(3)[as.integer(Region)] ))
+
+```
+
+In predators, body size defines stratum use and in ALB also positively correlates with dispersal.  
+
+```{r, fig.cap = "Correlation diagram for community weighted means of herbivore traits.",  fig.height = 7, fig.width = 7, echo = FALSE, message= FALSE, warning = FALSE}
+
+load("../data/cwm_herbivores.rData")
+pairs(cwm_herbivores[,c(3:6)], pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = cwm_predators$Region)
+
+#with(na.omit(cwm_herbivores), crystalplot(log(Body_Size),(Dispersal_ability),(Feeding_suckers), col = rainbow(3)[as.integer(Region)] ))
+
+```
+
+Herbivores are even more structured by body size, with prominent correlations with dispersal ability (across all regions) and on suction feeding (not in Schorfheide). In addition, stratum use and dispersal are correlated.  
+
+
+Consequently, the trait space of herbivores and predators span primarily along body size. In herbivores, the second axis aligns with sucktion feeding and stratum use, with dispersal ability influencing both axes. In predators body size aligns with stratum use and is orthogonal to dispersal ability. 
+
+```{r, fig.cap = "PCA of multiple community weighted means for a) herbivores and b) predators. Correlations with land use factors mapped on top.", fig.height = 7, fig.width = 3.5, echo = FALSE, message= FALSE, warning = FALSE, fig.margin = TRUE}
+par(mfrow = c(2,1), mar = c(4,4,1,1))
+
+trait_pca(cwm_herbivores, 
+          traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric", "Feeding_suckers"), 
+          log = FALSE, cex = 1) -> pca_herbivores
+mtext("herbivores")
+trait_pca(cwm_predators, 
+          traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"),
+          log = FALSE, cex = 1) -> pca_predators
+mtext("predators")
+```
+
+The community weighted mean of traits should therefore change along this gradient.  LUI as a drivers corresonds strongest with dispersal ability. The relative importance of grazing vs. mowing seems to be very different in herbivores and predators. 
+
+
+## Correlation of community trait spaces
+
+Based
+
+```{r, fig.height = 4.5, fig.width = 9, echo = FALSE, message= FALSE, warning = FALSE, fig.fullwidth = TRUE}
+
+dd <- cbind(as.data.frame(pca_predators$CA$Xbar), as.data.frame(pca_predators$CA$u) )
+dd$Region <- as.factor(substr(rownames(pca_predators$CA$Xbar), 6,8) )
+
+
+par(mfrow = c(2,3))
+plot_by(dd$PC1, dd$Body_Size, dd$Region, xlab = "PC1", ylab = "Body Size")
+plot_by(dd$PC1, dd$Stratum_use_numeric, dd$Region, xlab = "PC1", ylab = "Stratum use")
+plot_by(dd$PC1, dd$Dispersal_ability, dd$Region, xlab = "PC1", ylab = "Dispersal ability")
+
+plot_by(dd$PC2, dd$Body_Size, dd$Region, xlab = "PC2", ylab = "Body Size")
+plot_by(dd$PC2, dd$Stratum_use_numeric, dd$Region, xlab = "PC2", ylab = "Stratum use")
+plot_by(dd$PC2, dd$Dispersal_ability, dd$Region, xlab = "PC2", ylab = "Dispersal ability")
+
+
+dd <- cbind(as.data.frame(pca_herbivores$CA$Xbar), as.data.frame(pca_herbivores$CA$u) )
+dd$Region <- as.factor(substr(rownames(pca_herbivores$CA$Xbar), 6,8) )
+
+par(mfrow = c(2,5))
+plot_by(dd$PC1, dd$Body_Size, dd$Region, xlab = "PC1", ylab = "Body Size")
+plot_by(dd$PC1, dd$Stratum_use_numeric, dd$Region, xlab = "PC1", ylab = "Stratum use")
+plot_by(dd$PC1, dd$Dispersal_ability, dd$Region, xlab = "PC1", ylab = "Dispersal ability")
+plot_by(dd$PC1, dd$Feeding_specialization_numeric, dd$Region, xlab = "PC1", ylab = "Specialisation")
+plot_by(dd$PC1, dd$Feeding_suckers, dd$Region, xlab = "PC1", ylab = "suction feeding")
+
+plot_by(dd$PC2, dd$Body_Size, dd$Region, xlab = "PC2", ylab = "Body Size")
+plot_by(dd$PC2, dd$Stratum_use_numeric, dd$Region, xlab = "PC2", ylab = "Stratum use")
+plot_by(dd$PC2, dd$Dispersal_ability, dd$Region, xlab = "PC2", ylab = "Dispersal ability")
+plot_by(dd$PC2, dd$Feeding_specialization_numeric, dd$Region, xlab = "PC2", ylab = "Specialisation")
+plot_by(dd$PC2, dd$Feeding_suckers, dd$Region, xlab = "PC2", ylab = "suction feeding")
+
+
+
+
+```
+
+
+
+## PCA axis mapping within regions
+
+Alternatively, looking at the trait spaces within the three exploratories separately corroborates the universal trends, although with flipped axes, i.e. the traits are of different importance in the regions but, relative to each other, align similarly. E.g. body size and stratum use are orthogonal for herbivores. 
+
+```{r, fig.cap = "PCA of community weighted means within Exploratories/regions. top row: herbivores, bottom row: predators",  fig.height = 5, fig.width = 9, echo = FALSE, message= FALSE, warning = FALSE, fig.fullwidth = TRUE}
+par(mfcol = c(2,3), mar = c(4,5,2,1))
+
+for(i in levels(cwm_herbivores$Region)) {
+  
+trait_pca(subset(cwm_herbivores, Region == i), 
+          traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric", "Feeding_suckers"), 
+          log = FALSE, cex = 1) 
+mtext(i) 
+trait_pca(subset(cwm_predators, Region == i), 
+          traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"),
+          log = FALSE, cex = 1) 
+}
+
+```
+
+We conceptualise the community energetic spectrum as a underlying framework, which asks where all plots are located in a universal trait space and whether they cluster or spread differently depending on the environmental conditions. Therefore, a single trait mapping across all regions reflects this much better. 
+
+
+
+
+par(mfrow = c(2,3))
+for(i in  2008:2013) {
+  trait_pca(subset(cwm_predators, Year == i), 
+          traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"), 
+          log = TRUE, cex = 1) 
+ mtext(i)
+
+}
+
+
+par(mfrow = c(2,3))
+for(i in  2008:2013) {
+  trait_pca(subset(cwm_herbivores, Year == i), 
+          traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric", "Feeding_specialization_numeric", "Feeding_suckers"), 
+          log = TRUE, cex = 1) 
+ mtext(i)
+
+}

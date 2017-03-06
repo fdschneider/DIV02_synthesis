@@ -1,0 +1,19 @@
+---
+title: "Notes of synthesis meeting"
+author: "Florian D. Schneider"
+date: "18 November 2016"
+output: html_document
+---
+
+Presented the project at synthesis meeting in Bern. 
+Some discussion led to the following issues: 
+
+- Santi suggests to test interactive effects in the SEM of LUI and the PC axes. 
+- Dani: reconsider r-K terminology, because controversial regarding size. rathre tall--short
+- Fons: Why funnel shaped PCA patterns? Mathematical artifact
+- Correlation is counter-intuitive: LUI should foster fast growing plants. Currently opposite is the case
+- Santi: Test top-down effects as opposed to bottom-up. Predators on Herbivores on Plants
+- How to enter temporal effects? causality analysis
+
+- Soil data: Protists? 
+- Bacteria: 2011 data of soil propoerties and major groups of bacteria are available, no OTU based analysis yet. (ask Kirstin Kaiser)

@@ -7,6 +7,20 @@ output:
   tufte::tufte_html: default
 ---
 
+
+```{r}
+
+library(rgl)
+library(vegan)
+library(labdsv)
+library(geometry)
+library(reshape2)
+library(plyr)
+
+l_ply(as.list(paste0("R/",dir("R"))), source )
+
+```
+
 # Abundance Data
 
 The plant relevés for all EP plots have been available on BExis under ID 19686. 
@@ -24,38 +38,79 @@ The derived raw-data table is stored in `data/plants_full.rData`.
 I placed a data request at TRY-db.org and requested all species listed in the vegetation relevés (for a full species list see  `data/plants_traits_TRY/TRY_species_requested.csv` ) and the following traits: 
 Leaf area [#1], Leaf area per leaf dry mass (specific leaf area, SLA) [#11], Leaf dry mass [#55], Leaf dry mass per leaf fresh mass (Leaf dry matter content, LDMC) [#47], Leaf nitrogen (N) content per leaf dry mass [#14], Leaf phosphorus (P) content per leaf dry mass [#15], Leaf thickness [#46], Plant height [#18], Plant nitrogen fixation capacity [#8], Plant palatability [#679], Pollination syndrome [#29], Rooting depth [#6], Seed dry mass [#26], Stem dry mass per stem fresh volume (stem specific density, SSD, wood density) [#4]
 
-The raw data received from TRY (downloaded on 01.08.2016, referenced data request #2181) included multiple datasets of several authors. Many of the lines include additional data and were excluded. Trait data were averaged per author and then per species. 
+All tree or large shrubs were removed from the dataset, since the plots sampled where grasslands by definition. Tree species are expected to have low cover, but they can massively bias the weighted means due to their surplus in trait values in orders of magnitude. 
 
-All tree or large shrubs were removed from the dataset, since the plots sampled where grasslands by definition. Tree species should have comparable low cover, but they can massively bias the weighted means due to their surplus in trait values in orders of magnitude. 
+Further fixes to the original data frame were applied:
+
+- set logical StdValue for nitrogen fixation ability with 0 for non-fixing and 1 for fixing plants.
+- remove Plant palatability from dataset, since it only comes for few plant species 
+
+The raw data received from TRY (downloaded on 01.08.2016, referenced data request #2181) included multiple datasets of several authors. Many of the lines include additional data and were excluded. Trait data were averaged per author and then per species. 
 
 Outlier trait observations were removed (outside 95%-confidence interval on log-transformed data). 
 
 **ToDo:** calculate LMA from leaf mass and leaf area. 
+
+## trait data structure
+
+```{r}
+load("data/plant_trait_matrix.rData")
+
+panel.hist <- function(x, ...)
+{
+    usr <- par("usr"); on.exit(par(usr))
+    par(usr = c(usr[1:2], 0, 1.5) )
+    h <- hist(x, plot = FALSE)
+    breaks <- h$breaks; nB <- length(breaks)
+    y <- h$counts; y <- y/max(y)
+    rect(breaks[-nB], 0, breaks[-1], y, col = "black", ...)
+}
+
+pairs(plant_trait_matrix[2:11], pch = 20, upper.panel = panel.lm, lower.panel = panel.lm, diag.panel = panel.hist)
+
+
+```
+
+# community weighted means
 
 A species -- trait matrix was compiled and serves as source for the calculation of community weighted means (stored in `cwm_plants.rData`). 
 
 # Data structure
 
 ```{r}
-library(rgl)
-library(vegan)
-library(labdsv)
-library(geometry)
-
 source("R/cwm.r")
 source("R/crystalplot.r")
 source("R/trait_pca.r")
 load("data/cwm_plants.rData")
 
-with(na.omit(cwm_plants), crystalplot(log(leaf_N),log(leaf_P),log(stem_drymass), col = rainbow(8)[as.integer(Year)] ))
-with(na.omit(cwm_plants), crystalplot(log(seedmass),log(leaf_area),log(SLA), col = rainbow(8)[as.integer(Year)] ))
+#with(na.omit(cwm_plants), crystalplot(log(leaf_N),log(leaf_P),log(stem_drymass), col = rainbow(8)[as.integer(Year)] ))
+#with(na.omit(cwm_plants), crystalplot(log(seedmass),log(leaf_area),log(SLA), col = rainbow(8)[as.integer(Year)] ))
 
-cwm_pca <- prcomp(log(na.omit(cwm_plants[,-c(1:2)])))
-summary(cwm_pca)
-biplot(cwm_pca)
+pairs(cwm_plants[3:11], pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = cwm_plants$Region, oma = c(2,9,2,9), diag.panel = panel.hist)
 
+pairs(log(cwm_plants[3:11]), pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = cwm_plants$Region, oma = c(2,9,2,9), diag.panel = panel.hist)
 
-trait_pca(cwm_plants, log = TRUE)
+trait_pca(cwm_plants, 
+          traits = c("SLA", "leaf_N", "LMA", "height", "leaf_area", "seedmass", "stem_drymass", "leaf_thickness", "Nfixation", "palatability"), 
+          log = TRUE, cex = 1, col = "grey90") -> pca_plants
+
+#plot(NA,NA, xlim= range(pca_plants$CA$u[,1]), ylim = range(pca_plants$CA$u[,2]))
+
+dd <- as.data.frame(pca_plants$CA$u)
+dd$Plot_ID <- substr(rownames(dd), 6, 10)
+
+for(i in unique(cwm_plants$EP_PlotId)[90:100]) {
+ lines(PC2 ~ PC1, data = subset(dd, Plot_ID == i))
+}
+
+par(mfrow = c(2,3))
+for(i in  2008:2013) {
+  trait_pca(subset(cwm_plants, Year == i), 
+          traits = c("SLA", "leaf_N", "LMA", "height", "leaf_area", "seedmass", "stem_drymass"), 
+          log = TRUE, cex = 1) 
+ mtext(i)
+
+}
 
 
 ```

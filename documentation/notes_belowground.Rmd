@@ -1,0 +1,99 @@
+---
+title: "notes on belowground data"
+author: "Florian D. Schneider"
+date: "22 Februar 2017"
+output: html_document
+---
+
+
+
+# Soil PLFA based measures
+
+## Fungal/Bacteria ratio
+
+include!
+ 
+based on PLFA markers, 
+
+## Cmic, Nmic ratio
+
+Definitely include!
+A ratio ~ 5 marks bacterial dominance. 
+
+## Ergosterol
+
+fungal marker (protein of biomembrane) incompatible with PLFA measurements, 
+
+## Protozoa/Invertebrates
+
+PLFA marker for invertebrate 
+
+
+## Enzyme activities
+
+- nitrification
+- denitrification 
+
+- Urease: corresponds to fertilization and grazing activity
+- phosphatase: acidity (pH) of soils 
+- beta-Glucosidase: litter decomposition and cellulose degradation
+- xylosidase: stonger activity in decomposition, hemicellulose decomposition
+- chitinase/n-acetyl-beta-glucosamidase: carbon breakdown, litter decomposition, responds to high density of soil invertebrates
+
+Representation of potential function, due to buffering. Might be included because soil groups are interestet? Maybe map as predictor traits? Better include metagenomic data: OTU plus functional traits. 
+
+Fierer et al 2006 Ecology, Trait spectra of microbes. Current work? Activity on traits by Core microbiology group: J. Overmann? 
+
+Data assembled by the core synthesis project. 
+
+
+# Fungi (Tesfaye Wubet, Kezia Goldmann)
+
+OTU species lists, grouping of:
+
+- saprotrophs, 
+- pathogens, 
+- arbuscular myc., 
+- ectomyc., 
+- ericacea myc.
+
+calculate proportions of those (binary to cwm)
+
+In grasslands, myccorhiza are minor. Dominance of saprotrophs and pathogenic fungi. 
+
+Bexis IDs
+
+available for 2011; data for 2014 can be priorized if needed. 
+
+# protist data on Acanthamoeba and Myxomycetes (Michael Bonkowski, Anna-Maria Fiore-Donno)
+
+First of all, our sequencing nearly reached saturation - that means the 
+sequences per site are not found due to merely chance events, but 
+reflect the 'real' diversity in that group.
+Second, both groups are phylogenetically highly diverse, and they showed 
+high beta diversity between grassland sites.
+If you need it, we can also assign real taxonomic names to the OTUs, 
+although as often for protists, some "species" are species clusters with 
+broad phylogenetic dispersion, and other "species" occur repeatedly on 
+distant branches in the phylogeny, showing that they are in fact several 
+different taxa. Therefore "OTU" is more reliable for non-experts.
+
+BeXis dataset IDs are:
+18166 Aca AEG
+18207 Aca HEG
+18208 Aca SEG
+18226 Myx AEG
+18187 Myx HEG
+18206 Myx SEG
+
+The data are fully accessible as supplementary material in our article:
+Fiore-Donno AM, Weinert J, Wubet T & Bonkowski M. 2016. Metacommunity 
+analysis of amoeboid protists in grassland soils. Sci Rep, 6:19068. 
+doi:[10.1038/srep19068](http://www.nature.com/articles/srep19068).
+At your disposal should you need more information!
+
+# Bacterial metagenome data (Rolf Daniel, Kristin Kaiser, Heiko Nacke, Göttingen)
+
+OTUs for 2011 are analysed and online on Bexis (#19526), resolved for taxa. Translate taxa using Fierer scheme. 
+
+
