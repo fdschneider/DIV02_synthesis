@@ -1,0 +1,92 @@
+---
+title: "Gap analysis of arthropod traits"
+author: "Florian D. Schneider"
+date: "9 März 2017"
+output: pdf_document
+---
+
+
+# Available data
+
+As **abundance data**, I am refering to 
+
+> Arthropods_GL_0813.csv  :  direct transfer from Martin Gossner
+
+```{r}
+
+arthropods_core <- read.csv2("data/arthropods_core/Arthropods_GL_0813.csv")
+predators_core <- subset(arthropods_core, Feeding_guild == "c")
+herbivores_core <- subset(arthropods_core, Feeding_guild %in% c("h","o"))
+
+```
+
+
+The data sheet contains the pooled abundance data of arthropod core project samplings in 2008 -- 2013 of all EPs in month June and September. Extra samplings on VIPs have been omitted to match the sampling of the EP plots. 
+
+As **trait data**, I am refering to 
+
+> ArthropodSpeciesTraits.csv   from   Gossner MM, Simons NK, Achtziger R, Blick T, Dorow WHO, Dziock F, Köhler F, Rabitsch W, Weisser WW (2015) Data from: A summary of eight traits of Coleoptera, Hemiptera, Orthoptera and Araneae, occurring in grasslands in Germany. Dryad Digital Repository. http://dx.doi.org/10.5061/dryad.53ds2
+
+
+```{r}
+arthropod_traits <- read.csv("data/arthropod_traits/ArthropodSpeciesTraits.csv", sep = ";")
+```
+
+
+# completeness of data? 
+
+## 1. which abundant species are missing on the trait list
+
+I am looking for species relative abundance > 5% within their functional group on a plot (split data for herbivores and predators). 
+
+```{r}
+# herbivores
+summed_abundances <- plyr::ddply(herbivores_core, .(EP,Year), summarise, sum = sum(Abundance) )
+
+herbivores_core$rel_abundance <- herbivores_core$Abundance/summed_abundances$sum[match( paste0(herbivores_core$EP, herbivores_core$Year), paste0(summed_abundances$EP, summed_abundances$Year))]
+  
+rel_abundances <- plyr::ddply(herbivores_core, .(SpeciesID), summarise, max = max(rel_abundance), mean = mean(rel_abundance), min = min(rel_abundance) )
+  
+hist(rel_abundances$max, breaks = 32)
+
+dominant_herbivores <- subset(rel_abundances, max > 0.05)$SpeciesID
+
+traits = c("Body_Size", "Dispersal_ability", "Stratum_use_short", "Feeding_tissue", "Feeding_specialization", "Feeding_plant_part")
+
+missing_herbivores <- subset(arthropod_traits, SpeciesID %in% dominant_herbivores)[,  c("SpeciesID", traits)]
+missing_herbivores[-1] <- !is.na(missing_herbivores[-1])
+missing_herbivores <- cbind(missing_herbivores, rel_abundances[match( missing_herbivores$SpeciesID,rel_abundances$SpeciesID), c("max", "mean", "min")])
+missing_herbivores <- missing_herbivores[rev(order(missing_herbivores$mean)),]
+
+write.csv(missing_herbivores, file = "gaps_herbivores.csv")
+
+```
+
+```{r}
+
+# predators
+summed_abundances <- plyr::ddply(predators_core, .(EP,Year), summarise, sum = sum(Abundance) )
+
+predators_core$rel_abundance <- predators_core$Abundance/summed_abundances$sum[match( paste0(predators_core$EP, predators_core$Year), paste0(summed_abundances$EP, summed_abundances$Year))]
+  
+rel_abundances <- plyr::ddply(predators_core, .(SpeciesID), summarise, max = max(rel_abundance), mean = mean(rel_abundance), min = min(rel_abundance) )
+  
+hist(rel_abundances$max, breaks = 32)
+
+dominant_predators <- subset(rel_abundances, max > 0.05)$SpeciesID
+
+traits = c("Body_Size", "Dispersal_ability", "Stratum_use_short", "Feeding_tissue", "Feeding_specialization", "Feeding_plant_part")
+
+missing_predators <- subset(arthropod_traits, SpeciesID %in% dominant_predators)[,  c("SpeciesID", traits)]
+missing_predators[-1] <- !is.na(missing_predators[-1])
+missing_predators <- cbind(missing_predators, rel_abundances[match( missing_predators$SpeciesID,rel_abundances$SpeciesID), c("max", "mean", "min")])
+missing_predators <- missing_predators[rev(order(missing_predators$mean)),]
+
+write.csv(missing_herbivores, file = "gaps_predators.csv")
+
+
+```
+
+
+
+
