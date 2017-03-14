@@ -98,3 +98,17 @@ plant_trait_matrix$LMA <- with(plant_trait_matrix, leaf_drymass/leaf_area)
 save(plant_trait_matrix, file = "data/plant_trait_matrix.rData")
 
 rm(plant_traits, clean_out, plant_traits_raw, plant_trait_datasets, plant_trait_authors, plant_trait_species, plant_traits_perauthor, plant_traits_clean)
+
+
+if(FALSE){
+  dd_0 <- na.omit(plant_trait_matrix[,c("SLA", "leaf_N", "LMA",  "seedmass","height", "stem_drymass")]) 
+  
+  pca_dd <- rda(dd_0, scale = TRUE)
+  eig_rel <- round(eigenvals(pca_dd)/sum(eigenvals(pca_dd))*100,1)
+  biplot(pca_dd, scaling = -1, 
+         xlab = paste0("PC1 (", eig_rel[1], "%)"),
+         ylab = paste0("PC2 (", eig_rel[2], "%)"),
+         col = c("#000000", "red")) -> fig
+  points(fig, "sites", pch = 20, col = "#000000")
+  text(fig, "species", col="red", cex= 1)
+}
