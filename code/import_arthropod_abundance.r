@@ -35,7 +35,7 @@ save(arthropods_core_0, file = "data/arthropods_core_0.rData")
 
 arthropods_core <- read.csv2("data/arthropods_core/Arthropods_GL_0813.csv")
 predators_core <- subset(arthropods_core, Feeding_guild == "c")
-herbivores_core <- subset(arthropods_core, Feeding_guild %in% c("h","o"))
+herbivores_core <- subset(arthropods_core, Feeding_guild %in% c("h"))
 
 # These data have been sent to me directly by Martin Gossner. (TODO: transfer via BExis). They contain the pooled abundance data of arthropod core project samplings in 2008 -- 2013 of all EPs. Extra samplings on VIPs have been omitted to match the sampling of the EP plots. 
 
