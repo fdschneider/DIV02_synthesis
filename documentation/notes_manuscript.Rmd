@@ -11,26 +11,42 @@ output: html_document
 
 # Introduction 
 
-The positioning of species along axes of functional traits reflect their different economic strategies. The correlation between many functional traits allows ecologists to classify them along major axes of evolutionary trade-off.  
-This has been shown for plants (Diaz et al, Lavorell et al), animals (Gross et al, Violle et al, Gossner et al, Gamez-Virues et al 2015) and microbes (Fierer et al). Plants major trade-offs have been described since the beginnings of ecology, as Ellenberg values, MacArthurs r-K strategists, or the Universal adaptive strategy theory (Grime triangle of ruderals, competitors and stress-tolerant species). Arthropod trait variation aggregates into three different trait syndromes along specialisation and size. 
+The positioning of species along axes of functional traits reflect their different economic strategies. The correlation between many functional traits (Wright et al. 2004; Baraloto et al. 2010) allows ecologists to classify them along major axes of evolutionary trade-off.  
+This has been shown for plants (Diaz et al, Lavorell et al), animals (Gross et al, Violle et al, Gossner et al, Gamez-Virues et al 2015) and microbes (Fierer et al). Plants major trade-offs have been described since the beginnings of ecology, as Ellenberg values, MacArthurs r-K strategists, or the Universal adaptive strategy theory (Grime triangle of ruderals, competitors and stress-tolerant species, Grime et al 2007, Pierce et al 2013, Pierce et al 2016). Analogue to that, arthropod trait variation aggregates into three different trait syndromes along specialisation and size. Microbial trait variation is ordered along a aquisitive--competitive axis, as well (Fierer et al. 2006). 
 
 Environmental filtering selects for species of certain trait combinations. Only certain kinds of species are coping with the conditions that the local environment provides. Land-use intensification and climate change are the most important drivers of such filtering processes. For instance, it has been shown that grasslands that experience frequent cutting are composed of more fast-growing grasses and herbs than extensively used meadows,  which contain more slow-growing and long-lived species. 
 
 Additionally, the established influences between the functional groups represented in an ecosystem selects for the best species or set of species to fill the different functional niches. In consequence, the top-down and bottom-up processes that excert pressure on or provide resource for a functional group or trophic level must also be considered as an environmental filter. Thus, it is also a matter of complementarity and redundancy, which species persevere in a given community.  
 
-A multitude of mechanism for this cross-ecosystem matchmaking of functional traits. Leaf strengths and mouthpart strengths (LeProvost et al), Fast-growing competitors and Herbivore generalisation of resource (Simons et al, Boerschig et al, Mangels et al).  the type of organic matter that feeds the soil compartment select for certain kinds of Bacteria and fungi which use plant root exudates and litter as a reseource.
+A multitude of mechanism for this cross-ecosystem matchmaking of functional traits has been described. Leaf strengths and mouthpart strengths (LeProvost et al), Fast-growing competitors and Herbivore generalisation of resource (Simons et al, Boerschig et al, Mangels et al) [more examples]. Predator preference for a prey body size scales with predator body size (Kalinkat et al 2013, Brose et al 2006). the type of organic matter that feeds the soil compartment select for certain kinds of Bacteria and fungi which use plant root exudates and litter as a resource. [examples for bacteria/fungi and protists]
 
-In this study, we describe the principal axes of trade-off for the above and belowground functional groups of grasslands by comparing 150 grassland ecosystems in Germany: the Biodiversity Exploratories framework captures a climatic north-to-south gradient as well as the anthropogenic land-use intensity in cultural landscapes. 
+In this study, we describe the principal axes of economic trade-offs and their major factors of environmental filtering for the above and belowground functional groups of grasslands by comparing 150 grassland ecosystems in Germany: the Biodiversity Exploratories framework captures a climatic north-to-south gradient as well as the anthropogenic land-use intensity in cultural landscapes. 
 
-This allows us to project individual-level functional traits to ecosystem-level drivers and eventually will improve our mechanistic understanding of ecosystem-level functioning provided by the species community assemblage.  
+This allows us to project individual-level functional traits to ecosystem-level drivers and eventually will improve our mechanistic understanding of ecosystem-level functioning provided by the species community assemblage.  (McGill et al 2006)
+
+# Results
+
+The principal constraints on trait spaces of the different trophic levels are represented as first and second PCA Axes. 
+
+## Aboveground trait spaces
+
+PCA results
+
+## Belowground trait spaces
+
+
+## Trait matching
+
+correlation table? 
+
+
+## Drivers of trade offs
+
+SEM results
 
 
 # Discussion
 
-Relate pattern to Function:
-
-Eric Allan: 
-pETchy, Ecosystem Services and Functions,  
 
 Microbiology: 
 ScaleMic, MicroSYSteM, understand Microbial processes, Function exerted, KEGG categories for functional gene markers. 
@@ -38,4 +54,48 @@ ScaleMic, MicroSYSteM, understand Microbial processes, Function exerted, KEGG ca
 Adding further functional groups: 
 - ants
 - pollinators
-- 
+
+
+
+Relate pattern to Function:
+Eric Allan: pETchy, Ecosystem Services and Functions,  
+
+
+
+# Methods
+
+## Plant cover assessment
+
+## Arthropod sampling
+Core sampling, pooled abundances from two samplings each year (June & September) by sweep-netting. Years 2008 - 2015. 
+## Trait data
+Try data for plants, corrections and selection of species
+Arthropod traits see Gossner et al 2015
+
+gap-filling of missing trait values using Hierarchical Probabilistic Matrix Factorisation (Shan et al 2012, Schrodt et al 2015, Diaz et al 2016).  Species within the same taxon will likely have similar trait values. Using species mean within taxon levels for gap filling is the simplest assumption. The hierarchy walks down from phylum, family, genus, and species. 
+
+## Soil data
+microbial C/ microbial N ratio, values ~5 indicate Bacterial dominance, which indicates fast turnover soils which usually is associated with nutrient and fertilizer addition
+PLFA based metrics: bacterial/fungal ratio, Invertebrate markers
+Enzyme activities:
+- Urease: responds to fertilization and grazing activity
+- Phosphatase: Acidity, responds to pH
+- beta-Glucosiddase: litter decomposition and cellulose decomposition
+- xylosidase: hemicellulose decomposition, litter 
+- chitinase: Carbon decomposition, litter from arthropods 
+<!--OTUs, relative abundance of taxa, mapped to function following Fierer et al. -->
+## Protist data
+## Environmental parameters
+land-use intensity (LUI), and land use factors
+Topographic parameters (elevation, slope, TWI)
+Soil pH 
+## Analyses
+derivation of principal axes in trait space
+Correlation analysis with SEM 
+## Reproducibility: Data & Code availability
+Code available on GitHub
+Data available via BExIS (registration required) under the given IDs. 
+
+# Acknowledgements
+
+# References
