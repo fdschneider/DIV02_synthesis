@@ -68,7 +68,7 @@ if(FALSE){
 
 if(FALSE){
   mfrow3d(2,2)
-  with(na.omit(cwm_plants), crystalplot(log(height),log(leaf_N),log(LMA), col = "black", xlab = "plant height", ylab = "leaf N", zlab = "LMA"))
+  with(na.omit(cwm_plants), crystalplot(log(height),log(leaf_N),log(SLA), col = "black", xlab = "plant height", ylab = "leaf N", zlab = "SLA"))
   
   with(na.omit(cwm_herbivores), crystalplot(log(Body_Size),(Dispersal_ability),(Stratum_use_numeric), col = "black", xlab = "body size", ylab = "Dispersal ability", zlab = "Stratum use") )
   
@@ -115,15 +115,25 @@ dev.off()
 ### structural equation modelling
 
 
-fit6 <-  sem('PC2_plants ~ LUI
-             PC1_plants ~ LUI
+load("data/sem_input.rData")
+
+
+library(lavaan)
+library(AICcmodavg)
+source("http://jarrettbyrnes.info/ubc_sem/lavaan_materials/lavaan.modavg.R")
+
+
+
+dd<- droplevels(dd)
+fit6 <-  sem('PC2_plants ~ LUI + TWI
+             PC1_plants ~ LUI + TWI
              PC1_herbivores ~ LUI + PC1_plants + PC2_plants
              PC2_herbivores ~  PC2_plants
              PC2_predators ~ PC1_herbivores + PC2_herbivores +PC1_plants
              PC1_predators ~ PC2_herbivores', 
              data = dd)
 
-summary(fit6)
 
+summary(fit6)
 
 ### build figures
