@@ -20,7 +20,7 @@ Additionally, the established influences between the functional groups represent
 
 A multitude of mechanism for this cross-ecosystem matchmaking of functional traits has been described. Leaf strengths and mouthpart strengths (LeProvost et al), Fast-growing competitors and Herbivore generalisation of resource (Simons et al, Boerschig et al, Mangels et al) [more examples]. Predator preference for a prey body size scales with predator body size (Kalinkat et al 2013, Brose et al 2006). the type of organic matter that feeds the soil compartment select for certain kinds of Bacteria and fungi which use plant root exudates and litter as a resource. [examples for bacteria/fungi and protists]
 
-In this study, we describe the principal axes of economic trade-offs and their major factors of environmental filtering for the above and belowground functional groups of grasslands by comparing 150 grassland ecosystems in Germany: the Biodiversity Exploratories framework captures a climatic north-to-south gradient as well as the anthropogenic land-use intensity in cultural landscapes. 
+In this study, we describe the principal axes of economic trade-offs and their major factors of environmental filtering for the above and belowground functional groups of temperate grasslands, by comparing 150 grassland ecosystems in Germany: the Biodiversity Exploratories framework captures a climatic north-to-south gradient as well as the anthropogenic land-use intensity in cultural landscapes. 
 
 This allows us to project individual-level functional traits to ecosystem-level drivers and eventually will improve our mechanistic understanding of ecosystem-level functioning provided by the species community assemblage.  (McGill et al 2006)
 
@@ -56,10 +56,10 @@ Adding further functional groups:
 - pollinators
 
 
-
 Relate pattern to Function:
 Eric Allan: pETchy, Ecosystem Services and Functions,  
 
+The proposed framework ordinates community traits found in temperate Grasslands in Germany but should apply to similar ecosystems across Europe. A Globalization of the framework is possible, by assessing the relative abundance of species across multiple functional groups for a wider variety of ecosystem types and combine these date with global trait databases.
 
 
 # Methods
