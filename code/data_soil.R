@@ -5,9 +5,7 @@
 
 
 
-## bacteria data
-
-
+# bacteria data
 
 IDs <- c(20250, 20251)
 
@@ -15,7 +13,7 @@ ddm <- lapply(IDs, function(ID) read.csv2(paste0("data/soil_2011_2014/", ID, ".t
 # original data 20250_SSC 2011, EP grassland, microbial soil properties, SCALEMIC_1.1.1; 
 
 
-# bind rows of two years into one table
+# combine rows of two years into one table
 microbial <- ddm[[1]]
 for(i in 2:length(IDs)) {
   microbial <- rbind(microbial, ddm[[i]])
@@ -54,3 +52,33 @@ rm(microbial, ddm, IDs)
 # enzyme$Region <- lui$Exploratory[match(enzyme$EP_Plot_ID, lui$EP.Plotid)]
 # 
 # save(enzyme, file = "data/enzyme.rData")
+
+
+# fungal data
+
+ddf <- read.csv2("data/fungi/21048.txt", sep = "\t", dec = ".")
+# original data 221048_EP-Grassland abundant Soil fungi from Soil Sampling Campain 2011_1.1.3; Kezia Goldmann & Tesfaye Wubet, accessed on 22.02.2017 
+
+ddf <- subset(ddf, species != "unclassified")
+levels(ddf$function.)
+ddf$Year <- 2011
+
+fungi_trait_matrix <- ddply(ddf, .(species), summarize, 
+                            saprotroph = mean(function. == "Saprotroph"), 
+                            arbuscular_m = mean(function. == "AM"), 
+                            ecto_m =  mean(function. == "EcM"), 
+                            pathogen = mean(function. %in% c("Pathogen", "Plant pathogen")), 
+                            parasitic = mean(function. %in% c("Parasite", "Mycoparasite" ))  
+                            )
+
+subset(fungi_trait_matrix, !saprotroph %in% c(1,0) )
+subset(fungi_trait_matrix, !arbuscular_m %in% c(1,0) )
+subset(fungi_trait_matrix, !ecto_m %in% c(1,0) )
+subset(fungi_trait_matrix, !pathogen %in% c(1,0) )
+subset(fungi_trait_matrix, !parasitic %in% c(1,0) )
+
+save(fungi_trait_matrix, file = "data/fungi_trait_matrix.RData")
+
+fungi <- ddf[,c("Plotid", "Year", "species", "Abundance")]
+
+save(fungi, file = "data/fungi.RData")

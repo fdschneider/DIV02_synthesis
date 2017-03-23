@@ -100,6 +100,17 @@ cwm_herbivores$Region <- as.factor(substr(cwm_herbivores$EP_PlotId, 1,3))
 # 
 # pairs(cwm_consumers[3:5], pch = 20)
 
+##################### fungi cwm
+
+
+cwm_fungi <- ddply(fungi, .(Plotid, Year), cwm, trait_table = fungi_trait_matrix, traits = c("saprotroph", "arbuscular_m", "ecto_m", "pathogen", "parasitic"), abund_label = "Abundance", spec_label = "species", trait_spec_label= "species")
+
+names(cwm_fungi)[1] <- "EP_PlotId"
+cwm_fungi$Year <- as.factor(cwm_fungi$Year)
+cwm_fungi$Region <- as.factor(substr(cwm_fungi$EP_PlotId, 1,3))
+
+# pairs(cwm_fungi[3:7], pch = 20)
+
 
 # backtransform
 
@@ -128,3 +139,4 @@ save(cwm_herbivores, file = "data/cwm_herbivores.rData")
 
 save(cwm_predators, file = "data/cwm_predators.rData")
 
+save(cwm_fungi, file = "data/cwm_fungi.rData")
