@@ -33,10 +33,13 @@ load("data/arthropod_trait_matrix.rData")
 load("data/herbivores_core.rData")
 load("data/predators_core.rData")
 
-### soil properties
+
+
+### microbiological properties
 
 #source("code/data_soil.R")
 load("data/microbial.rData")
+load("data/fungi.rData")
 
 ### environmental data: lui
 
@@ -52,8 +55,19 @@ load("data/topo_soil.rData")
 load("data/cwm_plants.rData")
 load("data/cwm_herbivores.rData")
 load("data/cwm_predators.rData")
+load("data/cwm_fungi.rData")
+
+
+
+#### pool microbial and fungal data
+
+cwm_soil <- cbind(cwm_fungi[order(cwm_fungi$EP_PlotId),1:7], subset(microbial, Year == "2011")[order(subset(microbial, Year == "2011")$EP_Plot_ID), c("Ratio_Cmic_Nmic", "Ratio_neg_pos", "fungi_bacteria", "Invertebrates")])
+
+#cwm_soil[,3:7] <- cwm_soil[,3:7]+0.1
+
 
 ### Preview data structure
+
 
 if(FALSE){
   pairs(log(cwm_plants[3:11]), pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = cwm_plants$Region, oma = c(2,9,2,9))
@@ -62,7 +76,13 @@ if(FALSE){
   
   pairs(log(cwm_predators[3:5]), pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = cwm_predators$Region, oma = c(2,9,2,9))
   
+  pairs(log(cwm_fungi[3:7]+0.1), pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = cwm_fungi$Region, oma = c(2,9,2,9))
+  
   pairs((microbial[,c("Ratio_Cmic_Nmic", "Ratio_neg_pos", "fungi_bacteria", "Invertebrates")]), pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = microbial$Region)
+  
+  
+  pairs(c(cwm_soil[3:7], cwm_soil[10:13]), pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = cwm_soil$Region, oma = c(2,9,2,9))
+  
 }
 
 
@@ -84,11 +104,18 @@ if(FALSE){
 
 
 ## analysis
+
 pdf("figures/PCA.pdf", width = 15, height = 4, useDingbats = FALSE)
+
 par(mfrow = c(1,4), mar = c(4,5,3,1))
-trait_pca(microbial, 
-          traits = c("Ratio_Cmic_Nmic",  "fungi_bacteria", "Invertebrates", "Ratio_neg_pos"), 
-          log = TRUE, cex = 1, i = 2, y = 1) -> pca_microbial
+# trait_pca(microbial, 
+#           traits = c("Ratio_Cmic_Nmic",  "fungi_bacteria", "Invertebrates", "Ratio_neg_pos"), 
+#           log = FALSE, cex = 1, i = 2, y = 1) -> pca_microbial
+# mtext("Microbes", line = 0.5)
+
+trait_pca(cwm_soil,
+          traits = c("saprotroph", "arbuscular_m", "ecto_m", "pathogen", "parasitic","Ratio_Cmic_Nmic",  "fungi_bacteria", "Invertebrates", "Ratio_neg_pos"),
+          log = TRUE, cex = 1, i = 1, y = 2) -> pca_soil
 mtext("Microbes", line = 0.5)
 
 trait_pca(cwm_plants, 
