@@ -71,7 +71,7 @@ request_id <- c(
 6, # - rooting depth [6]
 11, # - Mycorrhizal.intensity [11]
 679, # - plant palatability [679]
-47, #Leaf dry mass per leaf fresh mass (Leaf dry matter ...
+47, # Leaf dry mass per leaf fresh mass (Leaf dry matter ...
 46, # Leaf thickness
 15 #Leaf phosphorus (P) content per leaf dry mass
 #13 #Leaf carbon (C) content per leaf dry mass
@@ -79,7 +79,6 @@ request_id <- c(
 )
 
 cat(unlist(request_id), sep = ", ")
-
 
 request_traits <- subset(try_traits, TraitID %in% request_id)[,c(1,2)]
 

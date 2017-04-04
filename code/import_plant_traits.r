@@ -60,26 +60,76 @@ plant_traits_raw$StdValue[plant_traits_raw$TraitID == 679 & plant_traits_raw$Ori
 ## identify outliers
 clean_out <- lapply(levels(plant_traits_raw$AccSpeciesName), function(x) {
   outlier <- boxplot.stats(log(subset(plant_traits_raw, TraitID == 1 & AccSpeciesName == x)$StdValue))$out 
-  subset(plant_traits_raw, AccSpeciesName == x  & log(StdValue) %in% outlier)[,c("ID", "LastName","FirstName", "AccSpeciesName","StdValue")]
+  subset(plant_traits_raw, AccSpeciesName == x  & log(StdValue) %in% outlier)[,c("ID", "Dataset", "LastName","FirstName", "AccSpeciesName","StdValue")]
 })
-clean_out <- ldply(clean_out, data.frame)
+clean_out <- plyr::ldply(clean_out, data.frame)
 
 ## remove outliers
-
 plant_traits_clean <- plant_traits_raw[-clean_out$ID,] 
+
+
 
 # crunching average trait values per plant
 
-## step 1: take average value per author
+## step 1: take average value per dataset (per author)
+
+plant_traits_per_dataset <- ddply(plant_traits_clean[, c("Dataset", "AccSpeciesName", "AccSpeciesID", "TraitID", "TraitName", "StdValue", "UnitName", "ErrorRisk")], .(Dataset, AccSpeciesID, TraitID), summarise, StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), UnitName = unique(UnitName)[1], ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  TraitName = unique(TraitName)[1] ,  AccSpeciesName = unique(AccSpeciesName)[1] )
+
+plant_traits_per_dataset$TraitName_short <- plant_traits_per_dataset$TraitName
+levels(plant_traits_per_dataset$TraitName_short) <- c("","leaf_area", "SLA","leaf_drymass","LDMC", "leaf_N",  "leaf_P", "leaf_thickness","height","Nfixation","palatability","pollination","root_depth","seedmass","SSD")
+
 
 plant_traits_perauthor <- ddply(plant_traits_clean[, c("LastName", "AccSpeciesName", "AccSpeciesID", "TraitID", "TraitName", "StdValue", "UnitName", "ErrorRisk")], .(LastName, AccSpeciesID, TraitID), summarise, StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), UnitName = unique(UnitName)[1], ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  TraitName = unique(TraitName)[1] ,  AccSpeciesName = unique(AccSpeciesName)[1] )
 
+##  eliminate datasets 
+
+target_traits <- c("leaf_area", "SLA", "leaf_drymass","LDMC", "leaf_N", "leaf_P", "leaf_thickness","height", "root_depth","seedmass","SSD")
+
+trees_and_shrubs <- subset(plant_traits, TraitName_short == "height" & StdValue >= 2.0)$AccSpeciesName
+
+coauthorship <- unique(subset(try_datasets, Permitted == "yes" & CoauthorshipRequested == "yes")$Dataset)
+
+## blame for outliers
+
+contribution <-  plyr::ddply(plant_traits_raw, .(Dataset), summarize, measurements = length(ID))
+
+blame <- plyr::ddply(clean_out, .(Dataset), summarize, outlier = length(ID))
+
+blame$rate <- blame$outlier/contribution$measurements[match( blame$Dataset, contribution$Dataset)]
+blame$out <- blame$rate >= 0.05
+
+blame <- blame[order(-blame$rate),]
+
+### TODO: clean out datasets before averaging ####
+
+used_datasets <- unique(subset(plant_traits_per_dataset, TraitName_short %in% target_traits & !AccSpeciesName %in% trees_and_shrubs )$Dataset)
+  
+all_datasets <-  unique(plant_traits_per_dataset$Dataset)
+
+omitted_datasets <- all_datasets[!all_datasets %in% used_datasets]
+
+
+
+
 ## step 2: take average per plant species
 
-plant_traits <- ddply(plant_traits_perauthor, .(AccSpeciesID, TraitID), summarise, StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), UnitName = unique(UnitName)[1], ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  TraitName = unique(TraitName)[1] ,  AccSpeciesName = unique(AccSpeciesName)[1] )
+plant_traits <- ddply(plant_traits_per_dataset, .(AccSpeciesID, TraitID), summarise, StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), UnitName = unique(UnitName)[1], ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  TraitName = unique(TraitName)[1] ,  AccSpeciesName = unique(AccSpeciesName)[1] )
 
 plant_traits$TraitName_short <- plant_traits$TraitName
-levels(plant_traits$TraitName_short) <- c("","leaf_area", "SLA","leaf_drymass","LDMC", "leaf_N",  "leaf_P", "leaf_thickness","height","Nfixation","palatability","pollination","root_depth","seedmass","stem_drymass")
+levels(plant_traits$TraitName_short) <- c("","leaf_area", "SLA","leaf_drymass","LDMC", "leaf_N",  "leaf_P", "leaf_thickness","height","Nfixation","palatability","pollination","root_depth","seedmass","SSD")
+
+
+# compare with and without eliminated data
+
+ifmissing <- lapply(datasets, function(x) plyr::ddply(plant_traits_per_dataset, .(AccSpeciesID, TraitID), summarise, StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), UnitName = unique(UnitName)[1], ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  TraitName = unique(TraitName)[1] ,  AccSpeciesName = unique(AccSpeciesName)[1] ) )  
+
+
+par(mfrow = c(1,2))
+for(i in 1:length(ifmissing)) {
+  plot(plant_traits$StdValue~ifmissing[[i]]$StdValue, pch = 20, log = "xy")
+  abline(a = 0, b = 1)
+}
+
 
 ## step 3: build plant -- trait matrix 
 
@@ -101,7 +151,7 @@ rm(plant_traits, clean_out, plant_traits_raw, plant_trait_datasets, plant_trait_
 
 
 if(FALSE){
-  dd_0 <- na.omit(plant_trait_matrix[,c("SLA", "leaf_N", "LMA",  "seedmass","height", "stem_drymass")]) 
+  dd_0 <- na.omit(plant_trait_matrix[,c("SLA", "leaf_N", "leaf_area", "LMA", "leaf_area", "seedmass","height", "stem_drymass")]) 
   
   pca_dd <- rda(dd_0, scale = TRUE)
   eig_rel <- round(eigenvals(pca_dd)/sum(eigenvals(pca_dd))*100,1)
