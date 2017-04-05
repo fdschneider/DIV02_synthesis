@@ -1,13 +1,13 @@
 
 plant_traits_raw <- read.csv("data/plants_traits_TRY/2181.txt", sep = "\t" )
+try_datasets <- read.csv("data/plants_traits_TRY/author_data.csv")
+try_datasets_refs <- read.csv("data/plants_traits_TRY/dataset_reference.csv")
 
 # original file: 2181.txt as downloaded on 01.08.2016 from TRY database following data request #2181. Traits requested: ... , plant IDs requested: ...)  
 
 plant_trait_datasets <- unique(plant_traits_raw$Dataset)
 plant_trait_authors <- unique(paste(plant_traits_raw$FirstName, plant_traits_raw$LastName))
 plant_trait_species <- levels(plant_traits_raw$AccSpeciesName)
-
-# preparation: remove unrealistic trait values
 
 plant_traits_raw <- subset(plant_traits_raw, !is.na(TraitID))
 plant_traits_raw$ID <- 1:length(plant_traits_raw$LastName)
@@ -68,26 +68,37 @@ clean_out <- plyr::ldply(clean_out, data.frame)
 plant_traits_clean <- plant_traits_raw[-clean_out$ID,] 
 
 
+plant_traits_clean$TraitName_short <- plant_traits_clean$TraitName
+levels(plant_traits_clean$TraitName_short) <- c("","leaf_area", "SLA","leaf_drymass","LDMC", "leaf_N",  "leaf_P", "leaf_thickness","height","Nfixation","palatability","pollination","root_depth","seedmass","SSD")
+
 
 # crunching average trait values per plant
 
 ## step 1: take average value per dataset (per author)
 
-plant_traits_per_dataset <- ddply(plant_traits_clean[, c("Dataset", "AccSpeciesName", "AccSpeciesID", "TraitID", "TraitName", "StdValue", "UnitName", "ErrorRisk")], .(Dataset, AccSpeciesID, TraitID), summarise, StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), UnitName = unique(UnitName)[1], ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  TraitName = unique(TraitName)[1] ,  AccSpeciesName = unique(AccSpeciesName)[1] )
-
-plant_traits_per_dataset$TraitName_short <- plant_traits_per_dataset$TraitName
-levels(plant_traits_per_dataset$TraitName_short) <- c("","leaf_area", "SLA","leaf_drymass","LDMC", "leaf_N",  "leaf_P", "leaf_thickness","height","Nfixation","palatability","pollination","root_depth","seedmass","SSD")
+plant_traits_per_dataset <- plyr::ddply(plant_traits_clean, .(Dataset, AccSpeciesID, TraitID), summarise, StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), UnitName = unique(UnitName)[1], ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  TraitName = unique(TraitName)[1] ,  AccSpeciesName = unique(AccSpeciesName)[1],  TraitName_short = unique(TraitName_short)[1] )
 
 
-plant_traits_perauthor <- ddply(plant_traits_clean[, c("LastName", "AccSpeciesName", "AccSpeciesID", "TraitID", "TraitName", "StdValue", "UnitName", "ErrorRisk")], .(LastName, AccSpeciesID, TraitID), summarise, StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), UnitName = unique(UnitName)[1], ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  TraitName = unique(TraitName)[1] ,  AccSpeciesName = unique(AccSpeciesName)[1] )
+# plant_traits_perauthor <- ddply(plant_traits_clean[, c("LastName", "AccSpeciesName", "AccSpeciesID", "TraitID", "TraitName", "StdValue", "UnitName", "ErrorRisk")], .(LastName, AccSpeciesID, TraitID), summarise, StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), UnitName = unique(UnitName)[1], ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  TraitName = unique(TraitName)[1] ,  AccSpeciesName = unique(AccSpeciesName)[1] )
 
 ##  eliminate datasets 
 
 target_traits <- c("leaf_area", "SLA", "leaf_drymass","LDMC", "leaf_N", "leaf_P", "leaf_thickness","height", "root_depth","seedmass","SSD")
 
-trees_and_shrubs <- subset(plant_traits, TraitName_short == "height" & StdValue >= 2.0)$AccSpeciesName
+plant_traits_per_dataset <- subset(plant_traits_per_dataset, TraitName_short %in% target_traits)
+
+
+trees_and_shrubs <- subset(plant_traits_clean, TraitName_short == "height" & StdValue >= 2.0)$AccSpeciesName
+
+outlandish <- c("California Coastal Grassland Database", "Chinese Leaf Traits Database", "Cedar Creek Savanna SLA, C, N Database", "Chinese Traits", "Cold Tolerance, Seed Size and Height of North American Forest Tree Species", "Leaf Ash Content in China's Terrestrial Plants", "Leaf Traits Mount Hutt, New Zealand", "Midwestern and Southern US Herbaceous Species Trait Database", "New South Wales Plant Traits Database", "Overton/Wright New Zealand Database", "Fonseca/Wright New South Wales Database", "Plant Traits for Grassland Species (Konza Prairie, Kansas, USA)", "Plant Traits for Pinus and Juniperus Forests in Arizona", "Maximum Height of Chinese Tree Species (From Silva Sinica)")
+
+outlandish <- factor(outlandish, levels = levels(try_datasets$Dataset))
 
 coauthorship <- unique(subset(try_datasets, Permitted == "yes" & CoauthorshipRequested == "yes")$Dataset)
+
+## percentage of data for which coauthorship is required: 
+sum(subset(try_datasets, Permitted == "yes" & CoauthorshipRequested == "yes")$Count)/sum(try_datasets$Count)
+
 
 ## blame for outliers
 
@@ -100,54 +111,190 @@ blame$out <- blame$rate >= 0.05
 
 blame <- blame[order(-blame$rate),]
 
-### TODO: clean out datasets before averaging ####
 
-used_datasets <- unique(subset(plant_traits_per_dataset, TraitName_short %in% target_traits & !AccSpeciesName %in% trees_and_shrubs )$Dataset)
-  
-all_datasets <-  unique(plant_traits_per_dataset$Dataset)
+## step 2: compare influence of questioned datasets
 
-omitted_datasets <- all_datasets[!all_datasets %in% used_datasets]
+plant_traits_full <- ddply(plant_traits_per_dataset, 
+                      .(AccSpeciesID, TraitID), 
+                      summarise, 
+                        StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), 
+                        UnitName = unique(UnitName)[1], 
+                        ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  
+                        TraitName = unique(TraitName)[1] ,  
+                        AccSpeciesName = unique(AccSpeciesName)[1],  
+                        TraitName_short = unique(TraitName_short)[1] 
+                      )
 
-
-
-
-## step 2: take average per plant species
-
-plant_traits <- ddply(plant_traits_per_dataset, .(AccSpeciesID, TraitID), summarise, StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), UnitName = unique(UnitName)[1], ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  TraitName = unique(TraitName)[1] ,  AccSpeciesName = unique(AccSpeciesName)[1] )
-
-plant_traits$TraitName_short <- plant_traits$TraitName
-levels(plant_traits$TraitName_short) <- c("","leaf_area", "SLA","leaf_drymass","LDMC", "leaf_N",  "leaf_P", "leaf_thickness","height","Nfixation","palatability","pollination","root_depth","seedmass","SSD")
-
-
-# compare with and without eliminated data
-
-ifmissing <- lapply(datasets, function(x) plyr::ddply(plant_traits_per_dataset, .(AccSpeciesID, TraitID), summarise, StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), UnitName = unique(UnitName)[1], ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  TraitName = unique(TraitName)[1] ,  AccSpeciesName = unique(AccSpeciesName)[1] ) )  
+## build plant -- trait matrix 
+plant_trait_matrix_full <- reshape2::dcast(plant_traits_full, AccSpeciesID ~ TraitName_short, value.var = "StdValue" )
 
 
-par(mfrow = c(1,2))
-for(i in 1:length(ifmissing)) {
-  plot(plant_traits$StdValue~ifmissing[[i]]$StdValue, pch = 20, log = "xy")
+
+### compare with and without outlandish data 
+
+without_outlandish <- ddply(subset(plant_traits_per_dataset, !Dataset %in% outlandish), 
+                            .(AccSpeciesID, TraitID), summarize, 
+                            StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), 
+                            UnitName = unique(UnitName)[1], 
+                            ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  
+                            TraitName = unique(TraitName)[1] ,  
+                            AccSpeciesName = unique(AccSpeciesName)[1],  
+                            TraitName_short = unique(TraitName_short)[1] 
+                            )
+
+#### build plant -- trait matrix 
+plant_trait_matrix_outlandish <- reshape2::dcast(without_outlandish, AccSpeciesID ~ TraitName_short, value.var = "StdValue" )
+plant_trait_matrix_outlandish <- plant_trait_matrix_outlandish[match(plant_trait_matrix_full$AccSpeciesID, plant_trait_matrix_outlandish$AccSpeciesID),]  #match rows to plant_trait_matrix_full
+
+
+
+par(mfrow = c(4,3), mar = c(2,2,3,0), oma = c(3,4,0,0))
+for(i in target_traits) {
+  plot(plant_trait_matrix_full[,i], plant_trait_matrix_outlandish[,i], log = "xy", pch = 20, main = i)
+  mtext(
+    paste0(
+      length(na.omit(plant_trait_matrix_full[,i]))-length(na.omit(plant_trait_matrix_outlandish[,i])),
+      "/", 
+      length(na.omit(plant_trait_matrix_full[,i])),
+      " R²: ", 
+      1-round(summary(lm(log(plant_trait_matrix_full[,i])~log(plant_trait_matrix_outlandish[,i])))[]$adj.r.squared, 2)
+    ), 
+    line = -1, cex = 0.7)
   abline(a = 0, b = 1)
 }
+mtext("trait values with outlandish data", side = 1, line = 1, outer = TRUE)
+mtext("trait values without outlandish data", side = 2, line = 1, outer = TRUE)
 
 
-## step 3: build plant -- trait matrix 
+### compare with and without blamed data
 
-plant_trait_matrix <- dcast(plant_traits, AccSpeciesID ~ TraitName_short, value.var = "StdValue" )
+without_blamed <- ddply(subset(plant_traits_per_dataset, !Dataset %in% blame$Dataset[blame$out]), 
+                            .(AccSpeciesID, TraitID), summarize, 
+                            StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), 
+                            UnitName = unique(UnitName)[1], 
+                            ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  
+                            TraitName = unique(TraitName)[1] ,  
+                            AccSpeciesName = unique(AccSpeciesName)[1],  
+                            TraitName_short = unique(TraitName_short)[1] 
+)
 
-## step 4: derived trait values
+#### build plant -- trait matrix 
+plant_trait_matrix_blamed <- reshape2::dcast(without_blamed, AccSpeciesID ~ TraitName_short, value.var = "StdValue" )
+plant_trait_matrix_blamed <- plant_trait_matrix_blamed[match(plant_trait_matrix_full$AccSpeciesID, plant_trait_matrix_blamed$AccSpeciesID),]  #match rows to plant_trait_matrix_full
 
-## leaf Nitrogen per leaf drymass
 
+par(mfrow = c(4,3), mar = c(2,2,3,0), oma = c(3,4,0,0))
+for(i in target_traits) {
+  plot(plant_trait_matrix_full[,i], plant_trait_matrix_blamed[,i], log = "xy", pch = 20, main = i)
+  mtext(
+    paste0(
+      length(na.omit(plant_trait_matrix_full[,i]))-length(na.omit(plant_trait_matrix_blamed[,i])),
+      "/", 
+      length(na.omit(plant_trait_matrix_full[,i])),
+      " R²: ", 
+      1-round(summary(lm(log(plant_trait_matrix_full[,i])~log(plant_trait_matrix_blamed[,i])))[]$adj.r.squared, 2)
+    ), 
+    line = -1, cex = 0.7)
+  abline(a = 0, b = 1)
+}
+mtext("trait values with coauthorship data", side = 1, line = 1, outer = TRUE)
+mtext("trait values without coauthorship data", side = 2, line = 1, outer = TRUE)
+
+
+### compare with and without coauthorship data
+
+without_coauthorship <- ddply(subset(plant_traits_per_dataset, !Dataset %in% coauthorship), 
+                        .(AccSpeciesID, TraitID), summarize, 
+                        StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), 
+                        UnitName = unique(UnitName)[1], 
+                        ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  
+                        TraitName = unique(TraitName)[1] ,  
+                        AccSpeciesName = unique(AccSpeciesName)[1],  
+                        TraitName_short = unique(TraitName_short)[1] 
+)
+
+#### build plant -- trait matrix 
+plant_trait_matrix_coauthorship <- reshape2::dcast(without_coauthorship, AccSpeciesID ~ TraitName_short, value.var = "StdValue" )
+plant_trait_matrix_coauthorship <- plant_trait_matrix_coauthorship[match(plant_trait_matrix_full$AccSpeciesID, plant_trait_matrix_coauthorship$AccSpeciesID),]  #match rows to plant_trait_matrix_full
+
+par(mfrow = c(4,3), mar = c(2,2,3,0), oma = c(3,4,0,0))
+for(i in target_traits) {
+  plot(plant_trait_matrix_full[,i], plant_trait_matrix_coauthorship[,i], log = "xy", pch = 20, main = i)
+  mtext(
+    paste0(
+      length(na.omit(plant_trait_matrix_full[,i]))-length(na.omit(plant_trait_matrix_coauthorship[,i])),
+      "/", 
+      length(na.omit(plant_trait_matrix_full[,i])),
+      " R²: ", 
+      1-round(summary(lm(log(plant_trait_matrix_full[,i])~log(plant_trait_matrix_coauthorship[,i])))[]$adj.r.squared, 2)
+    ), 
+    line = -1, cex = 0.7)
+  abline(a = 0, b = 1)
+}
+mtext("trait values with coauthorship data", side = 1, line = 1, outer = TRUE)
+mtext("trait values without coauthorship data", side = 2, line = 1, outer = TRUE)
+
+
+### step 3: compile final dataset
+
+plant_traits <- ddply(subset(plant_traits_per_dataset, !Dataset %in% unique(c(as.character(coauthorship), as.character(blame$Dataset[blame$out])))), 
+                      .(AccSpeciesID, TraitID), 
+                      summarise, 
+                      StdValue = round(exp(mean(log(StdValue), na.rm = TRUE)), 3), 
+                      UnitName = unique(UnitName)[1], 
+                      ErrorRisk = round(mean(ErrorRisk, na.rm = TRUE),3),  
+                      TraitName = unique(TraitName)[1] ,  
+                      AccSpeciesName = unique(AccSpeciesName)[1],  
+                      TraitName_short = unique(TraitName_short)[1] 
+)
+
+
+#### build plant -- trait matrix 
+plant_trait_matrix <- reshape2::dcast(plant_traits, AccSpeciesID ~ TraitName_short, value.var = "StdValue" )
+plant_trait_matrix <- plant_trait_matrix[match(plant_trait_matrix_full$AccSpeciesID, plant_trait_matrix$AccSpeciesID),]  #match rows to plant_trait_matrix
+
+
+par(mfrow = c(4,3), mar = c(2,2,3,0), oma = c(3,4,0,0))
+for(i in target_traits) {
+  plot(plant_trait_matrix_full[,i], plant_trait_matrix[,i], log = "xy", pch = 20, main = i)
+  mtext(
+    paste0(
+      length(na.omit(plant_trait_matrix_full[,i]))-length(na.omit(plant_trait_matrix[,i])),
+      "/", 
+      length(na.omit(plant_trait_matrix_full[,i])),
+      " R²: ", 
+      1-round(summary(lm(log(plant_trait_matrix_full[,i])~log(plant_trait_matrix[,i])))[]$adj.r.squared, 2)
+    ), 
+    line = -1, cex = 0.7)
+  abline(a = 0, b = 1)
+}
+mtext("trait values with omitted data", side = 1, line = 1, outer = TRUE)
+mtext("trait values without omitted data", side = 2, line = 1, outer = TRUE)
+
+
+
+## step 4: get reference list of datasets used. 
+
+
+used_datasets <- unique(subset(plant_traits_per_dataset, !Dataset %in% unique(c(as.character(coauthorship), as.character(blame$Dataset[blame$out]))))$Dataset) 
+
+reflist <- subset(try_datasets_refs, Dataset %in% used_datasets)
+
+
+## step 5: derived trait values
 
 ## leaf mass per area
 
 plant_trait_matrix$LMA <- with(plant_trait_matrix, leaf_drymass/leaf_area)
 
 
-save(plant_trait_matrix, file = "data/plant_trait_matrix.rData")
 
-rm(plant_traits, clean_out, plant_traits_raw, plant_trait_datasets, plant_trait_authors, plant_trait_species, plant_traits_perauthor, plant_traits_clean)
+## step 6: clean up and save file
+
+save(plant_trait_matrix, file = "data/plant_trait_matrix.rData")
+save(reflist, file = "data/reflist_TRY.rData")
+
+rm(plant_traits, clean_out, plant_traits_raw, plant_trait_datasets, plant_trait_authors, plant_trait_species, plant_traits_perauthor, plant_traits_clean, blame, contribution, plant_trait_matrix_blamed, plant_trait_matrix_coauthorship, plant_trait_matrix_full, plant_trait_matrix_outlandish, plant_traits_final, plant_traits_per_dataset, reflist, try_datasets, try_datasets_refs, without_outlandish, without_blamed, without_coauthorship, palatable_0, palatable_05, palatable_1, nfixing_0, nfixing_1, outlandish, coauthorship, target_traits, trees_and_shrubs, used_datasets, i)
 
 
 if(FALSE){
