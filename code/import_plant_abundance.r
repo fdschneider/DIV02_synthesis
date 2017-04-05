@@ -2,18 +2,17 @@
 #     import plant abundance data       #
 #########################################
 
-plants_full <- read.csv2("data/plants_core/plantcover.csv") 
-
 try_species <- read.table("data/plants_traits_TRY/TryAccSpecies.txt", sep = "\t", header = TRUE)
 
 load("data/plant_trait_matrix.rData")
 
+plants_full <- read.csv("data/plants_core/19686.txt", sep = "\t") 
 # original file: 19686.xlsx  downloaded from BExis on 17.05.2016 as Bexis
 # dataset 19686 vegetation relevés EP 2008-2015 1.2.5 ; Maintainer: Markus
 # Fischer
 
-plants_full$cover <- as.numeric(plants_full$cover)  # define cover as numeric
-levels(plants_full$Year) <- c(2008:2015, 2011)  # fix levels in bexis table
+plants_full$Year <- as.factor(plants_full$Year) 
+levels(plants_full$Year) <- c(2008:2016)  # fix levels in bexis table
 
 plants_full <- subset(plants_full, Year %in% 2008:2013)  # select years
 
@@ -50,6 +49,6 @@ plants_full$Species <- factor(plants_full$Species)  # define species as factoria
 
 save(plants_full, file = "data/plants_full.rData")
 
-rm(try_species, tall, trees, plant_trait_matrix)
+rm(try_species, tall, trees, plant_trait_matrix, plants_full)
 
 #plants_pooledyears <- ddply(plants_full, .(EP_PlotId), summarise, Year = unique(Year), Species = unique(Species), cover = mean(cover), AccSpecies  )

@@ -27,13 +27,13 @@ plant_trait_matrix <- mutate(plant_trait_matrix,
                              SSD = log(SSD),
                              LMA = log(LMA)
 )
-
-par(mfrow = c(3,4))
-for(i in colnames(plant_trait_matrix[,-1])) {
-  hist(plant_trait_matrix[,i], xlab = i, col = "black", main = i, breaks = 32)
-}
-
-
+# 
+# par(mfrow = c(3,4))
+# for(i in colnames(plant_trait_matrix[,-1])) {
+#   hist(plant_trait_matrix[,i], xlab = i, col = "black", main = i, breaks = 32)
+# }
+# 
+# 
 
 
 ## calculate plant CWM values per plot per year. 
@@ -47,9 +47,9 @@ for(i in colnames(plant_trait_matrix[,-1])) {
 #stopCluster(cl)
 
 
-cwm_plants <- ddply(plants_full, .(EP_PlotId,Year), cwm, trait_table = plant_trait_matrix, traits = c("SLA", "leaf_P", "leaf_N", "LMA", "height", "leaf_area", "seedmass","SSD"), abund_label = "cover", spec_label = "SpeciesID", trait_spec_label= "AccSpeciesID")
+cwm_plants <- ddply(plants_full, .(EP_PlotID,Year), cwm, trait_table = plant_trait_matrix, traits = c("SLA", "leaf_P", "leaf_N", "LMA", "height", "leaf_area", "seedmass","SSD"), abund_label = "cover", spec_label = "SpeciesID", trait_spec_label= "AccSpeciesID")
 
-cwm_plants$Region <- as.factor(substr(cwm_plants$EP_PlotId, 1,3))
+cwm_plants$Region <- as.factor(substr(cwm_plants$EP_PlotID, 1,3))
 
 #cwm_plants[,3:11] <- log10(cwm_plants[,3:11])
 
