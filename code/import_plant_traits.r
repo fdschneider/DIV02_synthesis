@@ -87,8 +87,13 @@ target_traits <- c("leaf_area", "SLA", "leaf_drymass","LDMC", "leaf_N", "leaf_P"
 
 plant_traits_per_dataset <- subset(plant_traits_per_dataset, TraitName_short %in% target_traits)
 
+#remove tall plants, i.e. trees and shrubs
 
-trees_and_shrubs <- subset(plant_traits_clean, TraitName_short == "height" & StdValue >= 2.0)$AccSpeciesName
+trees_and_shrubs <- unique(subset(plant_traits_per_dataset, TraitName_short == "height" & StdValue >= 2.0)$AccSpeciesName)
+
+plant_traits_per_dataset <- subset(plant_traits_per_dataset, !(AccSpeciesName %in% trees_and_shrubs)  )
+
+
 
 outlandish <- c("California Coastal Grassland Database", "Chinese Leaf Traits Database", "Cedar Creek Savanna SLA, C, N Database", "Chinese Traits", "Cold Tolerance, Seed Size and Height of North American Forest Tree Species", "Leaf Ash Content in China's Terrestrial Plants", "Leaf Traits Mount Hutt, New Zealand", "Midwestern and Southern US Herbaceous Species Trait Database", "New South Wales Plant Traits Database", "Overton/Wright New Zealand Database", "Fonseca/Wright New South Wales Database", "Plant Traits for Grassland Species (Konza Prairie, Kansas, USA)", "Plant Traits for Pinus and Juniperus Forests in Arizona", "Maximum Height of Chinese Tree Species (From Silva Sinica)")
 
@@ -197,8 +202,8 @@ for(i in target_traits) {
     line = -1, cex = 0.7)
   abline(a = 0, b = 1)
 }
-mtext("trait values with coauthorship data", side = 1, line = 1, outer = TRUE)
-mtext("trait values without coauthorship data", side = 2, line = 1, outer = TRUE)
+mtext("trait values with blamed data", side = 1, line = 1, outer = TRUE)
+mtext("trait values without blamed data", side = 2, line = 1, outer = TRUE)
 
 
 ### compare with and without coauthorship data
@@ -294,9 +299,6 @@ plant_trait_matrix$LMA <- with(plant_trait_matrix, leaf_drymass/leaf_area)
 save(plant_trait_matrix, file = "data/plant_trait_matrix.rData")
 save(reflist, file = "data/reflist_TRY.rData")
 
-rm(plant_traits, clean_out, plant_traits_raw, plant_trait_datasets, plant_trait_authors, plant_trait_species, plant_traits_perauthor, plant_traits_clean, blame, contribution, plant_trait_matrix_blamed, plant_trait_matrix_coauthorship, plant_trait_matrix_full, plant_trait_matrix_outlandish, plant_traits_final, plant_traits_per_dataset, reflist, try_datasets, try_datasets_refs, without_outlandish, without_blamed, without_coauthorship, palatable_0, palatable_05, palatable_1, nfixing_0, nfixing_1, outlandish, coauthorship, target_traits, trees_and_shrubs, used_datasets, i)
-
-
 if(FALSE){
   dd_0 <- na.omit(plant_trait_matrix[,c("SLA", "leaf_N", "leaf_area", "LMA", "leaf_area", "seedmass","height", "stem_drymass")]) 
   
@@ -309,3 +311,6 @@ if(FALSE){
   points(fig, "sites", pch = 20, col = "#000000")
   text(fig, "species", col="red", cex= 1)
 }
+
+rm(plant_traits, clean_out, plant_traits_raw, plant_trait_datasets, plant_trait_authors, plant_trait_species, plant_traits_perauthor, plant_traits_clean, blame, contribution, plant_trait_matrix_blamed, plant_trait_matrix_coauthorship, plant_trait_matrix_full, plant_trait_matrix_outlandish, plant_traits_final, plant_traits_per_dataset, reflist, try_datasets, try_datasets_refs, without_outlandish, without_blamed, without_coauthorship, palatable_0, palatable_05, palatable_1, nfixing_0, nfixing_1, outlandish, coauthorship, target_traits, trees_and_shrubs, used_datasets, i, plant_traits_full, plant_trait_matrix)
+
