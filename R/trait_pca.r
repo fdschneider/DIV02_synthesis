@@ -23,8 +23,10 @@ trait_pca <- function(x,
                       cex = 0.6,
                       landuse = lui,
                       envir = topo_soil,
+                      choices = c(1,2),
                       show = c("G_std", "M_std", "F_std", "LUI"), 
-                      col = "#00000020"
+                      col = "#00000050", 
+                      ...
 ) {
   
   rownames(x) <- paste0(x[,y],"_",x[,i])
@@ -47,19 +49,22 @@ trait_pca <- function(x,
   
   pca_dd <- rda(dd, scale = TRUE)
   eig_rel <- round(eigenvals(pca_dd)/sum(eigenvals(pca_dd))*100,1)
-  biplot(pca_dd, scaling = -1, cex = cex, 
-         xlab = paste0("PC1 (", eig_rel[1], "%)"),
-         ylab = paste0("PC2 (", eig_rel[2], "%)"),
-         col = c(col, "red")
+  axislabels <- paste0("PC", 1:length(eig_rel), " (", eig_rel, "%)")
+  
+  biplot(pca_dd, scaling = -1, cex = cex,  
+         xlab = axislabels[choices[1]],
+         ylab = axislabels[choices[2]],
+         col = c(col, "red"),
+         ...
            ) -> fig
-  points(fig, "sites", pch = 20, col = col)
-  text(fig, "species", col="red", cex= cex)
+  points(fig, "sites", pch = 20, col = col, choices = choices)
+  text(fig, "species", col="red", cex= cex, choices = choices)
   
   covars <- envfit(pca_dd, lui_dd[,show], permu=999)
-  plot(covars, cex = cex, col = "darkblue")
+  plot(covars, cex = cex, col = "darkblue", choices = choices)
   
   covars2 <- envfit(pca_dd, env_dd[,], permu=999)
-  plot(covars2, cex = cex, col = "darkcyan")
+  plot(covars2, cex = cex, col = "darkcyan", choices = choices)
   
   return(pca_dd)
 }

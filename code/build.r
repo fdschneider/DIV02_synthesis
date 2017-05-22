@@ -61,7 +61,7 @@ load("data/cwm_fungi.rData")
 
 #### pool microbial and fungal data
 
-cwm_soil <- cbind(cwm_fungi[order(cwm_fungi$EP_PlotId),1:7], subset(microbial, Year == "2011")[order(subset(microbial, Year == "2011")$EP_Plot_ID), c("Ratio_Cmic_Nmic", "Ratio_neg_pos", "fungi_bacteria", "Invertebrates")])
+cwm_soil <- cbind(cwm_fungi[order(cwm_fungi$EP_PlotId),1:7], subset(microbial, Year == "2011")[order(subset(microbial, Year == "2011")$EP_Plot_ID), c("Ratio_Cmic_Nmic", "Ratio_neg_pos", "fungi_bacteria", "Invertebrates", "Region")])
 
 #cwm_soil[,3:7] <- cwm_soil[,3:7]+0.1
 
@@ -70,7 +70,7 @@ cwm_soil <- cbind(cwm_fungi[order(cwm_fungi$EP_PlotId),1:7], subset(microbial, Y
 
 
 if(FALSE){
-  pairs(log(cwm_plants[3:11]), pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = cwm_plants$Region, oma = c(2,9,2,9))
+  pairs(log(cwm_plants[3:10]), pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = cwm_plants$Region, oma = c(2,9,2,9))
   
   pairs((cwm_herbivores[3:5]), pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = cwm_herbivores$Region, oma = c(2,9,2,9))
   
@@ -81,7 +81,7 @@ if(FALSE){
   pairs((microbial[,c("Ratio_Cmic_Nmic", "Ratio_neg_pos", "fungi_bacteria", "Invertebrates")]), pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = microbial$Region)
   
   
-  pairs(c(cwm_soil[3:7], cwm_soil[10:13]), pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = cwm_soil$Region, oma = c(2,9,2,9))
+  pairs(cwm_soil[3:11], pch = 20, upper.panel = panel.lm, lower.panel = panel.region, split = cwm_soil$Region, oma = c(2,9,2,9))
   
 }
 
@@ -115,25 +115,26 @@ par(mfrow = c(1,4), mar = c(4,5,3,1))
 
 trait_pca(cwm_soil,
           traits = c("saprotroph", "arbuscular_m", "ecto_m", "pathogen", "parasitic","Ratio_Cmic_Nmic",  "fungi_bacteria", "Invertebrates", "Ratio_neg_pos"),
-          log = TRUE, cex = 1, i = 1, y = 2) -> pca_soil
+          log = FALSE, cex = 1, i = 1, y = 2) -> pca_soil
 mtext("Microbes", line = 0.5)
 
 trait_pca(cwm_plants, 
-          traits = c("SLA", "leaf_N", "LMA",  "seedmass","height", "stem_drymass"), 
-          log = TRUE, cex = 1,
+          traits = c("leaf_N", "leaf_P", "SLA", "leaf_drymass", "seedmass","height", "SSD"), 
+          log = FALSE, cex = 1,
           xlim = c(0.8,-0.8)) -> pca_plants
 mtext("Plants", line = 0.5)
 
-trait_pca(cwm_herbivores, 
-          traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric", "Feeding_suckers", "Feeding_generalist"), 
-          log = TRUE, cex = 1, 
-          xlim = c(-0.6, 1.0), ylim = c(-0.6,0.6)) -> pca_herbivores
+trait_pca(cwm_herbivores,  choices = c(2,1),
+          traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric", "Feeding_suckers", "Feeding_generalist"),
+          log = FALSE, cex = 1, 
+          xlim = c(0.6, -0.6), ylim = c(1.0,-0.6)) -> pca_herbivores
 mtext("Herbivores", line = 0.5)
 
-trait_pca(cwm_predators, 
+trait_pca(cwm_predators, choices = c(2,1),
           traits = c("Body_Size", "Dispersal_ability", "Stratum_use_numeric"), 
-          log = TRUE, cex = 1) -> pca_predators
+          log = FALSE, cex = 1, ylim = c(0.8,-0.4)) -> pca_predators
 mtext("Predators", line = 0.5)
+
 dev.off()
 
 
@@ -149,6 +150,12 @@ library(lavaan)
 library(AICcmodavg)
 source("http://jarrettbyrnes.info/ubc_sem/lavaan_materials/lavaan.modavg.R")
 
+# Q1 - how to include the land use factors? alternative testing? compound variable. Same for environmental factors. 
+# Q2 - Environmental factors: plot-wise, not annually resolved. Are there weather data (precipitation etc) for the plots for each year? Meaning of TWI? slope? elevation? 
+# Q3 - how enter region as a covariate in SEM? 
+# Q4 - Annual variation also is about synchrony across TL in time. how enter year into SEM? temporal sequence? synchrony of annual variation tested in SEM?  (Should assess variation within plot across years for each PCA). 
+# Q5 - missing data in SEM: e.g. predator values for certain plots are missing due to lack of species with trait data. or microbial data only for 2011 and 2014. 
+# Q6 - Bacterial groups: which to use? functional interpretation. Use as proportion of ... (analogue to fungi)  Protists: What problems?
 
 
 dd<- droplevels(dd)
