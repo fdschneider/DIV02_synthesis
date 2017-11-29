@@ -1,0 +1,63 @@
+# Introduction 
+
+Species traits within trophic guilds are highly correlated amongst each other, with the conse-quence that certain trait combinations (i.e., ‘functional strategies’) are repeatedly observed in nature. In multi-dimensional trait space, variation can often be reduced to just a few principal components. For example, in plants, much trait variation can be explained by the ‘plant eco-nomics spectrum’: a single axis differentiating between conservative and exploitative resource use and reproductive strategies (Reich 2014; Díaz et al. 2016, Salguero-Gómez et al. 2016).
+
+Functional strategies reflect adaptation to environmental conditions (Lavorel et al. 2011; de Vries et al. 2012; Reich 2014). For instance, community-level specific leaf area (SLA) re-sponds to environmental drivers by declining with drought and increasing with nutrient en-richment (de Vries et al. 2012; Reich 2014). Similarly, the loss of trait diversity can occur where niche space is constricted, e.g. due to grazing, mowing or fertilization (Flynn et al. 2009, Harpole et al. 2012, Allan et al. 2015, Birkhofer et al. 2015). Functional strategies are also related to the specificity and strength of interactions of a species with other species or trophic groups (Eklöf et al. 2013; Kunstler et al. 2016), e.g. for pollinators, which specialize on particular plant traits including phenology, flower height and shape (Junker et al. 2013). While most evidence for such synchronous shifts of species traits has been drawn from observations at two adjacent trophic levels (e.g. plants and herbivores, Moretti et al. 2013; predators and prey, Brose et al 2006) they have been found to bridge multiple trophic guilds (Flynn et al. 2009; Eklöf et al. 2013), driven by either species interactions or by shared environmental responses.
+
+The positioning of species along axes of functional traits reflect their different economic strategies. The correlation between many functional traits (Wright et al. 2004; Baraloto et al. 2010) allows ecologists to classify them along major axes of evolutionary trade-off.  
+This has been shown for plants (Diaz et al, Lavorell et al), animals (Gross et al, Violle et al, Gossner et al, Gamez-Virues et al 2015) and microbes (Fierer et al). Plants major trade-offs have been described since the beginnings of ecology, as Ellenberg values, MacArthurs r-K strategists, or the Universal adaptive strategy theory (Grime triangle of ruderals, competitors and stress-tolerant species, Grime et al 2007, Pierce et al 2013, Pierce et al 2016). Analogue to that, arthropod trait variation aggregates into three different trait syndromes along specialisation and size. Microbial trait variation is ordered along a aquisitive--competitive axis, as well (Fierer et al. 2006). 
+
+Environmental filtering selects for species of certain trait combinations. Only certain kinds of species are coping with the conditions that the local environment provides. Land-use intensification and climate change are the most important drivers of such filtering processes. For instance, it has been shown that grasslands that experience frequent cutting are composed of more fast-growing grasses and herbs than extensively used meadows,  which contain more slow-growing and long-lived species. 
+
+Additionally, the established influences between the functional groups represented in an ecosystem selects for the best species or set of species to fill the different functional niches. In consequence, the top-down and bottom-up processes that excert pressure on or provide resource for a functional group or trophic level must also be considered as an environmental filter. Thus, it is also a matter of complementarity and redundancy, which species persevere in a given community.  
+
+A multitude of mechanism for this cross-ecosystem matchmaking of functional traits has been described. Leaf strengths and mouthpart strengths (LeProvost et al), Fast-growing competitors and Herbivore generalisation of resource (Simons et al, Boerschig et al, Mangels et al) [more examples]. Predator preference for a prey body size scales with predator body size (Kalinkat et al 2013, Brose et al 2006). the type of organic matter that feeds the soil compartment select for certain kinds of Bacteria and fungi which use plant root exudates and litter as a resource. [examples for bacteria/fungi and protists]
+
+In this study, we describe the principal axes of economic trade-offs and their major factors of environmental filtering for the above and belowground functional groups of temperate grasslands, by comparing 150 grassland ecosystems in Germany: the Biodiversity Exploratories framework captures a climatic north-to-south gradient as well as the anthropogenic land-use intensity in cultural landscapes. 
+
+This allows us to project individual-level functional traits to ecosystem-level drivers and eventually will improve our mechanistic understanding of ecosystem-level functioning provided by the species community assemblage.  (McGill et al 2006)
+
+
+## References 
+
+Allan, E., P. Manning, F. Alt, J. Binkenstein, S. Blaser, N. Blüthgen, S. Böhm, F. Grassein, et al.. 2015. Land use intensifica-tion alters ecosystem multifunctionality via loss of biodiversity and changes to functional composition. Ecology Letters 18:834–843.
+
+Birkhofer, K., H. G. Smith, W. W. Weisser, V. Wolters, and M. M. Gossner. 2015. Land-use effects on the functional dis-tinctness of arthropod communities. Ecography 38:889–900.
+
+Brose, U., T. Jonsson, E. L. Berlow, P. Warren, C. Banasek-Richter, L. F. Bersier, J. L. Blanchard, et. al.. 2006. Consumer-resource body-size relationships in natural food webs. Ecology 87:2411–2417. 
+
+de Vries, F. T., P. Manning, J. R. B. Tallowin, S. R. Mortimer, E. S. Pilgrim, K. A. Harrison, P. J. Hobbs, et al. 2012. Abiotic drivers and plant traits explain landscape-scale patterns in soil microbial communities. Ecology Letters 15:1230–1239.
+
+de Bello, F., S. Lavorel, S. Díaz, R. Harrington, J. H. C. Cornelissen, R. D. Bardgett, M. P. Berg, et al.. 2010. Towards an assessment of multiple ecosystem processes and services via functional traits. Biodiversity and Conservation 19:2873–2893.
+
+Díaz, S., J. Kattge, J. H. C. Cornelissen, I. J. Wright, S. Lavorel, S. Dray, B. Reu, et al. 2016. The global spectrum of plant form and function. Nature 529:167–171.
+
+Eklöf, A., U. Jacob, J. Kopp, J. Bosch, R. Castro-Urgal, N. P. Chacoff, B. Dalsgaard, C. Sassi, M. Galetti, P. R. Guimarães, and others. 2013. The dimensionality of ecological networks. Ecology letters 16:577–583.
+
+Flynn, D. F. B., M. Gogol-Prokurat, T. Nogeire, N. Molinari, B. T. Richers, B. B. Lin, N. Simpson, M. M. Mayfield, and F. DeClerck. 2009. Loss of functional diversity under land use intensification across multiple taxa. Ecology Letters 12:22–33.
+
+Gámez-Virués, S., D. J. Perović, M. M. Gossner, C. Börschig, N. Blüthgen, H. de Jong, N. K. Simons, et al. 2015. Landscape simplification filters species traits and drives biotic homogenization. Nature Communications 6:8568.
+
+Gossner, M. M., N. K. Simons, R. Achtziger, T. Blick, W. H. . Dorow, F. Dziock, F. Köhler, W. Rabitsch, and W. W. Weis-ser. 2015. A summary of eight traits of Coleoptera, Hemiptera, Orthoptera and Araneae, occurring in grasslands in Germany. Scientific Data 2:150013. 
+
+Harpole, W.S., J.T. Ngai, E.E. Cleland, E.W. Seabloom, E.T. Borer, M.E.S. Bracken, J.J. Elser, et al. 2011. Nutrient Co-Limitation of Primary Producer Communities. Ecology Letters 14 (9): 852–62.
+
+Junker, R. R., N. Blüthgen, T. Brehm, J. Binkenstein, J. Paulus, H. Martin Schaefer, and M. Stang. 2013. Specialization on traits as basis for the niche-breadth of flower visitors and as structuring mechanism of ecological networks. Func-tional Ecology 27:329–341.
+
+Kunstler, G., D. Falster, D. A. Coomes, F. Hui, R. M. Kooyman, D. C. Laughlin, L. Poorter, M. Vanderwel, G. Vieilledent, S. J. Wright, et al.. 2016. Plant functional traits have globally consistent effects on competition. Nature 529:204–207.
+
+Lavorel, S., and K. Grigulis. 2012. How fundamental plant functional trait relationships scale-up to trade-offs and synergies in ecosystem services. Journal of Ecology 100:128–140.
+
+Lavorel, S., K. Grigulis, P. Lamarque, M.-P. Colace, D. Garden, J. Girel, G. Pellet, et al. 2011. Using plant functional traits to understand the landscape distribution of multiple ecosystem services. Journal of Ecology 99:135–147.
+
+Petchey, O. L., and K. J. Gaston. 2006. Functional diversity: Back to basics and looking forward. Ecology Letters 9:741–758.
+
+Reich, P. B. 2014. The world-wide “fastslow” plant economics spectrum: A traits manifesto. Journal of Ecology 102:275–301.
+
+Salguero-Gómez, R., O. R. Jones, E. Jongejans, S. P. Blomberg, D. J. Hodgson, C. Mbeau-Ache, P. A. Zuidema, et al. 2016. Fastslow continuum and reproductive strategies structure plant life-history variation worldwide. Proceedings of the National Academy of Sciences 113:230–235.
+
+Simons, N. K., M. M. Gossner, T. M. Lewinsohn, S. Boch, M. Lange, J. Müller, E. Pašalić, S. A. Socher, M. Türke, M. Fischer, and W. W. Weisser. 2014. Resource-Mediated Indirect Effects of Grassland Management on Arthropod Diversity. PLOS ONE 9:e107033. 
+
+Simons, N. K., M. M. Gossner, T. M. Lewinsohn, M. Lange, M. Türke, and W. W. Weisser. 2015. Effects of land-use inten-sity on arthropod species abundance distributions in grasslands. Journal of Animal Ecology 84:143–154. 
+
+Simons, N. K., W. W. Weisser, and M. M. Gossner. 2016. Multi-taxa approach shows consistent shifts in arthropod functional traits along grassland land-use intensity gradient. Ecology 97:754–764.

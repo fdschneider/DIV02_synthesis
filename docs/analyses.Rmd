@@ -1,0 +1,59 @@
+---
+title: "Analyses"
+author: "Florian D. Schneider"
+date: "6 November 2017"
+output: 
+  html_document: 
+    toc: yes
+---
+
+# Principal components of functional groups
+
+We now consider functional trait-spaces and community-level properties per each functional guild seperately, and simplify the data description by identifying the principal components of variation across all 150 plots across the entire period of study (2008-2015)
+
+## assignment of functional guilds
+
+definition of predators and herbivores, plants (roots), microbes, below-ground consumers
+
+
+## PCA
+
+Principal component analysis rotates the n-dimensional space to the axes that spans the most variation (PC1) and orthogonal axes spanning the second most (PC2) and third most variation (PC3). We argue that traits are strongly auto-correlated within a functional guild and that the PC1 corresponds to the most powerful trade-off in trait-composition at the community level. That is, if PC1 is correlated to body size 
+
+
+### Issues: 
+
+- how to consider annual variation of plots? Community-level position in trait-space varies quite a lot, but is certainly not independent of previous years. 
+- dealing with missing data, e.g. in soil samples. For plants and animals, most plots will produce a CWM 
+- axis interpretation: for plants, reconsider r-K terminology, because controversial regarding size. rather tall--short. 
+- funnel shaped PCA pattern, especially for predators and herbivores? strong auto-correlation of data? artefact of CWM-ing factorial levels? Maybe more quantitative data required, or more data normalization. 
+- Interpretation with LUI. Correlation is counter-intuitive: LUI should foster fast growing plants. Currently opposite is the case
+
+- Santi suggests to test interactive effects in the SEM of LUI and the PC axes. 
+
+- Santi: Test top-down effects as opposed to bottom-up. Predators on Herbivores on Plants
+- How to enter temporal effects? causality analysis
+
+
+# Structural Equation modelling
+
+derivation of principal axes in trait space
+Correlation analysis with SEM 
+
+## a priori assumptions
+
+
+### Issues: 
+
+- skip PCA and analyse major traits directly
+- missing data for below-ground except for years of soil sampling
+- how enter LUI? as previous year or current year? 
+- how cope with plot effects? should be corrected for by SEMs grouping effect? 
+
+## model simplification
+
+### Issues:
+
+- backwards and forwards effect testing? 
+
+

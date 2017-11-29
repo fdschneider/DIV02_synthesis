@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">trait synthesis proposal #20</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="introduction.html">Introduction</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Methods
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="data.html">Data</a>
+    </li>
+    <li>
+      <a href="analyses.html">Analyses</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Species traits within trophic guilds are highly correlated amongst each other, with the conse-quence that certain trait combinations (i.e., ‘functional strategies’) are repeatedly observed in nature. In multi-dimensional trait space, variation can often be reduced to just a few principal components. For example, in plants, much trait variation can be explained by the ‘plant eco-nomics spectrum’: a single axis differentiating between conservative and exploitative resource use and reproductive strategies (Reich 2014; Díaz et al. 2016, Salguero-Gómez et al. 2016).</p>
+<p>Functional strategies reflect adaptation to environmental conditions (Lavorel et al. 2011; de Vries et al. 2012; Reich 2014). For instance, community-level specific leaf area (SLA) re-sponds to environmental drivers by declining with drought and increasing with nutrient en-richment (de Vries et al. 2012; Reich 2014). Similarly, the loss of trait diversity can occur where niche space is constricted, e.g. due to grazing, mowing or fertilization (Flynn et al. 2009, Harpole et al. 2012, Allan et al. 2015, Birkhofer et al. 2015). Functional strategies are also related to the specificity and strength of interactions of a species with other species or trophic groups (Eklöf et al. 2013; Kunstler et al. 2016), e.g. for pollinators, which specialize on particular plant traits including phenology, flower height and shape (Junker et al. 2013). While most evidence for such synchronous shifts of species traits has been drawn from observations at two adjacent trophic levels (e.g. plants and herbivores, Moretti et al. 2013; predators and prey, Brose et al 2006) they have been found to bridge multiple trophic guilds (Flynn et al. 2009; Eklöf et al. 2013), driven by either species interactions or by shared environmental responses.</p>
+<p>The positioning of species along axes of functional traits reflect their different economic strategies. The correlation between many functional traits (Wright et al. 2004; Baraloto et al. 2010) allows ecologists to classify them along major axes of evolutionary trade-off.<br />
+This has been shown for plants (Diaz et al, Lavorell et al), animals (Gross et al, Violle et al, Gossner et al, Gamez-Virues et al 2015) and microbes (Fierer et al). Plants major trade-offs have been described since the beginnings of ecology, as Ellenberg values, MacArthurs r-K strategists, or the Universal adaptive strategy theory (Grime triangle of ruderals, competitors and stress-tolerant species, Grime et al 2007, Pierce et al 2013, Pierce et al 2016). Analogue to that, arthropod trait variation aggregates into three different trait syndromes along specialisation and size. Microbial trait variation is ordered along a aquisitive–competitive axis, as well (Fierer et al. 2006).</p>
+<p>Environmental filtering selects for species of certain trait combinations. Only certain kinds of species are coping with the conditions that the local environment provides. Land-use intensification and climate change are the most important drivers of such filtering processes. For instance, it has been shown that grasslands that experience frequent cutting are composed of more fast-growing grasses and herbs than extensively used meadows, which contain more slow-growing and long-lived species.</p>
+<p>Additionally, the established influences between the functional groups represented in an ecosystem selects for the best species or set of species to fill the different functional niches. In consequence, the top-down and bottom-up processes that excert pressure on or provide resource for a functional group or trophic level must also be considered as an environmental filter. Thus, it is also a matter of complementarity and redundancy, which species persevere in a given community.</p>
+<p>A multitude of mechanism for this cross-ecosystem matchmaking of functional traits has been described. Leaf strengths and mouthpart strengths (LeProvost et al), Fast-growing competitors and Herbivore generalisation of resource (Simons et al, Boerschig et al, Mangels et al) [more examples]. Predator preference for a prey body size scales with predator body size (Kalinkat et al 2013, Brose et al 2006). the type of organic matter that feeds the soil compartment select for certain kinds of Bacteria and fungi which use plant root exudates and litter as a resource. [examples for bacteria/fungi and protists]</p>
+<p>In this study, we describe the principal axes of economic trade-offs and their major factors of environmental filtering for the above and belowground functional groups of temperate grasslands, by comparing 150 grassland ecosystems in Germany: the Biodiversity Exploratories framework captures a climatic north-to-south gradient as well as the anthropogenic land-use intensity in cultural landscapes.</p>
+<p>This allows us to project individual-level functional traits to ecosystem-level drivers and eventually will improve our mechanistic understanding of ecosystem-level functioning provided by the species community assemblage. (McGill et al 2006)</p>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Allan, E., P. Manning, F. Alt, J. Binkenstein, S. Blaser, N. Blüthgen, S. Böhm, F. Grassein, et al.. 2015. Land use intensifica-tion alters ecosystem multifunctionality via loss of biodiversity and changes to functional composition. Ecology Letters 18:834–843.</p>
+<p>Birkhofer, K., H. G. Smith, W. W. Weisser, V. Wolters, and M. M. Gossner. 2015. Land-use effects on the functional dis-tinctness of arthropod communities. Ecography 38:889–900.</p>
+<p>Brose, U., T. Jonsson, E. L. Berlow, P. Warren, C. Banasek-Richter, L. F. Bersier, J. L. Blanchard, et. al.. 2006. Consumer-resource body-size relationships in natural food webs. Ecology 87:2411–2417.</p>
+<p>de Vries, F. T., P. Manning, J. R. B. Tallowin, S. R. Mortimer, E. S. Pilgrim, K. A. Harrison, P. J. Hobbs, et al. 2012. Abiotic drivers and plant traits explain landscape-scale patterns in soil microbial communities. Ecology Letters 15:1230–1239.</p>
+<p>de Bello, F., S. Lavorel, S. Díaz, R. Harrington, J. H. C. Cornelissen, R. D. Bardgett, M. P. Berg, et al.. 2010. Towards an assessment of multiple ecosystem processes and services via functional traits. Biodiversity and Conservation 19:2873–2893.</p>
+<p>Díaz, S., J. Kattge, J. H. C. Cornelissen, I. J. Wright, S. Lavorel, S. Dray, B. Reu, et al. 2016. The global spectrum of plant form and function. Nature 529:167–171.</p>
+<p>Eklöf, A., U. Jacob, J. Kopp, J. Bosch, R. Castro-Urgal, N. P. Chacoff, B. Dalsgaard, C. Sassi, M. Galetti, P. R. Guimarães, and others. 2013. The dimensionality of ecological networks. Ecology letters 16:577–583.</p>
+<p>Flynn, D. F. B., M. Gogol-Prokurat, T. Nogeire, N. Molinari, B. T. Richers, B. B. Lin, N. Simpson, M. M. Mayfield, and F. DeClerck. 2009. Loss of functional diversity under land use intensification across multiple taxa. Ecology Letters 12:22–33.</p>
+<p>Gámez-Virués, S., D. J. Perović, M. M. Gossner, C. Börschig, N. Blüthgen, H. de Jong, N. K. Simons, et al. 2015. Landscape simplification filters species traits and drives biotic homogenization. Nature Communications 6:8568.</p>
+<p>Gossner, M. M., N. K. Simons, R. Achtziger, T. Blick, W. H. . Dorow, F. Dziock, F. Köhler, W. Rabitsch, and W. W. Weis-ser. 2015. A summary of eight traits of Coleoptera, Hemiptera, Orthoptera and Araneae, occurring in grasslands in Germany. Scientific Data 2:150013.</p>
+<p>Harpole, W.S., J.T. Ngai, E.E. Cleland, E.W. Seabloom, E.T. Borer, M.E.S. Bracken, J.J. Elser, et al. 2011. Nutrient Co-Limitation of Primary Producer Communities. Ecology Letters 14 (9): 852–62.</p>
+<p>Junker, R. R., N. Blüthgen, T. Brehm, J. Binkenstein, J. Paulus, H. Martin Schaefer, and M. Stang. 2013. Specialization on traits as basis for the niche-breadth of flower visitors and as structuring mechanism of ecological networks. Func-tional Ecology 27:329–341.</p>
+<p>Kunstler, G., D. Falster, D. A. Coomes, F. Hui, R. M. Kooyman, D. C. Laughlin, L. Poorter, M. Vanderwel, G. Vieilledent, S. J. Wright, et al.. 2016. Plant functional traits have globally consistent effects on competition. Nature 529:204–207.</p>
+<p>Lavorel, S., and K. Grigulis. 2012. How fundamental plant functional trait relationships scale-up to trade-offs and synergies in ecosystem services. Journal of Ecology 100:128–140.</p>
+<p>Lavorel, S., K. Grigulis, P. Lamarque, M.-P. Colace, D. Garden, J. Girel, G. Pellet, et al. 2011. Using plant functional traits to understand the landscape distribution of multiple ecosystem services. Journal of Ecology 99:135–147.</p>
+<p>Petchey, O. L., and K. J. Gaston. 2006. Functional diversity: Back to basics and looking forward. Ecology Letters 9:741–758.</p>
+<p>Reich, P. B. 2014. The world-wide “fastslow” plant economics spectrum: A traits manifesto. Journal of Ecology 102:275–301.</p>
+<p>Salguero-Gómez, R., O. R. Jones, E. Jongejans, S. P. Blomberg, D. J. Hodgson, C. Mbeau-Ache, P. A. Zuidema, et al. 2016. Fastslow continuum and reproductive strategies structure plant life-history variation worldwide. Proceedings of the National Academy of Sciences 113:230–235.</p>
+<p>Simons, N. K., M. M. Gossner, T. M. Lewinsohn, S. Boch, M. Lange, J. Müller, E. Pašalić, S. A. Socher, M. Türke, M. Fischer, and W. W. Weisser. 2014. Resource-Mediated Indirect Effects of Grassland Management on Arthropod Diversity. PLOS ONE 9:e107033.</p>
+<p>Simons, N. K., M. M. Gossner, T. M. Lewinsohn, M. Lange, M. Türke, and W. W. Weisser. 2015. Effects of land-use inten-sity on arthropod species abundance distributions in grasslands. Journal of Animal Ecology 84:143–154.</p>
+<p>Simons, N. K., W. W. Weisser, and M. M. Gossner. 2016. Multi-taxa approach shows consistent shifts in arthropod functional traits along grassland land-use intensity gradient. Ecology 97:754–764.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

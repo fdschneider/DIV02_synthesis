@@ -1,0 +1,354 @@
+---
+title: "Data"
+author: "Florian D. Schneider"
+date: "6 November 2017"
+output: 
+  html_document: 
+    toc: yes
+---
+
+# Data sources
+
+To analyse synchrony in ecosystem-level functional properties across multiple functional guilds in relation to land-use intensity and environmental factors, we analysed functional properties  of 150 grassland plots. For three regions across Germany, 50 plots of varying land-use management have been assessed between 2008 and 2014 within the long-term framework of the Biodiversity Exploratories project.
+
+For arthropods and plants, we combined functional trait data with species abundances into community weighted means. 
+Below-ground functional properties have been assessed at the community level for the same plots.
+
+## Abundance Data
+
+Arthropod abundances were assessed in sweep-net sampling at two occasions each year (June and August) for each of the 150 plots. For this study, we are using data from 2008 to 2013. The abundances found on both sampling events were pooled into an annual value of standardised abundance per species. 
+
+The plant surveys took place twice each year on each of the 150 plots  in a $4\times4$ m² area and estimated plant cover of each species. 
+
+### Issues:
+
+- Need to switch to new data on BExIS (21969)! (see notes)
+- Add orthoptera for 2014
+- plant abundance dataset has some name issues (ask Debi and Dani).  
+
+### Datasets: 
+
+dataset     | file  | BExIS ID  | author/owner  
+----------- | ---- | ----------| -----------------
+Sweep net samples from grasslands since 2008, Araneae, Coleoptera, Hemiptera, Orthoptera | |  [21969](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=21969) | Wolfgang Weisser, Martin Goßner, Nadja Simons et al. 
+individual datasets for order and year | [data/arthropods_core/Arthropods_GL_0813.csv](https://www.dropbox.com/sh/mqyj37mzk2coo52/AABnv9KtWLQ-dQYsnHhGdHroa?dl=0) | 16871, 16892, 16894, 16895, 16897, 16908, 16926, 17006, 17007, 17008, 17009, 17010, 17011, 17012, 17013, 17014, 17015, 17246, 17247, 17266, 17267 | Martin Goßner, Nadja Simons, Wolfgang Weisser et al. 
+Vegetation Records for Grassland EPs, 2008 - 2016 |  | [19686](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=19686) | Debi Schäfer, Markus Fischer
+
+
+### Code:
+
+Code for reading and cleaning data: 
+
+- arthropod abundances: [/code/import_arthropod_abundance.r](https://www.dropbox.com/sh/mqyj37mzk2coo52/AABnv9KtWLQ-dQYsnHhGdHroa?dl=0), reads 'data/arthropods_core/Arthropods_GL_0813.csv' and subsets herbivore and consumer datasets. 
+- vegetation cover: [/code/import_plant_abundance.r](https://www.dropbox.com/sh/mqyj37mzk2coo52/AABnv9KtWLQ-dQYsnHhGdHroa?dl=0), reads 'data/plants_core/19686.txt' selects and fixes species names, eliminates trees and shrubs.
+
+More detailled analysis of data.
+
+
+### Notes:
+
+
+Originally, abundances for each sampling event had to be extracted from separate datasets (split by order and year, IDs: 16871, 16892, 16894, 16895, 16897, 16908, 16926, 17006, 17007, 17008, 17009, 17010, 17011, 17012, 17013, 17014, 17015, 17246, 17247, 17266, 17267), but Martin compiled a single dataset, including the years 2014 and 2015. I was using an xls file that he had transmitted inofficially, but year 2014 (2015) of arthropod sampling was missing. 
+
+There is an issue with the inconsistency of the number of replicates per year per plot. VIPs have been sampled four to six times, while most EPs have been sampled only twice until 2010. After 2011 they have been sampled five or six times. For calculating the community weighted means, I will have to sum the species numbers and devide by the number of replicates. When it comes to measures of variation, it will be heterogeneous just because of the difference in $n$. I guess this means that I need to either form subsets with only two replicates per year taken into account even for VIPs.  Extracting the correct and representative samplings from these data (i.e. just the samplings in June and August) is really tedious. 
+
+Martin confirmed this issue and also the use of the data selection process. For the data of Schorfheide, there was a shift in the sampling month in 2009, which has to be taken into account.  He promised to send me a dataset that is readily compiled and includes abundance data for each plot, summed over the two  comparable sampling events per year (June and August).
+
+The new data (21969) came online mid 2017 and should resolve all these issues. But I havent checked them out, yet. Orthoptera from 2014 and 2015 are still missing, but will be added soon. 
+
+## Arthropod Trait data
+
+Arthropod traits for all species found in the sweep-net samplings were collated from literature. The dataset contains body size, dispersal ability, and factorial feeding traits. We first split the dataset into trophic guilds of herbivores and predators based on these trait data. 
+
+Then, we use abundances to calculate Community weighted Means (CWM) for each guild in each year. CWMs are defined as the average individual trait values observed within a community. We argue that they represent an optimal trait value for an individual under the given biotic and abiotic conditions. 
+
+### Issues:
+
+- I used Gossner et al 2015 (open access data), where some taxa were missing; Nadja was working on a revised version that  will be available via BExIS soon 
+- define appropriate transformations to normalize traits, e.g. log-transform body size.
+- also calculate CW Variance and other metrics? Functional Diversity?
+
+### Datasets:
+
+dataset     | URL  | BExIS ID  | author/owner  
+----------- | ---- | ----------| -----------------
+A summary of eight traits of Coleoptera, Hemiptera, Orthoptera and Araneae, occurring in grasslands in Germany | http://dx.doi.org/10.5061/dryad.53ds2 | | Martin Gossner, Nadja Simons
+
+
+### Code: 
+
+- [code/import_arthropod_traits.r](https://www.dropbox.com/sh/mqyj37mzk2coo52/AABnv9KtWLQ-dQYsnHhGdHroa?dl=0), reads in trait file from Gossner et al. ('data/arthropod_traits/ArthropodSpeciesTraits.csv'), interprets factor levels, save as matrix and plots correlations
+
+### Notes:
+
+Arthropod traits originate from the database compiled by Martin Gossner and Nadja Simons:
+
+> Gossner MM, Simons NK, Achtziger R, Blick T, Dorow WHO, Dziock F, Köhler F, Rabitsch W, Weisser WW (2015) A summary of eight traits of Coleoptera, Hemiptera, Orthoptera and Araneae, occurring in grasslands in Germany. Scientific Data 2: 150013. http://dx.doi.org/10.1038/sdata.2015.13 and Data http://dx.doi.org/10.5061/dryad.53ds2
+
+With Araneae (177 species), Coleoptera (690), Hemiptera (331), and Orthoptera (32), this database is covering most of the species that occur in the abundance data and includes nine traits: 
+ 
+- body size [mm]
+- dispersal ability: defined as no dispersal (0), low passive dispersal (0.25), minor flying ability for movement and colonization (0.5), average individual movement and colonization dynamics (0.75) and high individual movment and colonization (floating, 1.0)
+- feeding guild: classified as consumer (c), detritivore (d), herbivore (h), fungivore (f), and omnivore (o)
+- feeding mode: classified as chewers (c), extraintestinal (e), and suction feeding (s)
+- feeding specialisation (within herbivores): 
+- feeding tissue (within herbivorous suckers): 
+- feeding plant part (within herbivorous chewers):
+- endophagous lifestyle (within herbivores): 
+- stratum use: ground (g), stem (s), 
+
+Only body size is a numeric trait (average adult body length from literature). All others are based on factorial classes. Feeding traits are only meaningful for herbivorous species.
+
+Nadja is adding some missing traits to this database and will upload a revised file to bexis soon, using the new traitdata template. A preliminary version is available in the dropbox. 
+
+More trait data on butterflies, cicadas, and beetles have been provided by David Perovic and Catrin Westphal but those are only for exploration, since the original data owners have not been informed (e.g. Carmen Boerschig, Klaus Birkhofer, Martin Gossner). Please confirm with original data owners first and encourage upload to BExIS!
+
+## Plant traits
+
+Plant traits were extracted from the TRY database (Kattge et al. 2011). We requested trait measurements for all plant species that occurred in our vegetation assessments of 2008-2014 for six important plant traits that have been shown to span the major economic trade-offs of plant physiology (Diaz et al. 2016; specific leaf area, leaf C to N ratio, leaf dry mass, plant height, seed dry mass, stem specific density). 
+
+### Issues:
+
+- TRY request was based on plant list of 2008-2014, which had some major taxon name issues (refer to Debi and Dani) which were resolved in datasets of 2016. Maybe neccessary to re-do request with current species list!
+- ommit data that request co-authorship. Excluding them has a negligible effect on the resultant mean trait values.  
+- Several data-quality issues in TRY data must be resolved, e.g. for non-numerical entries, for taxon name matching (e.g. agg.species), selection of outliers. I had a detailled conversation with Malte about that.   
+- choice of traits? check selection and computation
+- How to handle missing trait data? could be inferred or just ignored. Which effect would that have on the CWM values? 
+- eliminate duplicate entries via ObservationID
+
+
+### Datasets:
+
+dataset     | URL  | BExIS ID  | author/owner  
+----------- | ---- | ----------| -----------------
+TRY request 2181 | [/data/plant_traits_TRY/2181.txt](https://www.dropbox.com/sh/mqyj37mzk2coo52/AABnv9KtWLQ-dQYsnHhGdHroa?dl=0) | | see [/data/plant_traits_TRY/dataset_reference.csv](https://www.dropbox.com/sh/mqyj37mzk2coo52/AABnv9KtWLQ-dQYsnHhGdHroa?dl=0) 
+
+Data usage is subject to TRY Intellectual Property Guidelines and Data Release Notes (see Dropbox folder). 
+
+### Code: 
+
+- [code/import_plant_traits.r](https://www.dropbox.com/sh/mqyj37mzk2coo52/AABnv9KtWLQ-dQYsnHhGdHroa?dl=0): reads 2181.txt; harmonizes factor levels; identifiers outliers and compares to Error Risk, eliminates outliers, eliminates bad datasets; averageiing traits per dataset, then per plant species; build and save plant-trait-matrix
+
+
+### Notes:
+
+Trait measurements for all plant species found in the years 2008-2013 were requested from TRY for the following traits: 
+
+1, 4, 55, 14, 26, 18, 8, 29, 6, 11, 679, 47, 46, 15
+
+
+ TraitID   |               Trait
+-----------|---------------------------------------------------------------------
+ 1        |                                                              Leaf area
+11        |                  Leaf area per leaf dry mass (specific leaf area, SLA)
+13        |                             Leaf carbon (C) content per leaf dry mass
+55        |                                                          Leaf dry mass
+47        |      Leaf dry mass per leaf fresh mass (Leaf dry matter content, LDMC)
+14        |                            Leaf nitrogen (N) content per leaf dry mass
+15        |                          Leaf phosphorus (P) content per leaf dry mass
+46        |                                                         Leaf thickness
+18        |                                                           Plant height
+ 8        |                                       Plant nitrogen fixation capacity
+679       |                                                      Plant palatability
+29        |                                                   Pollination syndrome
+ 6        |                                                          Rooting depth
+26        |                                                          Seed dry mass
+ 4        | Stem dry mass per stem fresh volume (stem specific density, SSD)
+
+
+The species list of the core plant assessment was used to request data from TRY. I mapped the names of the datasets to the names accepted by TRY and requested taxon IDs: 
+
+- 4045, 5134, 7173, 10820, 11785, 15171, 16700, 25526, 28295, 28473, 33153, 34017, 37495, 41549, 42541, 42893, 45587, 47451, 50209, 53415, 54175, 54643, 54991, 54998, 55161, 56236, 56242, 56396, 2172, 4036, 9957, 10304, 16337, 24558, 24604, 24735, 37504, 42546, 54945, 56277, 2389, 2872, 13878, 25247, 26081, 26097, 29305, 909, 35825, 55801, 56395, 32229, 1439, 7471, 26336, 45737, 55598, 9970, 17041, 42065, 9967, 32245, 45613, 10226, 26084, 47468, 47498, 15613, 32499, 34660, 45633, 54346, 42544, 51627, 1810, 8440, 25541, 25573, 31809, 34249, 34480, 37458, 39210, 42069, 44527, 46070, 46078, 48233, 49566, 56280, 17365, 26152, 45470, 51634, 3925, 5558, 8361, 10401, 10460, 10573, 10746, 10752, 13010, 23387, 24510, 25997, 28293, 29011, 29208, 31556, 31942, 32723, 32728, 33635, 43114, 43663, 43675, 43736, 48641, 49836, 54265, 54936, 54974, 7316, 8151, 12062, 31934, 45061, 53962, 4072, 30010, 61831, 42185, 44078, 48156, 13016, 23666, 38993, 11930, 54165, 56252, 26083, 50304, 10578, 10682, 13051, 14244, 9975, 30052, 13072, 4614, 13032, 26052, 47518, 973, 39153, 41886, 42575, 1905, 39302, 11771, 15090, 28112, 46728, 4498, 49532, 43716, 44304, 56402, 4491, 21917, 25385, 55130, 56356, 40533, 2065, 37517, 43221, 11583, 12917, 44419, 45601, 50169, 35846, 38997, 56526, 20359, 34016, 11635, 20927, 41971, 56372, 8542, 32511, 56268, 2548, 41893, 46948, 8455, 7297, 23910, 4489, 13049, 18729, 54919, 44422, 2165, 5849, 6903, 25213, 3959, 25923, 26069, 47452, 43637, 10497, 41183, 41425, 52530, 25487, 2854, 31454, 31479, 10704, 24150, 10312, 10355, 20877, 50913, 33555, 56376, 21900, 23920, 41658, 43638, 2590, 20891, 26473, 23624, 55773, 53949, 3738, 32132, 26007, 14280, 50220, 42574, 54965, 15115, 32771, 42805, 56581, 50347, 56491, 21961, 4185, 8867, 32490, 48601, 41193, 21625, 12159, 32240, 21995, 24995, 54926, 4497, 3455, 23444, 11800, 15200, 50873, 9139, 36281, 868, 56247, 7356, 10626, 11938, 25215, 10598, 48631, 31490, 10773, 4357, 9959, 47353, 11796, 8266, 35678, 35672, 3462, 25355, 9949, 10594, 26145, 17587, 11783, 51535, 56262, 43715, 37499, 50348, 8262, 12236, 58995, 50427, 4341, 3691, 7875, 56398, 39048, 33718, 49451, 50934, 15080, 49407, 49914, 56508, 20845, 29984, 38977, 84098, 36265, 56588, 11617, 53018, 30000, 34666, 29545, 43532, 32357, 38688, 
+
+The received data were filtered for outliers, regional match, and aggregated into species average values. 
+The TRY database holds replicated measurements of trait data from multiple authors, partly following different protocolls of measurement. The high replication is what is powerful in TRY, since it allows us to estimate a general average for a plant species. 
+
+To reduce the list of datasets for your analysis based on the conditions of the data owners, I  reviewed the importance of individual datasets for your project and decide which data to involve.
+Fortunately, for grasslands only about 6% of the raw data request co-authorship for our traits and species. Most trait values are not significantly altered if those datasets are excluded. When analysing the trait values produced with and without these data, only leaf thickness significantly relies on it (contributing 36 of 93 species and adding 12% accuracy to the observed values of the remaining ones). In studies focusing on this trait, the following datasets might be included and the authors offered coauthorship: "Global Leaf Robustness and Physiology Database", "Plant Traits for Grassland Species (Konza Prairie, Kansas, USA)" and "Roots Of the World (ROW) Database". 
+The data for leaf Nitrogen content receive 5 of 237 species 2% of accuracy from data with coauthorship request (mostly by the "Catalonian Mediterranean Forest Trait Database" and the "Global 15N Database") which may be included for accuracy. The data for rooting depth contain 2 more species, while affecting 2 further species significantly.  
+
+To my understanding, it is not necessary to write a new proposal after filtering the dataset. But to comply with the TRY terms,  all authors  must be informed according to their preset conditions.
+In any case, for trannsparency and reproducibility of the  study, we will have to publish a list of datasets included in your analysis, e.g. as supplementary information. This list can be extracted from the TRY [Request PI Center](https://www.try-db.org/TryWeb/Prop01.php), as well. 
+
+The TRY data contain a column `ErrorRisk` which reports the number of standard deviations that the measured value is away from the global mean. Since this is a global metric, provided by some computation on the TRY database server, it might not reflect exactly the criterion of an outlier. Instead, the code 'import_plant_traits.r' manually remove outliers from the data before averaging, i.e. measurements that are outside the 95% quantile of all replicated measurements (paper by Craven et al ?). 
+
+We remove datasets of authors that produced a significant amount of those outliers. There is a chance that the authors used a non-standard method or did not standardise their units according to TRY.  To identify these datasets, we extract the proportion of outliers in the total measurement contribution of this dataset. 
+
+Large trees and shrubs should be excluded from the assessment of community weighted means in grasslands. Their trait values reflect adult plants of several meters height. The individuals found in the plant survey on the grassland plots are seedlings or saplings that are not well represented by these values. A common practice is to exclude all species that have trait values of plant height > 2m. 
+
+The following species should be particularly excluded: 
+
+```
+"Betula pendula", "Carpinus betulus", "Crataegus laevigata", "Crataegus monogyna", 
+"Crataegus sp", "Fraxinus excelsior", "Juniperus communis", "Pinus sylvestris", 
+"Populus tremula", "Prunus avium", "Prunus sp", "Prunus spinosa", "Quercus robur",
+"Rosa canina", "Acer sp", "Baumkeimling sp", "Tilia sp"
+```
+
+An exception here is Juniperus, which as Dani pointed out  may be considered an important contribution to the functional diversity in xeric grassland plots. Depending on the research question and spatial scale, Juniperus should be included. 
+
+
+Since each project or author likely measured specimens that were co-varying because of regional or environmental differences, we recommend to not over-rating the heavily repeated measures of one author against the few measures of another author. Therefore, we average the values measured for each plant per author and use these averages to form an overall average for each plant species. 
+Those averages then can be compiled into a matrix reporting one value per trait per species. 
+
+A potential extension of these data could be root traits: FRED database, 2017. In addition to the abundance data, the group of Helge Bruelheide investigates plant root traits and their interaction with community parameters. They might be able to provide data and detailled knowledge. If we could add the root traits as a complement to the aboveground plant traits, this might add another strong explanatory element to the correlation between plants and below-ground organisms. 
+
+
+
+## Functional soil properties
+
+For soil functional properties, data were gathered in concerted soil sampling campaigns in the years 2011 and 2014 for all 150 plots, as well as 2008 for some selected plots in each of the three regions. Soil samples were cored out (core size 5 cm), the top most 5 cm root-layer removed as well as any deadwood and roots larger than 2 cm in diameter. Samples were homogenized and stored at 4°C while still at field moisture content.
+
+The community-level properties were measured from pooled soil samples, yielding micobial carbon to nitrogen ratio, relative abundance of bacteria and fungi, as well as invertebrates based on phospholipid-fatty-acids (PLFA), and different enzyme activities (Urease, Phosphatase, beta-Glucosidase, Xylosidase and Chitinase). 
+
+In addition to these metrics, the soil sampling in 2011 and 2014 produced relative abundances for major taxa of bacteria and fungi. Metagenomes were extracted using PCR-mediated amplification (using rDNA fungal primers ITS1F and ITS4, and 16S rRNA bacterial primers  V3-V5) and pyrosequencing. Sequences were mapped into relative abundances for operational taxonomic units (OTUs) from databases for fungi (UNITE, version 6) and bacteria (SILVA SSURef NR 123 Database), which can be linked to certain functional processes in soils.
+
+### Issues:
+
+- include 2008 VIP data for Cmic/Nmic ratio? (missing for Schorfheide on BExIS)
+- get fungal data for 2014 (Tesfaye?)
+- verify date of sampling for Kaiser/Daniel data. I think they may be mistaken!
+- get OTU relative abundance for soil-sampling 2014 (Kristin Kaiser, Kezia Goldman, Tesfaye Wubet)
+- define community-level function based on OTU for bacteria (Fierer et al. 2006) and fungi (based on what information?)
+
+### Datasets:
+
+dataset | DOI | BExIS ID | author/owner 
+--------| ------ | --------- | -------------
+SSC 2011, EP grassland, soil enzyme activities, SCALEMIC | | [20246](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=20246) | Runa Boeddinghaus, Ellen Kandeler, Sven Marhan, et al.
+SSC 2014, EP grassland, soil enzyme activities, SCALEMIC | | [20247](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=20247) | Runa Boeddinghaus, Ellen Kandeler, Sven Marhan, et al.
+ 	SSC 2011, EP grassland, microbial soil properties, SCALEMIC | |[20250](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=20250) | Runa Boeddinghaus, Ellen Kandeler, Sven Marhan, et al.
+ 	SSC 2014, EP grassland, microbial soil properties, SCALEMIC | |[20251](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=20251) | Runa Boeddinghaus, Ellen Kandeler, Sven Marhan, et al.
+Bacterial functional profile (predicted metagenome) | | [20346](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=20346) | Kristin Kaiser, Rolf Daniel
+Bacterial Abundances based on partial (V3-V5) 16S rRNA genes | | [19526](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=19526) | Kristin Kaiser, Rolf Daniel
+EP-Grassland-AMF-SoilCampain2011 | | 19786 | Tesfaye Wubet, Kezia Goldmann
+EP-Grassland abundant Soil fungi from Soil Sampling Campain 2011 | | [21048](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=21048) | Tesfaye Wubet, Kezia Goldmann
+
+### Code:
+
+- [code/data_soil.R](https://www.dropbox.com/sh/mqyj37mzk2coo52/AABnv9KtWLQ-dQYsnHhGdHroa?dl=0): reads microbial soil properties (20250, 20251), calculate gram neg/pos ratio, save file; reads fungal profile (21048), produces plot matrix. 
+
+### Notes:
+
+Runa Boeddinghaus and Ellen Kandeler are main responsible authors for the microbial and PLFA data. In the two soil sampling campaigns in 2011 and 2014, they produced
+
+- soil moisture
+- bulk density
+- Mineral nitrogen (nitrate and ammonium)
+- Phospholipid fatty acid analysis (fungi, gram positive and gram negative bacteria, total bacteria); yields bacterial/fungal biomass ratio, Invertebrate markers 
+- Microbial biomass carbon and nitrogen (Cmic and Nmic from CFE analysis); microbial C/ microbial N ratio, values ~5 indicate Bacterial dominance, which indicates fast turnover soils which usually is associated with nutrient and fertilizer addition
+- Ergosterol (fungal membrane marker)
+- Extractable organic carbon and nitrogen (EOC and EON)
+- Enzyme activities: 
+    - Urease: responds to fertilization and grazing activity
+    - Phosphatase: Acidity, responds to pH
+    - beta-Glucosiddase: litter decomposition and cellulose decomposition
+    - beta-Xylosidase: hemicellulose decomposition, litter 
+    - Chitinase: Carbon decomposition, litter from arthropods 
+    - denitrification enzyme activity (DEA)
+
+In 2008 enzyme activities, microbial biomass, EON, EOC, and mineral nitrogen were measured only on the VIP grassland plots. PLFA analysis haven't been done back then.  
+
+Runa was fixing some errors with the datasets, so please make sure you download the most recent versions!
+
+
+The metagenomic analysis for the soil sampling campaigns based on 16S rRNA has been done by Kristin Kaiser (PhD student) and Rolf Daniel (PI, Göttingen). The data on BExIS are providing abundances of taxa based on a mapping of partial (V3-V5 region) 16S rRNA gene amplicons to the SILVA SSURef NR 123 Database. 
+They further offer functional profiles based on KEGG orthology (Kyoto Encyclopedia of Genes and Genomes), i.e. gene sequences specific for certain enzymes or processes.
+The predictive metagenome was calculated for the bacterial taxonomy. The sampling was carried out during the joint sampling campaign in May 2012, i.e. not in the same date as the other soil data?! 
+
+Starting 2011, fungal analysis has been done by the group of Tesfaye Wubet, with Kezia Goldmann as the PhD Student. They provide abundances for all fungal taxa and for arbuscular mycorhyzal fungi in particular (both based on OTUs) found on the 150 grassland EPs for 2011. 2014 data are in the making. The dataset on BExIS for 2011 contains functional properties of the taxa, which can be extracted into a binary trait-matrix and used to compute CWMs for each plot.
+
+## Below ground consumers
+
+We further are looking into relative abundance data and functional properties of protist communities.  The diversity of two major groups of amoebal protists (Myxomycetes, Acanthamoeba) was investigated using 454 sequencing in all grasslands plots in the three exploratories. The first part of the SSU was targeted using specifically designed primers. 
+
+
+### Issues: 
+
+- get OTU relative abundances for 2014? for both amoeba and ciliates/flaggelates. 
+- get functional interpretation of Amoeba data (Michael Bonkowski)
+- get traits of other protists (Hartmut Arndt)
+
+### Datasets:
+
+dataset | BExIS ID | authors/owner
+--------|----------|------------------------
+Acanthamoeba NGS abundance (AEG, 2011 - 2012) | [18166](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=18166) | Anna Maria Fiore-Donno, Michael Bonkowski
+Acanthamoeba NGS abundance (HEG, 2010 - 2011) | [18207](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=18207) | Anna Maria Fiore-Donno, Michael Bonkowski
+Acanthamoeba NGS abundance (SEG, 2011 - 2012) | [18208](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=18208)| Anna Maria Fiore-Donno, Michael Bonkowski
+Myxomycetes NGS abundance (AEG, 2011 - 2012) | [18226](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=18226)| Anna Maria Fiore-Donno, Michael Bonkowski
+Myxomycetes NGS abundance (HEG, 2011 - 2012) | [18187](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=18187) | Anna Maria Fiore-Donno, Michael Bonkowski
+Myxomycetes NGS abundance (SEG, 2011 - 2012) | [18206](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=18206) | Anna Maria Fiore-Donno, Michael Bonkowski
+OTUs on the basis of 99.7% direct sequence similarity with PR2Database reference sequences | [20326](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=20326) | Paul Venter, Hartmut Arndt
+
+### Code: 
+
+no import of these data has taken place, yet. 
+
+### Notes: 
+
+Michael Bonkowski gave this reply: "First of all, our sequencing nearly reached saturation - that means the sequences per site are not found due to merely chance events, but reflect the 'real' diversity in that group. Second, both groups are phylogenetically highly diverse, and they showed high beta diversity between grassland sites. If you need it, we can also assign real taxonomic names to the OTUs, although as often for protists, some "species" are species clusters with broad phylogenetic dispersion, and other "species" occur repeatedly on distant branches in the phylogeny, showing that they are in fact several different taxa. Therefore "OTU" is more reliable for non-experts."
+
+The data are fully accessible as supplementary material in the article:
+
+>  Fiore-Donno AM, Weinert J, Wubet T & Bonkowski M. 2016. Metacommunity analysis of amoeboid protists in grassland soils. Sci Rep, 6:19068. doi: [10.1038/srep19068](http://www.nature.com/articles/srep19068). 
+
+For other protists of the RAS-group (Rhizaria, Alveolata, Stramenopiles), Hartmut Arndt and Paul Venter have OTU data approximately resolved to species. They are willing to provide trait data including biovolume (related to reproductive potential), length, and function (differentiating autotroph and heterotroph, and within the latter the kind of resource e.g. feeding on algae, grazing on bacteria, suspension feeders, feeding on protists), as well as relative abundances. However, the data are not yet compiled.
+
+## Anthropogenic Land-use 
+
+As explanatory variables, our study aims at the role of the intensity of land use on functional composition. The Land-use Intensity Index (LUI) defines the summed relative intensity of multiple land use factors (i.e. livestock grazing pressure, mowing events and amount of fertilizer added) applied on a plot of land in the year of the assessment. 
+
+### Issues:
+
+- using standardised (within Regions) LUI vs non-standardised LUI? 
+- using seperate Land use factos (grazing, mowing, fertilization)?
+
+### Datasets:
+
+dataset | BExIS ID | authors/owner
+--------|----------|------------------------
+Input LUI Calculation Tool | [19266](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=19266) | Katrin Lorenzen, Wolfgang Weisser et al. 
+
+### Notes:
+
+The LUI is available via the [LUI download tool](https://www.bexis.uni-jena.de/LuiTool/LuiTool.aspx?DatasetId=19266) or as raw dataset download ([19266](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=19266)). The tool lets you select standardised or not standardised by region. 
+
+
+
+
+## Environmental parameters
+
+Being independent of anthropogenic pressure, we also assess the effect of climate and environmental factors on the composition of traits in grassland communities. We assembled topographic parameters of the plots (elevation, slope, topographic wetness index, TWI) and soil physical parameters (Soil pH,  ...) as explanatory variables. 
+
+### Issues: 
+
+- get official data (BExIS source)
+- standardising variables for region to cover climatic effects (or not)?
+- topo data are constant through time, i.e. don't explain any annual changes! in addition get annual climate data (precipitation?, temperature?, pH?). 
+
+### Datasets: 
+
+dataset | BExIS ID | author/owner
+------- | ------- | --------------
+ 	Basic Information of all Experimental Plots (EPs) | [20826](https://www.bexis.uni-jena.de/Data/ShowXml.aspx?DatasetId=20826) | Andreas Ostrowski, Birgitta König-Ries
+GP Soils and Carbon stocks master-sheet_with terrain | [data/environment/GP Soils and Carbon stocks master-sheet_with terrain.xlsx](https://www.dropbox.com/sh/mqyj37mzk2coo52/AABnv9KtWLQ-dQYsnHhGdHroa?dl=0) | Pete Manning (unknown primary source)
+
+### Code: 
+
+- [import_env_data.r](https://www.dropbox.com/sh/mqyj37mzk2coo52/AABnv9KtWLQ-dQYsnHhGdHroa?dl=0) calls topo_data.txt and soil_data.txt, which have been manually created from Petes file. 
+
+### Notes: 
+
+No direct import of these data has taken place yet. I was using data on soil topology that I received from Pete (data/environment/GP Soils and Carbon stocks master-sheet_with terrain.xlsx).
+which  include plot level elevation, slope, aspect, soil profile, litter layer C and N, soil type, topographic wetnes index (TWI) as calculated from a DEM, and more. 
+
+ I assume this is a merged dataset from Bexis datasets:
+ -  6223 : Soil: CN gridplots
+ -  6226 : Soil: pH-analysis grid plots
+ -  10022 : Digital Terrain Models of all Exploratories
+
+The data contain all plots, thus need to be filtered for EPs and matched EP IDs.
+
+I manually extracted topographical parameters (TWI, slope, elevation, aspect) for the EP plots. 
+

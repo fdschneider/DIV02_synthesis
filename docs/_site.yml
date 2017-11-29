@@ -1,0 +1,13 @@
+name: "Is there ecosystem-level synchrony in functional trait distribution?"
+navbar: 
+  title: "trait synthesis proposal #20"
+  left: 
+    - text: "Introduction"
+      href: introduction.html
+    - text: "Methods"
+      menu:
+        - text: "Data"
+          href: data.html
+        - text: "Analyses"
+          href: analyses.html
+output_dir: "."

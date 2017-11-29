@@ -1,0 +1,36 @@
+---
+title: "Is there ecosystem-level synchrony in functional trait distribution?"
+author: "Florian D. Schneider, Gaetane LeProvost, Pete Manning"
+date: "29 November 2017"
+---
+
+This website contains notes and descriptions assembled for the ongoing project on trait synchrony. 
+
+## online resources
+
+- This website contains notes on methods and data. 
+- The code is hosted in a private Github repository at: 
+  https://github.com/fdschneider/DIV02_synthesis
+  please contact me about access. Copies of the code are found on the Dropbox. 
+- The raw data are found on BExIS (personal data request required!) or in a semi-public Dropbox folder:  
+  https://www.dropbox.com/sh/mqyj37mzk2coo52/AABnv9KtWLQ-dQYsnHhGdHroa?dl=0. 
+  In the methods doc, all datasets are referenced. 
+- some presentations and documents about the project are found in the Dropbox.   
+
+## collaborators
+
+Ellen Kandeler, Runa Boeddinghaus (U Hohenheim)
+
+Nadja K. Simons, Martin M. Gossner, Wolfgang Weisser (TU München)
+
+Nico Blüthgen (TU Darmstadt)
+
+Santiago Soliveres, Markus Fischer, Malte Jochum, Debi Schäfer (U Bern)
+
+Kristin Kaiser, Rolf Daniel (U Göttingen)
+
+Tesfaye Wubet, Kezia Goldmann (UFZ Halle)
+
+Anna Maria Fiore-Donno, Michael Bonkowski (U Köln)
+
+Paul Venter, Hartmut Arndt (U Köln)
